@@ -152,7 +152,13 @@ export const theme = createTheme({
       disabled: 'rgba(55, 65, 81, 0.26)'
     },
     background: {
-      default: '#F9FAFC',
+      /*Colores
+        Amarillo mediano '#FFFF99'
+        Verde Claro #CCFFFF  
+      */
+      //default: '#F9FAFC',
+      //paper: '#FFFFFF'
+      default: '#CCFFCC',
       paper: '#FFFFFF'
     },
     divider: '#E6E8F0',
