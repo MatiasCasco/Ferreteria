@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container, Grid, Pagination } from '@mui/material';
 import { products } from '../__mocks__/products';
@@ -10,10 +11,11 @@ import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
 const Producto = () => {
 
   const [list, setList] = useState([]);
-  
+  const [paginaActual, setPaginaActual] = useState(1);
+  const TOTAL_POR_PAGINA = 7;
+
   useEffect(()=>{
     findList();
-
   });
 
   const findList = async () => {
@@ -22,6 +24,23 @@ const Producto = () => {
     setList(json);
   }
   
+  const getTotalPaginas = () =>{
+    //list -> aca requerimos el tamaño de la lista filtrado si es que se aplico algun filtro
+    //Realza el calculo de cuantas paginas vamos a detener, en este ejemplo acada pagina tiene 7 productos 
+    let cantidadTotalDeProductos = list.length;
+    return Math.ceil(cantidadTotalDeProductos / TOTAL_POR_PAGINA,);
+  }
+
+  // Aca muestra los productps que lleva cada pagina
+  //Ejemplo o al 6, 7 al 13, etc
+  // Si se aplico un filtro aca debe estar el list filtrado
+  //Observacion haces una  funcion anonima ()=>{....}
+  // Haces que aplique primero el filtrado a list y mas abajo ponele lo del list.slice
+  let productosPorPagina = list.slice(
+    (paginaActual - 1) * TOTAL_POR_PAGINA,
+    paginaActual * TOTAL_POR_PAGINA
+  );
+
   return (<>
     <Head>
       <title>
@@ -37,7 +56,7 @@ const Producto = () => {
     >
       <Container maxWidth={true}>
         <ProductoListToolbar />
-        {list.map((product) => (
+        {productosPorPagina.map((product) => (
           <Grid
             item
             key={product.id}
@@ -56,7 +75,11 @@ const Producto = () => {
         >
           <Pagination
             color="primary"
-            count={3}
+            count={getTotalPaginas()}
+            page={paginaActual}
+            onChange={(event, value) => {              
+              setPaginaActual(value)
+            }}
             size="small"
           />
         </Box>
