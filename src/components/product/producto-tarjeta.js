@@ -14,25 +14,30 @@ export const ProductoTarjeta = ({ product, ...rest }) => (
     {...rest}
   >
     <CardContent>
+     
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-around',
-          pb: 1
-
+          pb: 1         
         }}
       >
-        
+
         <Avatar
           alt="Product"
-          src = {product.producto.archivoimg2}
+          src={product.producto.archivoimg2}
           variant="square"
           sx={{
-            width: 100,
-            height: 100,
+            m: 3,
+            width: 120,
+            height: 120,
           }}
         />
+         
+        <Divider orientation="vertical" flexItem sx={{m:1}}/>
+        
         <Box>
+
           <Typography
             align="center"
             color="textPrimary"
@@ -42,23 +47,99 @@ export const ProductoTarjeta = ({ product, ...rest }) => (
             {product.producto.categoriaNombre}
           </Typography>
           <Typography
-            align="center"
+            align="start"
             color="textPrimary"
             variant="body3"
           >
             <Box sx={{ pt: 2 }}></Box>
             {product.producto.nombre}
           </Typography>
+          <Grid
+            containter
+            sx={{
+              justifyContent: 'center'
+            }}
+          >
+            <Typography
+              align="start"
+              color="textPrimary"
+              variant="h6"
+            >
+              <Box sx={{ pt: 1 }}></Box>
+              {" Stock Actual: " + product.productoStockActual + " " + product.producto.medidaStock}
+            </Typography>
+
+            <Typography
+              align="start"
+              color="textPrimary"
+              variant="h6"
+            >
+              <Box sx={{ pt: 1 }}></Box>
+              {" Stock Minimo: " + product.productoStockMin + " " + product.producto.medidaStock}
+            </Typography>
+          </Grid>
           <Typography
             align="center"
             color="textPrimary"
             variant="h6"
           >
             <Box sx={{ pt: 1 }}></Box>
-            {"Marca: " + product.marcaNombre + " Stock Actual: " + product.productoStockActual + " Stock Minimo: " + product.productoStockMin}
+            {"Marca: " + product.marcaNombre}
           </Typography>
+
         </Box>
+
+        <Divider orientation="vertical" flexItem sx={{m:1}}/>
+
+        <Box sx={{ p: 2 }}>
+          <Grid   
+            sx={{ 
+              justifyContent: 'center' }}
+          >
+            <Grid
+              item
+              sx={{
+                alignItems: 'center',
+                display: 'flex'
+              }}
+            >
+              <ClockIcon color="action" />
+              <Typography
+                color="textSecondary"
+                display="inline"
+                sx={{ pl: 1 }}
+                variant="body2"
+              >
+                Updated 2hr ago
+              </Typography>
+            </Grid>
+            <Box sx={{ pt: 2 }}/>
+            <Grid
+              item
+              sx={{
+                alignItems: 'center',
+                display: 'flex'
+              }}
+            >
+              <DownloadIcon color="action" />
+              <Typography
+                color="textSecondary"
+                display="inline"
+                sx={{ pl: 1 }}
+                variant="body2"
+              >
+                {product.totalDownloads}
+                {' '}
+                Downloads
+              </Typography>
+            </Grid>
+          </Grid>
+
+        </Box>
+        
       </Box>
+      
+      
     </CardContent>
     <Box sx={{ flexGrow: 1 }} />
     <Divider />

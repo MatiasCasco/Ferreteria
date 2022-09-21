@@ -13,33 +13,84 @@ const Producto = () => {
   const [list, setList] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const TOTAL_POR_PAGINA = 7;
+  const [listaFiltrada, setListaFiltrada] = useState([]);
+  const [listMarca, setListMarca] = useState([]);
+  const [listCategoria, setListCategoria] = useState([]);
 
   useEffect(()=>{
     findList();
-  });
+  }, []);
 
   const findList = async () => {
     let json = await AllProductos();
     //debugger
     setList(json);
+    getMarcasYCategorias(json);
+    setListaFiltrada(json);
+  }
+
+  const filtrar = (producto, marca, categoria, stock, min) => {
+    let resultadoBusquedad = [];
+    let lista = [];
+    if (!min){
+      lista = list;
+    }else{
+      lista = list.filter((item) => {
+        if (item.productoStockActual <= item.productoStockMin) {
+          return item;
+        }
+      });
+    }
+    if (producto === " " && marca === " " && categoria === " " && stock === 0) {
+      resultadoBusquedad = lista;
+    } else {
+      setPaginaActual(1);
+
+      resultadoBusquedad = lista.filter((item) => {
+        if ((producto === " " ? " " :item.producto.nombre.toString().toLowerCase().includes(producto.toLowerCase())) && (marca === " " ? " " :item.marcaNombre.toString().toLowerCase().includes(marca.toLowerCase()))  && (categoria === " " ? " " :item.producto.categoriaNombre.toString().toLowerCase().includes(categoria.toLowerCase()))) {
+          return item;
+        }
+      })
+    }
+    setListaFiltrada(resultadoBusquedad);
+  }
+
+  const handlePadre = (producto, marca, categoria, stock, min) => {
+    console.log("handlePadre"); 
+    console.log(producto);
+    console.log(marca);
+    console.log(categoria);
+    console.log(stock);
+    console.log(min);
+    //console.log(producto.length);
+    //setListaFiltrada(resultado);
+    filtrar(producto, marca, categoria, stock, min);
   }
   
-  const getTotalPaginas = () =>{
-    //list -> aca requerimos el tamaño de la lista filtrado si es que se aplico algun filtro
-    //Realza el calculo de cuantas paginas vamos a detener, en este ejemplo acada pagina tiene 7 productos 
-    let cantidadTotalDeProductos = list.length;
+  const getTotalPaginas = () =>{ 
+    let cantidadTotalDeProductos = listaFiltrada.length;
     return Math.ceil(cantidadTotalDeProductos / TOTAL_POR_PAGINA,);
   }
 
-  // Aca muestra los productps que lleva cada pagina
-  //Ejemplo o al 6, 7 al 13, etc
-  // Si se aplico un filtro aca debe estar el list filtrado
-  //Observacion haces una  funcion anonima ()=>{....}
-  // Haces que aplique primero el filtrado a list y mas abajo ponele lo del list.slice
-  let productosPorPagina = list.slice(
+  let productosPorPagina = listaFiltrada.slice(
     (paginaActual - 1) * TOTAL_POR_PAGINA,
     paginaActual * TOTAL_POR_PAGINA
   );
+
+  const getMarcasYCategorias = (list) => {
+    let listAux1 = [" "], listAux2 = [" "];
+    list.map((item) => {
+      listAux1.push(item.marcaNombre);
+      listAux2.push(item.producto.categoriaNombre);
+    });
+    const dataMarca = new Set(listAux1);
+    const dataCategoria = new Set(listAux2);
+    setListMarca([...dataMarca]);
+    setListCategoria([...dataCategoria]);
+    console.log(listMarca);
+    console.log(listCategoria);
+    //debugger;
+  }
 
   return (<>
     <Head>
@@ -55,7 +106,7 @@ const Producto = () => {
       }}
     >
       <Container maxWidth={true}>
-        <ProductoListToolbar />
+        <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
         {productosPorPagina.map((product) => (
           <Grid
             item
