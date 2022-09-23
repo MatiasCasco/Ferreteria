@@ -25,6 +25,14 @@ export const ProductoListResults = ({ productos, ...rest }) => {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
 
+  useEffect(() => {
+    // 👇️ some condition here
+    if (productos[(page * limit)] === undefined) {
+      setPage(0);
+    }
+  });
+
+ 
   const handleSelectAll = (event) => {
     let newSelectedProductoIds;
 
@@ -73,7 +81,6 @@ export const ProductoListResults = ({ productos, ...rest }) => {
   const emptyRows =
   page > 0 ? Math.max(0, (1 + page) * limit - productos.length) : 0;
 
-  
   return (
     
     <Card {...rest}>
@@ -181,7 +188,10 @@ export const ProductoListResults = ({ productos, ...rest }) => {
         count={productos.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
-        page={page}
+        page={
+          page
+        
+        }
         rowsPerPage={limit}
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
       />

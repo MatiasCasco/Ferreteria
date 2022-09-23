@@ -15,8 +15,6 @@ const Productos = () => {
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [listMarca, setListMarca] = useState([]);
   const [listCategoria, setListCategoria] = useState([]);
- 
-  let pagina = 0;
 
   useEffect(()=>{
     findList();
