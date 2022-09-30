@@ -43,6 +43,11 @@ const items = [
     title: 'Productos'
   },
   {
+    href: '/proceso-compra1',
+    icon: (<ShoppingBagIcon fontSize="small" />),
+    title: 'ProcesoCompra1'
+  },
+  {
     href: '/account',
     icon: (<UserIcon fontSize="small" />),
     title: 'Account'

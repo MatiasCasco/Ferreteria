@@ -32,3 +32,39 @@ export async function AllProductos(){
     }
     catch(ex){}         
 }
+
+export async function ProveedorByProducto(ProductoId) {
+  let data = {idProducto: ProductoId};
+  try{
+      let url = 'http://'+ ip +':8084/FerreSoft/rest/OrigenProductoAPI/opByProducto';
+      let respuesta = await fetch(url, {
+        "method": 'POST',
+        "headers": {
+          "Accept": 'application/json',
+          //"Content-Type": 'application/json'
+        },
+        body: JSON.stringify(data),
+      });
+      let json = await respuesta.json();
+      //debugger
+      return json;
+  }
+  catch(ex){}         
+}
+
+export async function ProveedorByDetalle(Detalle) {
+  try{
+      let url = 'http://'+ ip +':8084/FerreSoft/rest/OrigenProductoAPI/opByDetalleProducto/' + Detalle;
+      let respuesta = await fetch(url, {
+        "method": 'GET',
+        "headers": {
+          "Accept": 'application/json',
+          //"Content-Type": 'application/json'
+        },
+      });
+      let json = await respuesta.json();
+      //debugger
+      return json;
+  }
+  catch(ex){}         
+}
