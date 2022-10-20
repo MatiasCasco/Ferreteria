@@ -56,9 +56,15 @@ export function PopUp(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button onClick={()=>{
+              sessionStorage.setItem('bool', JSON.stringify(0));
+              handleClose();
+          }}>Cancear</Button>
+          <Button onClick={()=>{
+              sessionStorage.setItem('bool', JSON.stringify(1));
+              handleClose();
+            }} autoFocus>
+            Aceptar
           </Button>
         </DialogActions>
       </Dialog>

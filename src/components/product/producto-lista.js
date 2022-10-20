@@ -24,7 +24,7 @@ import { PopUp } from '../popup';
 import { Proveedor } from 'src/pages/proveedor';
 
 
-export const ProductoLista = ({ productos, ...rest }) => {
+export const ProductoLista = ({ productos, borradorPedido, accionBorrador, ...rest }) => {
   const [selectedProductoIds, setSelectedProductoIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
@@ -40,9 +40,26 @@ export const ProductoLista = ({ productos, ...rest }) => {
     }
   });
   // Este y este agregue
+
   const toggle = () => {
     setActive(!active);
+    console.log("toggle");
     console.log(active);
+    if (active) {
+      let ProveedorSeleccionado = []; 
+      ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'));
+      let varBoolean = JSON.parse(sessionStorage.getItem('bool'));
+      /*console.log("Proveedor seleccionado");
+      console.log(ProveedorSeleccionado);
+      console.log(varBoolean);
+      console.log(idDet);*/
+      //debugger;
+      if (ProveedorSeleccionado.length > 0 && varBoolean === 1) {
+        accionBorrador(idDet, ProveedorSeleccionado[0]);
+        /*console.log("accionBorrador");
+        debugger;*/
+      }
+    }
   }
 
   const desplegar = (id) => {
@@ -237,7 +254,7 @@ export const ProductoLista = ({ productos, ...rest }) => {
       />
 
         <PopUp title={"Lista de proveedores"} active={active} toggle={toggle}>
-          <Proveedor idDet={idDet} />
+          <Proveedor idDet={idDet} borradorPedido={borradorPedido} />
         </PopUp>
 
       <FormControlLabel

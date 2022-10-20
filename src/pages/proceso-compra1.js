@@ -16,6 +16,7 @@ const ProcesoCompra1 = () => {
   const [listaFiltrada, setListaFiltrada] = useState([]);
   const [listMarca, setListMarca] = useState([]);
   const [listCategoria, setListCategoria] = useState([]);
+  const [borradorPedido, setBorradorPedido] = useState([]);
 
   useEffect(()=>{
     findList();
@@ -67,6 +68,34 @@ const ProcesoCompra1 = () => {
     filtrar(producto, marca, categoria, stock, min);
   }
 
+  const accionBorrador = (idDetalleProducto, Proveedor) => {
+    let newList = borradorPedido;
+    let element = list.find(item => item.id === idDetalleProducto); 
+    let myObj = {
+      posicion: list.findIndex(item => item.id === idDetalleProducto),
+      idDetP: idDetalleProducto,
+      descripcion: element.producto.nombre + " " + element.marcaNombre,
+      idProveedor:  Proveedor.id,
+      nombreProveedor: Proveedor.nombre,
+      rucProveedor: Proveedor.ruc
+    };
+
+    if (newList.length ===  0) {  
+      newList.push(myObj);
+    } else {
+      let index = newList.findIndex(item => item.idDetP === idDetalleProducto);
+      if(index === -1){
+        newList.push(myObj);
+      } else {
+        newList[index] = myObj;
+      }
+    }
+    console.log("newList");
+    console.log(newList);
+    debugger;
+    setBorradorPedido(newList);
+  }
+
   const getMarcasYCategorias = (list) => {
     let listAux1 = [" "], listAux2 = [" "];
     list.map((item) => {
@@ -98,7 +127,7 @@ const ProcesoCompra1 = () => {
       <Container>
         <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
         <Box sx={{ mt: 3 }}>
-          <ProductoLista productos={listaFiltrada} />
+          <ProductoLista productos={listaFiltrada} borradorPedido={borradorPedido} accionBorrador={accionBorrador} />
         </Box>
       </Container>
     </Box>
