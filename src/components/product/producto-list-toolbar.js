@@ -15,7 +15,7 @@
   import { Upload as UploadIcon } from '../../icons/upload';
  
   
-  export const ProductoListToolbar = ({listMarca, listCategoria, handlePadre, ...props}) => {
+  export const ProductoListToolbar = ({setEditing, listMarca, listCategoria, handlePadre, ...props}) => {
     //
     const [valueProducto, setValueProducto] = useState(" ");
     const [valueMarca, setValueMarca] = useState(" ");
@@ -60,6 +60,7 @@
 
       setValueProducto(e.target.value);
       handleHijo(e.target.value, valueMarca, valueCategoria, valueStock, valueStockMin);
+      Object.entries(e.target.value).length===0?(setEditing(false)):(setEditing(true));
     }
 
     const handleHijo = (producto, marca, categoria, stock, min) => {    
