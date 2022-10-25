@@ -74,37 +74,6 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
     toggle();
     setIdDet(id);
   }
-  const handleSelectAll = (event) => {
-    let newSelectedProductoIds;
-
-    if (event.target.checked) {
-      newSelectedProductoIds = productos.map((producto) => producto.id);
-    } else {
-      newSelectedProductoIds = [];
-    }
-
-    setSelectedProductoIds(newSelectedProductoIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedProductoIds.indexOf(id);
-    let newSelectedProductoIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedProductoIds = newSelectedProductoIds.concat(selectedProductoIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedProductoIds = newSelectedProductoIds.concat(selectedProductoIds.slice(1));
-    } else if (selectedIndex === selectedProductoIds.length - 1) {
-      newSelectedProductoIds = newSelectedProductoIds.concat(selectedProductoIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedProductoIds = newSelectedProductoIds.concat(
-        selectedProductoIds.slice(0, selectedIndex),
-        selectedProductoIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedProductoIds(newSelectedProductoIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(parseInt(event.target.value, 10));
@@ -134,17 +103,6 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
           >
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedProductoIds.length === productos.length}
-                    color="primary"
-                    indeterminate={
-                      selectedProductoIds.length > 0
-                      && selectedProductoIds.length < productos.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Descripcion
                 </TableCell>
@@ -172,13 +130,6 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
                   key={producto.id}
                   selected={selectedProductoIds.indexOf(producto.id) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedProductoIds.indexOf(producto.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, producto.id)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{

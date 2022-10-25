@@ -179,16 +179,7 @@
                   ))}
                 </TextField>}
 
-                {showHideDemo1 && <TextField
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChangeStock}
-                  placeholder="Buscar por stock"
-                  variant="outlined"
-                  disabled={!showHideDemo1.toString()}
-                />}
+                
                 
                 Lista de stock minimo
                 <Switch
