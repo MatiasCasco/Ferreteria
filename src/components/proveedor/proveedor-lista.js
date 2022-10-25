@@ -120,6 +120,8 @@ export const ProveedorLista = (props) => {
         ruc: variable.empresa.empresaRuc
       };
       console.log(ProveedorObj);
+      //console.log(event.target.checked);
+      sessionStorage.setItem('valueCheck', JSON.stringify(event.target.checked));
       let Arreglo = [ProveedorObj];
       //Arreglo.push(ProveedorObj);
       handleHijoProveedor(Arreglo);

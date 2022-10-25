@@ -46,7 +46,8 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
     console.log("toggle");
     console.log(active);
     if (active) {
-      let ProveedorSeleccionado = []; 
+      let ProveedorSeleccionado = [];
+      let valueCheck = JSON.parse(sessionStorage.getItem('valueCheck')); 
       ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'));
       let varBoolean = JSON.parse(sessionStorage.getItem('bool'));
       /*console.log("Proveedor seleccionado");
@@ -56,13 +57,15 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
       //debugger;
       if (ProveedorSeleccionado.length > 0 && varBoolean === 1) {
         agregarBorrador(idDet, ProveedorSeleccionado[0]);
+        sessionStorage.setItem('bool', JSON.stringify(0));
         /*console.log("agregarBorrador");
         debugger;*/
       }
-      if ((ProveedorSeleccionado.length === 0 || ProveedorSeleccionado === null) && varBoolean === 1) {
+      if (valueCheck === false && ProveedorSeleccionado.length > 0 && varBoolean === 1) {
         console.log("idDetalleProducto is");
         console.log(idDet);
         quitarBorrador(idDet);
+        sessionStorage.setItem('bool', JSON.stringify(0));
       }  
     }
   }
