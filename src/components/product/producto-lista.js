@@ -24,7 +24,7 @@ import { PopUp } from '../popup';
 import { Proveedor } from 'src/pages/proveedor';
 
 
-export const ProductoLista = ({ productos, borradorPedido, accionBorrador, ...rest }) => {
+export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quitarBorrador, ...rest }) => {
   const [selectedProductoIds, setSelectedProductoIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
@@ -55,10 +55,15 @@ export const ProductoLista = ({ productos, borradorPedido, accionBorrador, ...re
       console.log(idDet);*/
       //debugger;
       if (ProveedorSeleccionado.length > 0 && varBoolean === 1) {
-        accionBorrador(idDet, ProveedorSeleccionado[0]);
-        /*console.log("accionBorrador");
+        agregarBorrador(idDet, ProveedorSeleccionado[0]);
+        /*console.log("agregarBorrador");
         debugger;*/
       }
+      if ((ProveedorSeleccionado.length === 0 || ProveedorSeleccionado === null) && varBoolean === 1) {
+        console.log("idDetalleProducto is");
+        console.log(idDet);
+        quitarBorrador(idDet);
+      }  
     }
   }
 

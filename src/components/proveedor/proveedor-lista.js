@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from 'react';
+import {  useEffect, useReducer, useRef, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 import { Proveedor } from 'src/pages/proveedor';
+import { ContactSupport } from '@mui/icons-material';
 
 function TransitionDown(props){
   return <Slide {...props} direction="down" />;
@@ -36,9 +37,6 @@ export const ProveedorLista = (props) => {
   const { Proveedores, active, toggle, handlePadreProveedor, borradorPedido, idDet, ...rest } = props;
   const [checkedState, setCheckedState] = useState([]);
   const valor = useRef(false);
-  /*const [checking, setChecking] = useState(false); 
-  const valor = useRef(0);
-  const selectedCheck = useRef(false);*/
 
   useEffect(() => {
     // 👇️ some condition here
@@ -46,10 +44,6 @@ export const ProveedorLista = (props) => {
       setPage(0);
     }
     if(active){
-      /*console.log("useEffect")
-      console.log(Proveedores);
-      console.log(Proveedores.slice().fill(false))*/
-      //setCheckedState(Proveedores.slice().fill(false));
       setTransition(() => TransitionDown);
     }
     if (valor.current === false && Proveedores.length > 0) {
@@ -61,7 +55,18 @@ export const ProveedorLista = (props) => {
   });
 
   const cargarLista = () => {
+    let count = 0;
     let lista = Proveedores.slice().fill(false);
+    console.log("borrador pedido")
+    console.log(borradorPedido)
+    if (borradorPedido.length > 0){
+      Proveedores.map((item, index) => {
+        if (borradorPedido.findIndex(element => element.idDetP === idDet && element.nombreProveedor === item.empresa.nombre) !== -1) {
+          console.log(index);
+          lista[index] = !lista[index];
+        }
+      })
+    }
     setCheckedState(lista);
     console.log("Lista");
     console.log(lista);
@@ -77,31 +82,13 @@ export const ProveedorLista = (props) => {
     toggle();
   };
   
-  const handleSelectAll = (event) => {
-    let newSelectedProveedorIds;
-
-    if (event.target.checked) {
-      newSelectedProveedorIds = Proveedores.map((Proveedor) => Proveedor.id);
-    } else {
-      newSelectedProveedorIds = [];
-    }
-
-    setSelectedProveedorIds(newSelectedProveedorIds);
-  };
-
   const handleSelectOne = (event, id) => {
-    //let lista = checkedState;
     let index = findIndex(id);
-    //let indexAnt = lista.findIndex(item => item === true);
-    //lista[indexAnt] = !event.target.checked;
-    //setCheckedState(lista);
-    //lista[index] = event.target.checked;
-    //setCheckedState(lista);
-    //console.log("Checked end");
-    //console.log(checkedState);
     handleOnChangeCheck(index);
+ 
     console.log("ver si funciona");
     console.log(checkedState);
+ 
     const selectedIndex = selectedProveedorIds.indexOf(id);
     let newSelectedProveedorIds = [];
 
@@ -172,8 +159,6 @@ export const ProveedorLista = (props) => {
   const emptyRows =
   page > 0 ? Math.max(0, (1 + page) * limit - Proveedores.length) : 0;
   
-  console.log("Return");
-  console.log(checkedState);
   return (
     <>
       <Alert onClose={handleClose} autoHideDuration={10000} variant="filled" severity="info" > Seleccione proveedor para el producto </Alert>
@@ -218,14 +203,18 @@ export const ProveedorLista = (props) => {
                     selected={selectedProveedorIds.indexOf(Proveedor.id) !== -1}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={checkedState[findIndex(Proveedor.id)]}
-                        onChange={
-                          /*() => handleOnChangeCheck(findIndex(Proveedor.id))*/
-                          (event) => handleSelectOne(event, Proveedor.id)
+                      {checkedState.map((item, index) => {
+                        if (index === findIndex(Proveedor.id)) {
+                          return (<Checkbox
+                            checked={item}
+                            onChange={
+                              /*() => handleOnChangeCheck(findIndex(Proveedor.id))*/
+                              (event) => handleSelectOne(event, Proveedor.id)
+                            }
+                            value="true"
+                          />);
                         }
-                        value="true"
-                      />
+                      })}
                     </TableCell>
                     <TableCell>
                       {Proveedor.empresa.nombre}

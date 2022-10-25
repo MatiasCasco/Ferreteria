@@ -68,7 +68,7 @@ const ProcesoCompra1 = () => {
     filtrar(producto, marca, categoria, stock, min);
   }
 
-  const accionBorrador = (idDetalleProducto, Proveedor) => {
+  const agregarBorrador = (idDetalleProducto, Proveedor) => {
     let newList = borradorPedido;
     let element = list.find(item => item.id === idDetalleProducto); 
     let myObj = {
@@ -92,8 +92,14 @@ const ProcesoCompra1 = () => {
     }
     console.log("newList");
     console.log(newList);
-    debugger;
+    //debugger;
     setBorradorPedido(newList);
+  }
+
+  const quitarBorrador = (idDetalleProducto) => {
+    let borrador = borradorPedido;
+    borrador = borrador.filter((item) => item.idDetP !== idDetalleProducto);
+    setBorradorPedido(borrador);
   }
 
   const getMarcasYCategorias = (list) => {
@@ -127,7 +133,7 @@ const ProcesoCompra1 = () => {
       <Container>
         <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
         <Box sx={{ mt: 3 }}>
-          <ProductoLista productos={listaFiltrada} borradorPedido={borradorPedido} accionBorrador={accionBorrador} />
+          <ProductoLista productos={listaFiltrada} borradorPedido={borradorPedido} agregarBorrador={agregarBorrador} quitarBorrador={quitarBorrador} />
         </Box>
       </Container>
     </Box>
