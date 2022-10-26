@@ -48,7 +48,7 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
     if (active) {
       let ProveedorSeleccionado = [];
       let valueCheck = JSON.parse(sessionStorage.getItem('valueCheck')); 
-      ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'));
+      ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'))?JSON.parse(sessionStorage.getItem('ProveedorSelected')):[];
       let varBoolean = JSON.parse(sessionStorage.getItem('bool'));
       /*console.log("Proveedor seleccionado");
       console.log(ProveedorSeleccionado);
