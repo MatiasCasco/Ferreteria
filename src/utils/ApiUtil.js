@@ -1,4 +1,4 @@
-const ip = '192.168.43.69';//'192.168.56.1';
+const ip = '192.168.56.1';//'192.168.43.69';
 export async function BuscarEmpresa(){
     try{
         let url = 'http://'+ ip +':8084/FerreSoft/rest/EmpresaAPI/empresaByName/tigre s.a';
