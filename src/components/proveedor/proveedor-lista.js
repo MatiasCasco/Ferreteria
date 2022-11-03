@@ -19,10 +19,13 @@ import {
   Alert,
   Snackbar,
   Slide,
+  Button,
+  Grid
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 import { Proveedor } from 'src/pages/proveedor';
 import { ContactSupport } from '@mui/icons-material';
+
 
 function TransitionDown(props){
   return <Slide {...props} direction="down" />;
@@ -37,6 +40,10 @@ export const ProveedorLista = (props) => {
   const { Proveedores, active, toggle, handlePadreProveedor, borradorPedido, idDet, ...rest } = props;
   const [checkedState, setCheckedState] = useState([]);
   const valor = useRef(false);
+  const [positionAlertAdvertencia, setPositionAlertAdvertencia] = useState(null);
+  const [showHidenAlertAdvertencia, setshowHidenAlertAdvertencia] = useState(false);
+  const [showHidenAlertInfo, setShowHidenAlertInfo] = useState(true);
+
 
   useEffect(() => {
     // 👇️ some condition here
@@ -83,9 +90,9 @@ export const ProveedorLista = (props) => {
   };
   
   const handleSelectOne = (event, id) => {
-    let index = findIndex(id);
-    handleOnChangeCheck(index);
- 
+    let selected = findIndex(id);
+    handleOnChangeCheck(selected.index);
+    
     console.log("ver si funciona");
     console.log(checkedState);
  
@@ -121,17 +128,45 @@ export const ProveedorLista = (props) => {
       };
       console.log(ProveedorObj);
       //console.log(event.target.checked);
-      sessionStorage.setItem('valueCheck', JSON.stringify(event.target.checked));
+      sessionStorage.setItem('valueCheck', event.target.checked !== null && event.target.checked !== undefined ? JSON.stringify(event.target.checked):sessionStorage.getItem('valueCheck'));
       let Arreglo = [ProveedorObj];
       //Arreglo.push(ProveedorObj);
       handleHijoProveedor(Arreglo);
+      if (event.target.checked === true || sessionStorage.getItem('valueCheck') === true) {
+        findMenorCosto(selected);
+      } 
+      
     } else {
       handleHijoProveedor([]);
     }
   };
 
   const findIndex = (id) => {
-    return Proveedores.findIndex(Proveedor => Proveedor.id === id);
+    let selected = {index: 0, item: " "}
+    selected.index = Proveedores.findIndex(Proveedor => Proveedor.id === id);
+    selected.item = Proveedores[selected.index]; 
+    return selected;
+  }
+
+  const findMenorCosto = (selected) => {
+    let position;
+    for (let i = 0; i < Proveedores.length; i++) {
+      if (selected.item.precioVenta > Proveedores[i].precioVenta) {
+        position = i;
+      }
+      if (position !== undefined) {
+        if (Proveedores[position].precioVenta > Proveedores[i].precioVenta) {
+          position = i;
+        }
+      }
+    }
+    if (position !== undefined) {
+      setshowHidenAlertAdvertencia(true);
+      setPositionAlertAdvertencia(position);
+    }
+    if (position === undefined) {
+      setshowHidenAlertAdvertencia(false);
+    }
   }
 
   const handleOnChangeCheck = (position) => {
@@ -163,8 +198,16 @@ export const ProveedorLista = (props) => {
   
   return (
     <>
-      <Alert onClose={handleClose} autoHideDuration={10000} variant="filled" severity="info" > Seleccione proveedor para el producto </Alert>
-      <Alert onClose={handleClose} variant="filled" severity="warning" > Existe una opcion menos costosa</Alert>
+      {showHidenAlertInfo && <Alert onClose={() => {setShowHidenAlertInfo(false)}} autoHideDuration={10000} variant="filled" severity="info" > Seleccione proveedor para el producto </Alert>}
+      {showHidenAlertAdvertencia && <Alert onClose={() => { setshowHidenAlertAdvertencia(false) }} variant="filled" severity="warning" >
+        <Grid direction="row" justifyContent="center" alignItems="center" spacing={4}>
+            Existe una opcion menos costosa
+            <Box sx={{ pl: 2 }}/>
+            <Button onClick={() => { handleSelectOne(event, Proveedores[positionAlertAdvertencia].id) }} color="inherit" size="small">
+              Seleccionar menos costosa
+            </Button>
+        </Grid>        
+      </Alert>}
 
       <Snackbar open={active} autoHideDuration={10000} onClose={handleClose} TransitionComponent={transition} key={transition ? transition.name : ''}>
         <Alert onClose={handleClose} variant="filled" severity="info" > Seleccione proveedor para el producto </Alert>
@@ -206,7 +249,7 @@ export const ProveedorLista = (props) => {
                   >
                     <TableCell padding="checkbox">
                       {checkedState.map((item, index) => {
-                        if (index === findIndex(Proveedor.id)) {
+                        if (index === findIndex(Proveedor.id).index) {
                           return (<Checkbox
                             checked={item}
                             onChange={

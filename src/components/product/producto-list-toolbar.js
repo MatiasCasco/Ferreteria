@@ -60,7 +60,7 @@
 
       setValueProducto(e.target.value);
       handleHijo(e.target.value, valueMarca, valueCategoria, valueStock, valueStockMin);
-      Object.entries(e.target.value).length===0?(setEditing(false)):(setEditing(true));
+      Object.entries(e.target.value).length===0?(()=>setEditing(false)):(()=>setEditing(true));
     }
 
     const handleHijo = (producto, marca, categoria, stock, min) => {    

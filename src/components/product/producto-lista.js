@@ -66,6 +66,9 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
         console.log(idDet);
         quitarBorrador(idDet);
         sessionStorage.setItem('bool', JSON.stringify(0));
+      }
+      if (ProveedorSeleccionado.length === 0 && varBoolean === 1){
+        quitarBorrador(idDet);
       }  
     }
   }
