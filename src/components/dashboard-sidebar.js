@@ -48,6 +48,23 @@ const items = [
     title: 'ProcesoCompra1'
   },
   {
+    href: '/crud-proveedor',
+    icon: (<UserAddIcon fontSize="small" />),
+    title: 'Crud Proveedor'
+  },
+  ,
+  {
+    href: '/prueba',
+    icon: (<UserAddIcon fontSize="small" />),
+    title: 'Interfaz de prueba'
+  },
+  ,
+  {
+    href: '/cruds',
+    icon: (<UserAddIcon fontSize="small" />),
+    title: 'Lista de crud'
+  },
+  {
     href: '/account',
     icon: (<UserIcon fontSize="small" />),
     title: 'Account'
@@ -71,6 +88,11 @@ const items = [
     href: '/404',
     icon: (<XCircleIcon fontSize="small" />),
     title: 'Error'
+  },
+  {
+    href: '/registro',
+    icon: (<UserAddIcon fontSize="small" />),
+    title: 'Registro'
   }
 ];
 
