@@ -5,6 +5,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import CrudProveedores from 'src/components/crud/crud-proveedores';
 import { useEffect, useState } from 'react';
 import { AllProductos } from 'src/utils/ApiUtil';
+import CrudProducts from 'src/components/crud/crud-productos';
 
 const Prueba = () => {
 
@@ -38,7 +39,7 @@ const Prueba = () => {
       >
         <Container maxWidth={false}>
           <Box sx={{ mt: 3 }}>
-            <CrudProveedores list={list}></CrudProveedores>
+           <CrudProducts></CrudProducts>
           </Box>
         </Container>
       </Box>
@@ -53,3 +54,4 @@ Prueba.getLayout = (page) => (
 );
 
 export default Prueba;
+//<CrudProveedores list={list}></CrudProveedores>//
