@@ -11,8 +11,15 @@ function CrudProducts() {
 
   const getProducts = async () => {
     const response = await Axios.get("http://localhost:8080/ferreteria/ProductoAPI/all");
-    const data = response.data;
-    setProducts(data);
+    const products = response.data;
+  
+    // This will return an array of all of the products.
+    const allProducts = [];
+    for (const product of products.content) {
+        allProducts.push(product);
+    }
+  
+    setProducts(allProducts);
   };
 
   useEffect(() => {

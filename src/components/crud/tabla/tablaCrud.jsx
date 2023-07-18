@@ -1,5 +1,4 @@
 import React from "react";
-
 const Tablacrud = ({
   products,
   actions,
@@ -9,6 +8,9 @@ const Tablacrud = ({
   onDelete,
   onUpdate,
 }) => {
+  // Break into the component here
+  debugger;
+
   const rows = products.map((product, index) => (
     <tr key={index}>
       {attributes.map((attribute) => (
