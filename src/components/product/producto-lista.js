@@ -46,8 +46,9 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
     console.log("toggle");
     console.log(active);
     if (active) {
+      debugger
       let ProveedorSeleccionado = [];
-      let valueCheck = JSON.parse(sessionStorage.getItem('valueCheck')); 
+      let valueCheck = JSON.parse(sessionStorage.getItem('valueCheck'));
       ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'))?JSON.parse(sessionStorage.getItem('ProveedorSelected')):[];
       let varBoolean = JSON.parse(sessionStorage.getItem('bool'));
       /*console.log("Proveedor seleccionado");
@@ -69,7 +70,7 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
       }
       if (ProveedorSeleccionado.length === 0 && varBoolean === 1){
         quitarBorrador(idDet);
-      }  
+      }
     }
   }
 
@@ -130,8 +131,8 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
               {productos.slice(page * limit, page *limit + limit).map((producto) => (
                 <TableRow
                   hover
-                  key={producto.id}
-                  selected={selectedProductoIds.indexOf(producto.id) !== -1}
+                  key={producto.producto.productoId}
+                  selected={selectedProductoIds.indexOf(producto.producto.productoId) !== -1}
                 >
                   <TableCell>
                     <Box
@@ -144,21 +145,21 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
                         src={producto.producto.archivoimg2}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(producto.producto.nombre)}
+                        {getInitials(producto.producto.productoNombre)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {producto.producto.nombre}
+                        {producto.producto.productoNombre}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {producto.producto.categoriaNombre}
+                    {producto.producto.categoria.categoriaDescripcion}
                   </TableCell>
                   <TableCell>
-                    {producto.marcaNombre}
+                    {producto.marca.marcaDescripcion}
                   </TableCell>
                   <TableCell>
                     {producto.productoStockActual}
@@ -174,20 +175,20 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
                       }}
                     >
                       <Button onClick={()=>{
-                        desplegar(producto.id);
+                        desplegar(producto.producto.productoId);
                       }}>
                         <SearchIcon color="action"/>
                         <Typography
                           color="textPrimary"
                           variant="body2"
                         >
-                          {"Vista" + producto.id}
+                          {"Vista" + producto.producto.productoId}
                         </Typography>
                       </Button>
                     </Box>
-                    
-                  </TableCell> 
-                </TableRow>             
+
+                  </TableCell>
+                </TableRow>
               ))}
               {emptyRows > 0 && (
                 <TableRow
@@ -209,7 +210,7 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
         onRowsPerPageChange={handleLimitChange}
         page={
           page
-        
+
         }
         rowsPerPage={limit}
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
@@ -225,8 +226,8 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
       />
 
     </Card>
-    
-    </>  
+
+    </>
   );
 };
 

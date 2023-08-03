@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
 import { ProductoListResults } from 'src/components/product/producto-list-results';
 import { ProductoLista } from 'src/components/product/producto-lista';
+import * as ApiUtils from '../utils/api-utils';
+import * as ApiUrl from '../constants/apiUrls';
 
 const ProcesoCompra1 = () => {
 
@@ -23,11 +25,12 @@ const ProcesoCompra1 = () => {
   }, []);
 
   const findList = async () => {
-    let json = await AllProductos();
-    //debugger
-    setList(json);
-    getMarcasYCategorias(json);
-    setListaFiltrada(json);
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CARACTERISTICA_PRODUCTO_ALL);
+    const json = await ApiUtils.getMCS(url);
+    debugger
+    setList(json.content);
+    getMarcasYCategorias(json.content);
+    setListaFiltrada(json.content);
   }
 
   const filtrar = (producto, marca, categoria, stock, min) => {
@@ -44,11 +47,13 @@ const ProcesoCompra1 = () => {
     }
     if (producto === " " && marca === " " && categoria === " " && stock === 0) {
       resultadoBusquedad = lista;
-      
+
     } else {
-      
+
       resultadoBusquedad = lista.filter((item) => {
-        if ((producto === " " ? " " :item.producto.nombre.toString().toLowerCase().includes(producto.toLowerCase())) && (marca === " " ? " " :item.marcaNombre.toString().toLowerCase().includes(marca.toLowerCase()))  && (categoria === " " ? " " :item.producto.categoriaNombre.toString().toLowerCase().includes(categoria.toLowerCase()))) {
+        if ((producto === " " ? " " :item.producto.productoNombre.toString().toLowerCase().includes(producto.toLowerCase()))
+          && (marca === " " ? " " :item.marca.marcaDescripcion.toString().toLowerCase().includes(marca.toLowerCase()))
+          && (categoria === " " ? " " :item.producto.categoria.categoriaDescripcion.toString().toLowerCase().includes(categoria.toLowerCase()))) {
           return item;
         }
       })
@@ -57,7 +62,7 @@ const ProcesoCompra1 = () => {
   }
 
   const handlePadre = (producto, marca, categoria, stock, min) => {
-    console.log("handlePadre"); 
+    console.log("handlePadre");
     console.log(producto);
     console.log(marca);
     console.log(categoria);
@@ -70,17 +75,17 @@ const ProcesoCompra1 = () => {
 
   const agregarBorrador = (idDetalleProducto, Proveedor) => {
     let newList = borradorPedido;
-    let element = list.find(item => item.id === idDetalleProducto); 
+    let element = list.find(item => item.caracteristicasProductoId === idDetalleProducto);
     let myObj = {
-      posicion: list.findIndex(item => item.id === idDetalleProducto),
+      posicion: list.findIndex(item => item.caracteristicasProductoId === idDetalleProducto),
       idDetP: idDetalleProducto,
-      descripcion: element.producto.nombre + " " + element.marcaNombre,
+      descripcion: element.producto.productoNombre + " " + element.marca.marcaDescripcion,
       idProveedor:  Proveedor.id,
       nombreProveedor: Proveedor.nombre,
       rucProveedor: Proveedor.ruc
     };
 
-    if (newList.length ===  0) {  
+    if (newList.length ===  0) {
       newList.push(myObj);
     } else {
       let index = newList.findIndex(item => item.idDetP === idDetalleProducto);
@@ -98,15 +103,15 @@ const ProcesoCompra1 = () => {
 
   const quitarBorrador = (idDetalleProducto) => {
     let borrador = borradorPedido;
-    borrador = borrador.filter((item) => item.idDetP !== idDetalleProducto);
+    borrador = borrador.filter((item) => item.caracteristicasProductoId !== idDetalleProducto);
     setBorradorPedido(borrador);
   }
 
   const getMarcasYCategorias = (list) => {
     let listAux1 = [" "], listAux2 = [" "];
     list.map((item) => {
-      listAux1.push(item.marcaNombre);
-      listAux2.push(item.producto.categoriaNombre);
+      listAux1.push(item.marca.marcaDescripcion);
+      listAux2.push(item.producto.categoria.categoriaDescripcion);
     });
     const dataMarca = new Set(listAux1);
     const dataCategoria = new Set(listAux2);
@@ -141,7 +146,7 @@ const ProcesoCompra1 = () => {
   );
 }
 
-  
+
 
 //Products.getLayout = (page) => (
 ProcesoCompra1.getLayout = (page) => (

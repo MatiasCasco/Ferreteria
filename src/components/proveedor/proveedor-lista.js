@@ -88,14 +88,14 @@ export const ProveedorLista = (props) => {
     }
     toggle();
   };
-  
+
   const handleSelectOne = (event, id) => {
     let selected = findIndex(id);
     handleOnChangeCheck(selected.index);
-    
+
     console.log("ver si funciona");
     console.log(checkedState);
- 
+
     const selectedIndex = selectedProveedorIds.indexOf(id);
     let newSelectedProveedorIds = [];
 
@@ -118,7 +118,7 @@ export const ProveedorLista = (props) => {
     //console.log(newSelectedProveedorIds);
     //debugger;
     setSelectedProveedorIds(newSelectedProveedorIds);
-    
+
     let variable =  newSelectedProveedorIds.length > 0 ? Proveedores.find(item => item.id === id) : null;
     if(variable != null) {
       let ProveedorObj = {
@@ -134,8 +134,8 @@ export const ProveedorLista = (props) => {
       handleHijoProveedor(Arreglo);
       if (event.target.checked === true || sessionStorage.getItem('valueCheck') === true) {
         findMenorCosto(selected);
-      } 
-      
+      }
+
     } else {
       handleHijoProveedor([]);
     }
@@ -143,8 +143,8 @@ export const ProveedorLista = (props) => {
 
   const findIndex = (id) => {
     let selected = {index: 0, item: " "}
-    selected.index = Proveedores.findIndex(Proveedor => Proveedor.id === id);
-    selected.item = Proveedores[selected.index]; 
+    selected.index = Proveedores.findIndex(Proveedor => Proveedor.empresa.empresaId === id);
+    selected.item = Proveedores[selected.index];
     return selected;
   }
 
@@ -172,7 +172,7 @@ export const ProveedorLista = (props) => {
   const handleOnChangeCheck = (position) => {
     let list = checkedState;
     let updatedCheckedState = [];
-    updatedCheckedState = list.map((item, index) => 
+    updatedCheckedState = list.map((item, index) =>
       index === position ? !item : false
     );
     //console.log("updatedCheck");
@@ -195,7 +195,7 @@ export const ProveedorLista = (props) => {
 
   const emptyRows =
   page > 0 ? Math.max(0, (1 + page) * limit - Proveedores.length) : 0;
-  
+
   return (
     <>
       {showHidenAlertInfo && <Alert onClose={() => {setShowHidenAlertInfo(false)}} autoHideDuration={10000} variant="filled" severity="info" > Seleccione proveedor para el producto </Alert>}
@@ -206,7 +206,7 @@ export const ProveedorLista = (props) => {
             <Button onClick={() => { handleSelectOne(event, Proveedores[positionAlertAdvertencia].id) }} color="inherit" size="small">
               Seleccionar menos costosa
             </Button>
-        </Grid>        
+        </Grid>
       </Alert>}
 
       <Snackbar open={active} autoHideDuration={10000} onClose={handleClose} TransitionComponent={transition} key={transition ? transition.name : ''}>
@@ -244,17 +244,17 @@ export const ProveedorLista = (props) => {
                 {Proveedores.slice(page * limit, page * limit + limit).map((Proveedor) => (
                   <TableRow
                     hover
-                    key={Proveedor.id}
-                    selected={selectedProveedorIds.indexOf(Proveedor.id) !== -1}
+                    key={Proveedor.empresa.empresaId}
+                    selected={selectedProveedorIds.indexOf(Proveedor.empresa.empresaId) !== -1}
                   >
                     <TableCell padding="checkbox">
                       {checkedState.map((item, index) => {
-                        if (index === findIndex(Proveedor.id).index) {
+                        if (index === findIndex(Proveedor.empresa.empresaId).index) {
                           return (<Checkbox
                             checked={item}
                             onChange={
                               /*() => handleOnChangeCheck(findIndex(Proveedor.id))*/
-                              (event) => handleSelectOne(event, Proveedor.id)
+                              (event) => handleSelectOne(event, Proveedor.empresa.empresaId)
                             }
                             value="true"
                           />);
@@ -262,13 +262,13 @@ export const ProveedorLista = (props) => {
                       })}
                     </TableCell>
                     <TableCell>
-                      {Proveedor.empresa.nombre}
+                      {Proveedor.empresa.empresaNombre}
                     </TableCell>
                     <TableCell>
                       {Proveedor.empresa.empresaRuc}
                     </TableCell>
                     <TableCell>
-                      {Proveedor.precioVenta}
+                      {Proveedor.precioVentaProveedor}
                     </TableCell>
                     <TableCell>
                       {Proveedor.ultimaCompra}

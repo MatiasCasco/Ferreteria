@@ -8,6 +8,9 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { useEffect, useState } from 'react';
 import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
 import { ProductoListResults } from 'src/components/product/producto-list-results';
+import * as ApiUrl from '../constants/apiUrls';
+import * as ApiUtils from '../utils/api-utils';
+import { CARACTERISTICA_PRODUCTO_ALL } from '../constants/apiUrls';
 
 const Productos = () => {
 
@@ -21,11 +24,13 @@ const Productos = () => {
   }, []);
 
   const findList = async () => {
-    let json = await AllProductos();
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CARACTERISTICA_PRODUCTO_ALL);
+    const json = await ApiUtils.getMCS(url);
     //debugger
-    setList(json);
-    getMarcasYCategorias(json);
-    setListaFiltrada(json);
+    console.log(json.content);
+    setList(json.content);
+    getMarcasYCategorias(json.content);
+    setListaFiltrada(json.content);
   }
 
   const filtrar = (producto, marca, categoria, stock, min) => {
@@ -42,20 +47,24 @@ const Productos = () => {
     }
     if (producto === " " && marca === " " && categoria === " " && stock === 0) {
       resultadoBusquedad = lista;
-      
+
     } else {
-      
+
       resultadoBusquedad = lista.filter((item) => {
-        if ((producto === " " ? " " :item.producto.nombre.toString().toLowerCase().includes(producto.toLowerCase())) && (marca === " " ? " " :item.marcaNombre.toString().toLowerCase().includes(marca.toLowerCase()))  && (categoria === " " ? " " :item.producto.categoriaNombre.toString().toLowerCase().includes(categoria.toLowerCase()))) {
+
+        if ((producto === " " ? " " :item.producto.productoNombre.toString().toLowerCase().includes(producto.toLowerCase()))
+          && (marca === " " ? " " :item.marca.marcaDescripcion.toString().toLowerCase().includes(marca.toLowerCase()))
+          && (categoria === " " ? " " :item.producto.categoria.categoriaDescripcion.toString().toLowerCase().includes(categoria.toLowerCase()))) {
           return item;
         }
+        //debugger;
       })
     }
     setListaFiltrada(resultadoBusquedad);
   }
 
   const handlePadre = (producto, marca, categoria, stock, min) => {
-    console.log("handlePadre"); 
+    console.log("handlePadre");
     console.log(producto);
     console.log(marca);
     console.log(categoria);
@@ -68,18 +77,21 @@ const Productos = () => {
 
   const getMarcasYCategorias = (list) => {
     let listAux1 = [" "], listAux2 = [" "];
-    list.map((item) => {
-      listAux1.push(item.marcaNombre);
-      listAux2.push(item.producto.categoriaNombre);
+    list.forEach((item) => {
+      //debugger
+      const marca = item.marca;
+      const categoria = item.producto.categoria;
+      console.log(marca.marcaDescripcion);
+      console.log(categoria.categoriaDescripcion);
+      listAux1.push(marca.marcaDescripcion);
+      listAux2.push(categoria.categoriaDescripcion);
     });
     const dataMarca = new Set(listAux1);
     const dataCategoria = new Set(listAux2);
     setListMarca([...dataMarca]);
     setListCategoria([...dataCategoria]);
-    console.log(listMarca);
-    console.log(listCategoria);
-    //debugger;
   }
+
 
   return (<>
     <Head>
@@ -105,7 +117,7 @@ const Productos = () => {
   );
 }
 
-  
+
 
 //Products.getLayout = (page) => (
 Productos.getLayout = (page) => (

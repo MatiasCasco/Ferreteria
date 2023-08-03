@@ -32,7 +32,7 @@ export const ProductoListResults = ({ productos, ...rest }) => {
     }
   });
 
- 
+
   const handleSelectAll = (event) => {
     let newSelectedProductoIds;
 
@@ -82,7 +82,7 @@ export const ProductoListResults = ({ productos, ...rest }) => {
   page > 0 ? Math.max(0, (1 + page) * limit - productos.length) : 0;
 
   return (
-    
+
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -146,21 +146,21 @@ export const ProductoListResults = ({ productos, ...rest }) => {
                         src={producto.producto.archivoimg2}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(producto.producto.nombre)}
+                        {getInitials(producto.producto.productoNombre)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {producto.producto.nombre}
+                        {producto.producto.productoNombre}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {producto.producto.categoriaNombre}
+                    {producto.producto.categoria.categoriaDescripcion}
                   </TableCell>
                   <TableCell>
-                    {producto.marcaNombre}
+                    {producto.marca.marcaDescripcion}
                   </TableCell>
                   <TableCell>
                     {producto.productoStockActual}
@@ -168,7 +168,7 @@ export const ProductoListResults = ({ productos, ...rest }) => {
                   <TableCell>
                     {producto.productoStockMin}
                   </TableCell>
-                </TableRow>              
+                </TableRow>
               ))}
               {emptyRows > 0 && (
                 <TableRow
@@ -190,13 +190,13 @@ export const ProductoListResults = ({ productos, ...rest }) => {
         onRowsPerPageChange={handleLimitChange}
         page={
           page
-        
+
         }
         rowsPerPage={limit}
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
       />
 
-      
+
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Acercar"
