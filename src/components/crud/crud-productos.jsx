@@ -3,6 +3,8 @@ import Tablacrud from "./tabla/Tablacrud";
 import BarraBusqueda from "./tabla/barraBusqueda";
 import Axios from "axios";
 
+const API_URL = "http://localhost:8080/ferreteria/ProductoAPI";
+
 function CrudProducts() {
   const [products, setProducts] = useState([]);
   const [actions, setActions] = useState(["Edit", "Delete"]);
@@ -10,13 +12,15 @@ function CrudProducts() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const getProducts = async () => {
-    const response = await Axios.get("http://localhost:8080/ferreteria/ProductoAPI/all");
+    const response = await Axios.get(`${API_URL}/all`);
     const products = response.data;
   
     // This will return an array of all of the products.
     const allProducts = [];
     for (const product of products.content) {
-        allProducts.push(product);
+      // Add the keyAttribute to each product
+      product.keyAttribute = product.id;
+      allProducts.push(product);
     }
   
     setProducts(allProducts);
@@ -28,18 +32,16 @@ function CrudProducts() {
 
   const handleDelete = async (idProduct) => {
     const response = await Axios.delete(
-      `http://localhost:8080/ferreteria/ProdcutoAPI/deleteProducto/${idProduct}`
+      `${API_URL}/deleteProducto/${idProduct}`
     );
     if (response.status === 200) {
       getProducts();
     }
   };
 
-
-
   const handleUpdate = async (product) => {
     const response = await Axios.put(
-      `http://localhost:8080/ferreteria/ProductoAPI/updateProducto`,
+      `${API_URL}/updateProducto`,
       product
     );
     if (response.status === 200) {
@@ -59,26 +61,11 @@ function CrudProducts() {
         attributes={attributes}
         editColumn="Edit"
         deleteColumn="Delete"
-        onDelete={async (idProduct) => {
-          const response = await Axios.delete(
-            `http://localhost:8080/ferreteria/ProdcutoAPI/deleteProducto/${idProduct}`
-          );
-          if (response.status === 200) {
-            getProducts();
-          }
-        }}
-        onUpdate={async (product) => {
-          const response = await Axios.put(
-            `http://localhost:8080/ferreteria/ProductoAPI/updateProducto`,
-            product
-          );
-          if (response.status === 200) {
-            getProducts();
-          }
-        }}
+        onDelete={handleDelete}
+        onUpdate={handleUpdate}
+        keyAttribute="keyAttribute"
       />
        <BarraBusqueda
-        products={products}
         onSearch={onSearch}
         searchTerm={searchTerm}
       />
