@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import Tablacrud from "./tabla/Tablacrud";
-import BarraBusqueda from "./tabla/barraBusqueda";
 import Axios from "axios";
+
+import TablaCrud from "./tabla/tablaCrud";
+import BarraBusqueda from "./tabla/barraBusqueda";
 
 const API_URL = "http://localhost:8080/ferreteria/ProductoAPI";
 
-function CrudProducts() {
+function CrudProductsContainer() {
   const [products, setProducts] = useState([]);
-  const [actions, setActions] = useState(["Edit", "Delete"]);
-  const [attributes, setAttributes] = useState(["Name", "Brand", "Category"]);
+  const [attributes, setAttributes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const getProducts = async () => {
     const response = await Axios.get(`${API_URL}/all`);
     const products = response.data;
-  
-    // This will return an array of all of the products.
-    const allProducts = [];
-    for (const product of products.content) {
-      // Add the keyAttribute to each product
-      product.keyAttribute = product.id;
-      allProducts.push(product);
-    }
-  
+    const allProducts = products.content.map((product) => ({
+      Id: product.productoId,
+      Nombre: product.productoNombre,
+      Iva: product.productoIva,
+      Medida: product.unidadMedidaBase.unidadMedida,
+      Descripcion: product.categoria.categoriaDescripcion,
+      Precio: product.productoPrecio +" gs." // Add this line
+    }));
+    
     setProducts(allProducts);
+    setAttributes(["Id", "Nombre", "Iva", "Medida", "Descripcion","Precio"]);
+
   };
 
   useEffect(() => {
@@ -31,19 +33,14 @@ function CrudProducts() {
   }, []);
 
   const handleDelete = async (idProduct) => {
-    const response = await Axios.delete(
-      `${API_URL}/deleteProducto/${idProduct}`
-    );
+    const response = await Axios.delete(`${API_URL}/deleteProducto/${idProduct}`);
     if (response.status === 200) {
       getProducts();
     }
   };
 
   const handleUpdate = async (product) => {
-    const response = await Axios.put(
-      `${API_URL}/updateProducto`,
-      product
-    );
+    const response = await Axios.put(`${API_URL}/updateProducto`, product);
     if (response.status === 200) {
       getProducts();
     }
@@ -55,22 +52,17 @@ function CrudProducts() {
 
   return (
     <div>
-      <Tablacrud
-        products={products}
-        actions={actions}
-        attributes={attributes}
-        editColumn="Edit"
-        deleteColumn="Delete"
+      <TablaCrud
+        data={products}
+        columns={attributes}
         onDelete={handleDelete}
         onUpdate={handleUpdate}
-        keyAttribute="keyAttribute"
+        keyProp="productoId"
       />
-       <BarraBusqueda
-        onSearch={onSearch}
-        searchTerm={searchTerm}
-      />
+      <BarraBusqueda onSearch={onSearch}
+       searchTerm={searchTerm} />
     </div>
   );
 }
 
-export default CrudProducts;
+export default CrudProductsContainer;
