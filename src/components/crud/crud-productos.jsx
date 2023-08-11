@@ -22,13 +22,11 @@ function CrudProductsContainer() {
       Descripcion: product.categoria.categoriaDescripcion,
       Precio: product.productoPrecio +" gs." // Add this line
     }));
-    
     setProducts(allProducts);
-    setAttributes(["Id", "Nombre", "Iva", "Medida", "Descripcion","Precio"]);
-
   };
 
   useEffect(() => {
+    setAttributes(["Id", "Nombre", "Iva", "Medida", "Descripcion","Precio"]);
     getProducts();
   }, []);
 

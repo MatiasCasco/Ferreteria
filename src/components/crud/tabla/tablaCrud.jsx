@@ -7,10 +7,10 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { Pagination } from "@mui/material";
 
 const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 
-  console.log(data);
   return (
     <Table>
       <TableHead>
