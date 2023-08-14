@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ProductosContext } from '../../pages/facturaVentaAi';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-
 const ModalProducto = ({ handleAgregarProducto }) => {
-
   const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
   const [cantidad, setCantidad] = useState({});
   const [productos, setProductos] = useState([
@@ -55,26 +53,16 @@ const ModalProducto = ({ handleAgregarProducto }) => {
       Marca: "Knipex",
     },
   ]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState([]);
-  const [input, setInput] = useState('');
-
-
-
 
   useEffect(() => {
-    buscarProductos();
-  }, [input]);
-
-  useEffect(() => {
-    console.log(productosAgregados);
-  }, [productosAgregados]);
-
+    buscarProductos(searchTerm);
+  }, [searchTerm]);
 
   const handleChange = (event) => {
-    setInput(event.target.value);
+    setSearchTerm(event.target.value);
   };
-
-
 
   const handleClick = (event, producto) => {
     const newProducto = {
@@ -92,14 +80,12 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     console.log(productosAgregados);
   };
 
-
-  const buscarProductos = () => {
+  const buscarProductos = (term) => {
     setSearchResult(productos.filter((producto) => {
-      return producto.Nombre.toLowerCase().includes(input.toLowerCase()) ||
-        producto.Descripcion.toLowerCase().includes(input.toLowerCase()) ||
-        producto.Marca.toLowerCase().includes(input.toLowerCase());
-    })
-    );
+      return producto.Nombre.toLowerCase().includes(term.toLowerCase()) ||
+        producto.Descripcion.toLowerCase().includes(term.toLowerCase()) ||
+        producto.Marca.toLowerCase().includes(term.toLowerCase());
+    }));
   };
 
   const handleCantChange = (event, producto) => {
@@ -108,14 +94,12 @@ const ModalProducto = ({ handleAgregarProducto }) => {
 
   const isButtonDisabled = (producto) => {
     return cantidad[producto.Id] === 0 || cantidad[producto.Id] === undefined || cantidad[producto.Id] === '';
-  }
-
+  };
 
   return (
     <div>
-
       <TextField
-        value={input}
+        value={searchTerm}
         onChange={handleChange}
         placeholder="Buscar Producto"
         InputProps={{
@@ -126,7 +110,6 @@ const ModalProducto = ({ handleAgregarProducto }) => {
           ),
         }}
       />
-
       <table>
         <thead>
           <tr>
@@ -136,7 +119,7 @@ const ModalProducto = ({ handleAgregarProducto }) => {
             <th style={{ width: '20%' }}>Descripción</th>
             <th style={{ width: '13%' }}>Precio</th>
             <th style={{ width: '13%' }}>Marca</th>
-            <th style={{ width: '13%' }}>Cantidad </th>
+            <th style={{ width: '13%' }}>Cantidad</th>
             <th style={{ width: '13%' }}>Agregar</th>
           </tr>
         </thead>
@@ -149,26 +132,27 @@ const ModalProducto = ({ handleAgregarProducto }) => {
               <td style={{ textAlign: 'center' }}>{producto.Descripcion}</td>
               <td style={{ textAlign: 'center' }}>{producto.Precio}</td>
               <td style={{ textAlign: 'center' }}>{producto.Marca}</td>
-              <td style={{ textAlign: 'center' }}>
-                <input type="number"
+              <td>
+                <input
+                  type="number"
                   onChange={(event) => handleCantChange(event, producto)}
-                  value={cantidad[producto.Id] || ''} />
+                  value={cantidad[producto.Id] || ''}
+                />
               </td>
-              <td style={{ textAlign: 'center' }}>
-                <button disabled={isButtonDisabled(producto)}
-                  onClick={(event) => handleClick(event, producto)}>Agregar</button>
+              <td>
+                <button
+                  disabled={isButtonDisabled(producto)}
+                  onClick={(event) => handleClick(event, producto)}
+                >
+                  Agregar
+                </button>
               </td>
             </tr>
-          )
-          )}
+          ))}
         </tbody>
       </table>
-
-
     </div>
   );
-
-};
-
+}
 
 export default ModalProducto;
