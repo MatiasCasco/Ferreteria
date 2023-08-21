@@ -57,8 +57,16 @@ const ModalProducto = ({ handleAgregarProducto }) => {
   const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
+    function buscarProductos(term) {
+      setSearchResult(productos.filter((producto) => {
+        return producto.Nombre.toLowerCase().includes(term.toLowerCase()) ||
+          producto.Descripcion.toLowerCase().includes(term.toLowerCase()) ||
+          producto.Marca.toLowerCase().includes(term.toLowerCase());
+      }));
+    }
+  
     buscarProductos(searchTerm);
-  }, [searchTerm]);
+  }, [productos, searchTerm]);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -80,14 +88,7 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     console.log(productosAgregados);
   };
 
-  const buscarProductos = (term) => {
-    setSearchResult(productos.filter((producto) => {
-      return producto.Nombre.toLowerCase().includes(term.toLowerCase()) ||
-        producto.Descripcion.toLowerCase().includes(term.toLowerCase()) ||
-        producto.Marca.toLowerCase().includes(term.toLowerCase());
-    }));
-  };
-
+ 
   const handleCantChange = (event, producto) => {
     setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
   };

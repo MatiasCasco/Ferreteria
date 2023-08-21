@@ -1,85 +1,69 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { BuscadorProductos } from './buscadorProductos';
-import { TablaProductos } from './tablaProducto'
-
+import { ProductosContext } from '../../pages/facturaVentaAi';
+import BuscadorProductos from './buscadorProductos';
+import TablaProductos from './tablaProducto';
+import { searchProduct } from 'src/utils/ApiUtilsTemp';
 
 const ModalProducto = ({ handleAgregarProducto }) => {
-    const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
-    const [cantidad, setCantidad] = useState({});
-    const [productos, setProductos] = useState([
-        {
-            Id: 1,
-            Nombre: "Martillo",
-            Iva: 0.21,
-            Medida: "30 cm",
-            Descripcion: "Un martillo de metal con mango de madera",
-            Precio: 15.99,
-            Marca: "Stanley",
-        },
-        {
-            Id: 2,
-            Nombre: "Taladro",
-            Iva: 0.21,
-            Medida: "20 cm",
-            Descripcion: "Un taladro eléctrico con batería recargable",
-            Precio: 49.99,
-            Marca: "Bosch",
-        },
-        {
-            Id: 3,
-            Nombre: "Destornillador",
-            Iva: 0.21,
-            Medida: "15 cm",
-            Descripcion: "Un destornillador de punta plana",
-            Precio: 4.99,
-            Marca: "Truper",
-        },
-        {
-            Id: 4,
-            Nombre: "Llave inglesa",
-            Iva: 0.21,
-            Medida: "25 cm",
-            Descripcion: "Una llave inglesa ajustable de acero",
-            Precio: 9.99,
-            Marca: "Bahco",
-        },
-        {
-            Id: 5,
-            Nombre: "Alicate",
-            Iva: 0.21,
-            Medida: "18 cm",
-            Descripcion: "Un alicate universal con mango antideslizante",
-            Precio: 7.99,
-            Marca: "Knipex",
-        },
-    ]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResult, setSearchResult] = useState([]);
+  const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
+  const [cantidad, setCantidad] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
 
-    useEffect(() => {
-        buscarProductos(searchTerm);
-    }, [searchTerm]);
+  useEffect(() => {
+    buscarProductos(searchTerm);
+  }, [searchTerm]);
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
+  const handleClick = (event, producto) => {
+    const newProducto = {
+      Id: producto.Id,
+      Nombre: producto.Nombre,
+      Iva: producto.Iva,
+      Medida: producto.Medida,
+      Categoria: producto.Categoria,
+      Precio: producto.Precio,
+      Marca: producto.Marca,
+      Cantidad: cantidad[producto.Id], // accedes a la cantidad del producto usando el id
     };
-
-
-    return (
-        <div>
-            <BuscadorProductos handleChange={handleChange}
-                setSearchTerm={setSearchTerm} />
-            <TablaProductos productos={productos}
-                handleClick={handleClick}
-                cantidad={cantidad} />
-            <button
-                type="button"
-                onClick={() => handleAgregarProducto()}
-            >
-                Agregar al carrito
-            </button>
-        </div>
+    const index = productosAgregados.findIndex(
+      (item) => item.Id === newProducto.Id
     );
-};
+    if (index !== -1) {
+      setProductosAgregados((prevProductosAgregados) => {
+        const updatedProductosAgregados = [...prevProductosAgregados];
+        updatedProductosAgregados[index].Cantidad += newProducto.Cantidad;
+        return updatedProductosAgregados;
+      });
+    } else {
+      setProductosAgregados([...productosAgregados, newProducto]);
+    }
+    setCantidad({ ...cantidad, [producto.Id]: 0 }); // reinicias la cantidad del producto a cero
+  };
+
+  const buscarProductos = async (term) => {
+    if (!term) {
+        return;
+      }else{    
+    const data  = await searchProduct(term);
+        setSearchResult(data);
+    }
+  };
+
+  const handleCantChange = (event, producto) => {
+    setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
+  };
+
+  return (
+    <div>
+      <BuscadorProductos setSearchTerm={setSearchTerm} />
+      <TablaProductos
+        searchResult={searchResult}
+        handleCantChange={handleCantChange}
+        handleClick={handleClick}
+        cantidad={cantidad}
+      />
+    </div>
+  );
+}
 
 export default ModalProducto;

@@ -11,6 +11,8 @@ import { Pagination } from "@mui/material";
 
 const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 
+  const showActionsColumn = onDelete || onUpdate;
+
   return (
     <Table>
       <TableHead>
@@ -18,7 +20,7 @@ const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
           {columns.map((column) => (
             <TableCell key={column}>{column}</TableCell>
           ))}
-          <TableCell>Acciones</TableCell>
+          {showActionsColumn && <TableCell>Acciones</TableCell>}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -31,14 +33,17 @@ const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 // Sin ella, React tendría que volver a renderizar toda la tabla cada vez que se realice un cambio en esta celda.
 // Esto podría ser muy lento para tablas grandes.
 // Al usar la prop key, React solo tiene que volver a renderizar esta celda.
-// Esto puede mejorar significativamente el rendimiento de las tablas grandes.
               <TableCell key={`${row[keyProp]}-${column}`}>
                 <span>{row[column]}</span>
               </TableCell>
             ))}
             <TableCell>
-              <button onClick={() => onDelete(row[keyProp])}>Eliminar</button>
-              <button onClick={() => onUpdate(row)}>Actualizar</button>
+              {onDelete ? (
+                <button onClick={() => onDelete(row[keyProp])}>Eliminar</button>
+              ) : null}
+              {onUpdate ? (
+                <button onClick={() => onUpdate(row)}>Actualizar</button>
+              ) : null}
             </TableCell>
           </TableRow>
         ))}
@@ -51,8 +56,8 @@ const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 TablaCrud.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
+  onUpdate: PropTypes.func,
   keyProp: PropTypes.string.isRequired,
 };
 
