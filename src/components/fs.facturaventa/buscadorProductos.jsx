@@ -9,7 +9,8 @@ const BuscadorProductos = ({ setSearchTerm }) => {
   };
 
   return (
-    <Grid container justify="flex-end">
+    <Grid container
+      justifyContent="flex-end">
       <Grid item>
         <TextField
           onChange={handleChange}
@@ -27,8 +28,8 @@ const BuscadorProductos = ({ setSearchTerm }) => {
             ),
           }}
         />
-        </Grid>
       </Grid>
+    </Grid>
   );
 };
 

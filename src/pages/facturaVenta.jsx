@@ -111,7 +111,7 @@ const facturaVenta =()=> {
 
 
     return (
-    <div className="div">
+    <div>
       <Box
         component="main"
         sx={{

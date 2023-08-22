@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import ModalProducto from '../components/fs.facturaventa/modalProducto2';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
+import { PrimaryButton, H4Typography, BoxFlex, BoxM1, FullWidthGridItem, BoxMain } from 'src/constants/componentsPersonalite';
 
 
 
@@ -16,28 +17,74 @@ const FacturaVentaAi = () => {
   };
 
   return (
-    <div>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <h2>Factura Venta</h2>
-        <button onClick={() => setModalIsOpen(true)}>Agregar Producto</button>
-        <Modal isOpen={modalIsOpen}>
-          <ProductosContext.Provider value={[productos, setProductos]}>
-            <ModalProducto
-              onAgregarProducto={handleAgregarProducto}
-              onRequestClose={() => setModalIsOpen(false)}
-            />
-          </ProductosContext.Provider>
-          <button onClick={() => setModalIsOpen(false)}>Cerrar</button>
-        </Modal>
-      </Box>
-    </div>
+
+    <BoxMain>
+      <Grid container>
+        <FullWidthGridItem>
+          <Box>
+            <BoxFlex>
+              <H4Typography>
+                Productos
+              </H4Typography>
+              <BoxM1>
+                <PrimaryButton onClick={() => setModalIsOpen(true)}>
+                  Agregar Producto
+                </PrimaryButton>
+              </BoxM1>
+            </BoxFlex>
+          </Box>
+        </FullWidthGridItem>
+        <FullWidthGridItem>
+          <Modal isOpen={modalIsOpen}>
+            <ProductosContext.Provider value={[productos, setProductos]}>
+              <PrimaryButton onClick={() => setModalIsOpen(false)}>
+                Cerrar
+              </PrimaryButton>
+              <ModalProducto
+                onAgregarProducto={handleAgregarProducto}
+                onRequestClose={() => setModalIsOpen(false)}
+              />
+            </ProductosContext.Provider>
+          </Modal>
+        </FullWidthGridItem>
+      </Grid>
+    </BoxMain>
   );
 };
 
 export default FacturaVentaAi;
+/**
+ *   <h2>Factura Venta Ai</h2>
+      <button >Agregar Producto</button>
+      <button >Cerrar</button>
+      <BoxMain>
+      <Grid container>
+        <Box>
+          <BoxFlex>
+            <H4Typography>
+              Productos
+            </H4Typography>
+            <BoxM1>
+              <PrimaryButton onClick={() => setModalIsOpen(true)}>
+                Agregar Producto
+              </PrimaryButton>
+            </BoxM1>
+          </BoxFlex>
+        </Box>
+        <FullWidthGridItem>
+          <Modal isOpen={modalIsOpen}>
+            <ProductosContext.Provider value={[productos, setProductos]}>
+              <PrimaryButton onClick={() => setModalIsOpen(false)}>
+                Cerrar
+              </PrimaryButton>
+              <ModalProducto
+                onAgregarProducto={handleAgregarProducto}
+                onRequestClose={() => setModalIsOpen(false)}
+              />
+            </ProductosContext.Provider>
+
+          </Modal>
+        </FullWidthGridItem>
+      </Grid>
+    </BoxMain>
+ */
