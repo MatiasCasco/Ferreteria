@@ -14,38 +14,51 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     buscarProductos(searchTerm);
   }, [searchTerm]);
 
-  const handleClick = (event, producto) => {
-    const newProducto = {
+  const crearNuevoProducto = (producto) => {
+    let nuevoProducto = {
       Id: producto.Id,
       Nombre: producto.Nombre,
       Iva: producto.Iva,
-      Medida: producto.Medida,
       Categoria: producto.Categoria,
       Precio: producto.Precio,
       Marca: producto.Marca,
-      Cantidad: cantidad[producto.Id], // accedes a la cantidad del producto usando el id
+      Cantidad: `${cantidad[producto.Id]} ${producto.Medida}`,
+      Subtotal: cantidad[producto.Id] * producto.Precio,
     };
+    return nuevoProducto;
+  };
+
+  const actualizarProductosAgregados = (newProducto) => {
     const index = productosAgregados.findIndex(
       (item) => item.Id === newProducto.Id
     );
     if (index !== -1) {
       setProductosAgregados((prevProductosAgregados) => {
         const updatedProductosAgregados = [...prevProductosAgregados];
-        updatedProductosAgregados[index].Cantidad += newProducto.Cantidad;
+        const prevCantidad = parseInt(updatedProductosAgregados[index].Cantidad.split(' ')[0]);
+        updatedProductosAgregados[index].Cantidad = `${prevCantidad + parseInt(newProducto.Cantidad)} ${updatedProductosAgregados[index].Cantidad.split(' ')[1]}`;
+        updatedProductosAgregados[index].Subtotal += newProducto.Subtotal;
         return updatedProductosAgregados;
       });
     } else {
       setProductosAgregados([...productosAgregados, newProducto]);
     }
-    setCantidad({ ...cantidad, [producto.Id]: 0 }); // reinicias la cantidad del producto a cero
   };
+
+  const handleClick = (event, producto) => {
+    const newProducto = crearNuevoProducto(producto);
+    actualizarProductosAgregados(newProducto);
+    console.log(productosAgregados);
+    setCantidad({ ...cantidad, [producto.Id]: 0 });
+  };
+
 
   const buscarProductos = async (term) => {
     if (!term) {
-        return;
-      }else{    
-    const data  = await searchProduct(term);
-        setSearchResult(data);
+      return;
+    } else {
+      const data = await searchProduct(term);
+      setSearchResult(data);
     }
   };
 

@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { Pagination } from "@mui/material";
+
 
 const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 
@@ -25,14 +25,8 @@ const TablaCrud = ({ data, columns, onDelete, onUpdate, keyProp }) => {
       </TableHead>
       <TableBody>
         {data.map((row) => (
-          // Agregar la prop key al TableRow
           <TableRow key={row[keyProp]}>
             {columns.map((column) => (
-// Agregar la prop key al TableCell
-// La prop key es importante para el rendimiento y la precisión de esta celda.
-// Sin ella, React tendría que volver a renderizar toda la tabla cada vez que se realice un cambio en esta celda.
-// Esto podría ser muy lento para tablas grandes.
-// Al usar la prop key, React solo tiene que volver a renderizar esta celda.
               <TableCell key={`${row[keyProp]}-${column}`}>
                 <span>{row[column]}</span>
               </TableCell>
