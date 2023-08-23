@@ -1,8 +1,8 @@
-export const BASE_URL = 'http://192.168.100.6:8080/ferreteria'; // 'http://localhost:8080/casa.san.roque' ,'http://localhost:8080/ferreteria';
+export const BASE_URL = 'http://localhost:8080/ferreteria'; // 'http://localhost:8080/casa.san.roque' ,'http://localhost:8080/ferreteria';
 
 //Urls
 export const CAJA_ADD = '/CajaAPI/addCaja';
-export const CAJA_ADD_DETALLE = '/CajaAPI/addCajaDetalle';
+export const CAJA_ADD_DETALLE = 'CajaAPI/addCajaDetalle';
 
 export const FACTURAS_BY_EMPLEADO = '/CajaAPI/facturas/{idEmpleado}';
 
@@ -18,7 +18,7 @@ export const CARACTERISTICA_PRODUCTO_DEL = '/CaracteristicaProductoAPI/deleteCar
 
 export const CARACTERISTICA_PRODUCTO_ID = '/CaracteristicaProductoAPI/{id}';
 
-export const CARACTERISTICA_PRODUCTO_ALL = 'CaracteristicaProductoAPI/all';
+export const CARACTERISTICA_PRODUCTO_ALL = '/CaracteristicaProductoAPI/all';
 
 export const DESCUENTO_ADD = '/DescuentoAPI/addDescuento';
 
@@ -88,7 +88,7 @@ export const ORIGEN_PRODUCTO_DEL = '/OrigenProductoAPI/deleteOrigenProducto/{idO
 
 export const ORIGEN_PRODUCTO_ID = '/OrigenProductoAPI/OrigenProductoById/{idOrigenProducto}';
 
-export const ORIGEN_PRODUCTO_BY_DETALLE_PRODUCTO = 'OrigenProductoAPI/OrigenProductoByDetalleProducto/{idDetalle}';
+export const ORIGEN_PRODUCTO_BY_DETALLE_PRODUCTO = '/OrigenProductoAPI/OrigenProductoByDetalleProducto/{idDetalle}';
 
 export const ORIGEN_PRODUCTO_BY_PRODUCTO = '/OrigenProductoAPI/OrigenProductoByProducto/{idProducto}';
 

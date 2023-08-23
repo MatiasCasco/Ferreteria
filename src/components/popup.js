@@ -5,7 +5,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Proveedor } from 'src/pages/proveedor';
 
 export function PopUp(props) {
   const [open, setOpen] = React.useState(false);
@@ -18,13 +17,10 @@ export function PopUp(props) {
 
   const handleClose = () => {
     toggle();
-    //setOpen(false);
-    //console.log(active);
   };
 
   const descriptionElementRef = React.useRef(null);
   React.useEffect(() => {
-    //setOpen(active)
     if (active) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {

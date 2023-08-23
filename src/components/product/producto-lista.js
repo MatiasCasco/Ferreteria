@@ -1,7 +1,6 @@
 import {  useEffect, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import { Search as SearchIcon } from '../../icons/search';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {
@@ -9,7 +8,6 @@ import {
   Switch,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -30,7 +28,6 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const[idDet, setIdDet] = useState(0);
-  // Este y este agregue
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -39,28 +36,20 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
       setPage(0);
     }
   });
-  // Este y este agregue
 
   const toggle = () => {
     setActive(!active);
     console.log("toggle");
     console.log(active);
     if (active) {
-      debugger
       let ProveedorSeleccionado = [];
       let valueCheck = JSON.parse(sessionStorage.getItem('valueCheck'));
+      console.log(sessionStorage.getItem('valueCheck'))
       ProveedorSeleccionado = JSON.parse(sessionStorage.getItem('ProveedorSelected'))?JSON.parse(sessionStorage.getItem('ProveedorSelected')):[];
       let varBoolean = JSON.parse(sessionStorage.getItem('bool'));
-      /*console.log("Proveedor seleccionado");
-      console.log(ProveedorSeleccionado);
-      console.log(varBoolean);
-      console.log(idDet);*/
-      //debugger;
       if (ProveedorSeleccionado.length > 0 && varBoolean === 1) {
         agregarBorrador(idDet, ProveedorSeleccionado[0]);
         sessionStorage.setItem('bool', JSON.stringify(0));
-        /*console.log("agregarBorrador");
-        debugger;*/
       }
       if (valueCheck === false && ProveedorSeleccionado.length > 0 && varBoolean === 1) {
         console.log("idDetalleProducto is");

@@ -12,7 +12,7 @@ export function buildURLWithParams(url, params) {
 
 
 export function buildURL(baseURL, endpoint, queryParams){
-  let url = `${baseURL}/${endpoint}`;
+  let url = `${baseURL}${endpoint}`;
   if (queryParams) {
     url += '?';
     for (const [key, value] of Object.entries(queryParams)) {

@@ -1,13 +1,9 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container, Grid, Pagination } from '@mui/material';
-import { products } from '../__mocks__/products';
 import { ProductoListToolbar } from '../components/product/producto-list-toolbar';
-import { ProductoTarjeta } from '../components/product/producto-tarjeta';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useEffect, useState } from 'react';
-import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
-import { ProductoListResults } from 'src/components/product/producto-list-results';
 import { ProductoLista } from 'src/components/product/producto-lista';
 import * as ApiUtils from '../utils/api-utils';
 import * as ApiUrl from '../constants/apiUrls';
@@ -27,7 +23,6 @@ const ProcesoCompra1 = () => {
   const findList = async () => {
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CARACTERISTICA_PRODUCTO_ALL);
     const json = await ApiUtils.getMCS(url);
-    debugger
     setList(json.content);
     getMarcasYCategorias(json.content);
     setListaFiltrada(json.content);
@@ -47,9 +42,7 @@ const ProcesoCompra1 = () => {
     }
     if (producto === " " && marca === " " && categoria === " " && stock === 0) {
       resultadoBusquedad = lista;
-
     } else {
-
       resultadoBusquedad = lista.filter((item) => {
         if ((producto === " " ? " " :item.producto.productoNombre.toString().toLowerCase().includes(producto.toLowerCase()))
           && (marca === " " ? " " :item.marca.marcaDescripcion.toString().toLowerCase().includes(marca.toLowerCase()))
@@ -68,8 +61,6 @@ const ProcesoCompra1 = () => {
     console.log(categoria);
     console.log(stock);
     console.log(min);
-    //console.log(producto.length);
-    //setListaFiltrada(resultado);
     filtrar(producto, marca, categoria, stock, min);
   }
 
@@ -97,13 +88,12 @@ const ProcesoCompra1 = () => {
     }
     console.log("newList");
     console.log(newList);
-    //debugger;
     setBorradorPedido(newList);
   }
 
   const quitarBorrador = (idDetalleProducto) => {
     let borrador = borradorPedido;
-    borrador = borrador.filter((item) => item.caracteristicasProductoId !== idDetalleProducto);
+    borrador = borrador.filter((item) => item.idDetP !== idDetalleProducto);
     setBorradorPedido(borrador);
   }
 
@@ -119,7 +109,6 @@ const ProcesoCompra1 = () => {
     setListCategoria([...dataCategoria]);
     console.log(listMarca);
     console.log(listCategoria);
-    //debugger;
   }
 
   return (<>
@@ -147,8 +136,6 @@ const ProcesoCompra1 = () => {
 }
 
 
-
-//Products.getLayout = (page) => (
 ProcesoCompra1.getLayout = (page) => (
   <DashboardLayout>
     {page}

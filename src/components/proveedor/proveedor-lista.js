@@ -1,10 +1,8 @@
 import {  useEffect, useReducer, useRef, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import PropTypes, { element } from 'prop-types';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {
-  Avatar,
   Switch,
   Box,
   Card,
@@ -15,16 +13,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
   Alert,
   Snackbar,
   Slide,
   Button,
   Grid
 } from '@mui/material';
-import { getInitials } from '../../utils/get-initials';
-import { Proveedor } from 'src/pages/proveedor';
-import { ContactSupport } from '@mui/icons-material';
 
 
 function TransitionDown(props){
@@ -61,14 +55,20 @@ export const ProveedorLista = (props) => {
     }
   });
 
+  useEffect(() => {
+    console.log("Este es el estado de checkedState en useEffect")
+    console.log(checkedState)
+  }, [checkedState]);
+
   const cargarLista = () => {
     let count = 0;
     let lista = Proveedores.slice().fill(false);
+    console.log(lista)
     console.log("borrador pedido")
     console.log(borradorPedido)
     if (borradorPedido.length > 0){
       Proveedores.map((item, index) => {
-        if (borradorPedido.findIndex(element => element.idDetP === idDet && element.nombreProveedor === item.empresa.nombre) !== -1) {
+        if (borradorPedido.findIndex(element => element.idDetP === idDet && element.nombreProveedor === item.empresa.empresaNombre) !== -1) {
           console.log(index);
           lista[index] = !lista[index];
         }
@@ -91,10 +91,9 @@ export const ProveedorLista = (props) => {
 
   const handleSelectOne = (event, id) => {
     let selected = findIndex(id);
-    handleOnChangeCheck(selected.index);
+    console.log("que retorna selected index")
 
-    console.log("ver si funciona");
-    console.log(checkedState);
+    handleOnChangeCheck(selected.index);
 
     const selectedIndex = selectedProveedorIds.indexOf(id);
     let newSelectedProveedorIds = [];
@@ -114,23 +113,21 @@ export const ProveedorLista = (props) => {
     if(newSelectedProveedorIds.length > 1){
       newSelectedProveedorIds.shift();
     }
-    //console.log(id);
-    //console.log(newSelectedProveedorIds);
-    //debugger;
+
     setSelectedProveedorIds(newSelectedProveedorIds);
 
-    let variable =  newSelectedProveedorIds.length > 0 ? Proveedores.find(item => item.id === id) : null;
+    let variable =  newSelectedProveedorIds.length > 0 ? Proveedores.find(item => item.empresa.empresaId === id) : null;
     if(variable != null) {
       let ProveedorObj = {
-        id: variable.empresa.id,
-        nombre: variable.empresa.nombre,
+        id: variable.empresa.empresaId,
+        nombre: variable.empresa.empresaNombre,
         ruc: variable.empresa.empresaRuc
       };
       console.log(ProveedorObj);
-      //console.log(event.target.checked);
+      console.log("esto retorna ");
+      console.log(event.target.checked);
       sessionStorage.setItem('valueCheck', event.target.checked !== null && event.target.checked !== undefined ? JSON.stringify(event.target.checked):sessionStorage.getItem('valueCheck'));
       let Arreglo = [ProveedorObj];
-      //Arreglo.push(ProveedorObj);
       handleHijoProveedor(Arreglo);
       if (event.target.checked === true || sessionStorage.getItem('valueCheck') === true) {
         findMenorCosto(selected);
@@ -151,11 +148,11 @@ export const ProveedorLista = (props) => {
   const findMenorCosto = (selected) => {
     let position;
     for (let i = 0; i < Proveedores.length; i++) {
-      if (selected.item.precioVenta > Proveedores[i].precioVenta) {
+      if (selected.item.precioVentaProveedor > Proveedores[i].precioVentaProveedor) {
         position = i;
       }
       if (position !== undefined) {
-        if (Proveedores[position].precioVenta > Proveedores[i].precioVenta) {
+        if (Proveedores[position].precioVentaProveedor > Proveedores[i].precioVentaProveedor) {
           position = i;
         }
       }
@@ -175,9 +172,10 @@ export const ProveedorLista = (props) => {
     updatedCheckedState = list.map((item, index) =>
       index === position ? !item : false
     );
-    //console.log("updatedCheck");
-    //console.log( updatedCheckedState);
+    console.log("updatedCheck");
+    console.log( updatedCheckedState);
     setCheckedState(updatedCheckedState);
+    console.log("method handleOneChangeCheck checkedState")
   }
 
   const handleLimitChange = (event) => {
@@ -220,7 +218,7 @@ export const ProveedorLista = (props) => {
               sx={{ minWidth: 750 }}
               aria-labelledby="tableTitle"
               size={dense ? 'small' : 'medium'}
-            >
+              >
               <TableHead>
                 <TableRow>
                   <TableCell>
@@ -253,7 +251,6 @@ export const ProveedorLista = (props) => {
                           return (<Checkbox
                             checked={item}
                             onChange={
-                              /*() => handleOnChangeCheck(findIndex(Proveedor.id))*/
                               (event) => handleSelectOne(event, Proveedor.empresa.empresaId)
                             }
                             value="true"
