@@ -3,7 +3,7 @@ import { TextField, InputAdornment } from '@mui/material';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@mui/icons-material/Search';
 
-const BuscadorProductos = ({ setSearchTerm }) => {
+const Buscador = ({ setSearchTerm, placeholder }) => {
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -14,7 +14,7 @@ const BuscadorProductos = ({ setSearchTerm }) => {
       <Grid item>
         <TextField
           onChange={handleChange}
-          placeholder="Buscar Producto"
+          placeholder = {placeholder}
           inputProps={{
             style: {
 
@@ -33,4 +33,4 @@ const BuscadorProductos = ({ setSearchTerm }) => {
   );
 };
 
-export default BuscadorProductos;
+export default Buscador;

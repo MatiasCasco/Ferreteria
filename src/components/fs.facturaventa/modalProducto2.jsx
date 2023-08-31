@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ProductosContext } from '../../pages/facturaVentaAi';
-import BuscadorProductos from './buscadorProductos';
+import Buscador from './buscador';
 import TablaProductos from './tablaProducto';
 import { searchProduct } from 'src/utils/ApiUtilsTemp';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ModalProducto = ({ handleAgregarProducto }) => {
   const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
@@ -13,6 +14,7 @@ const ModalProducto = ({ handleAgregarProducto }) => {
   useEffect(() => {
     buscarProductos(searchTerm);
   }, [searchTerm]);
+
 
   const crearNuevoProducto = (producto) => {
     let nuevoProducto = {
@@ -27,7 +29,7 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     };
     return nuevoProducto;
   };
-
+  
   const actualizarProductosAgregados = (newProducto) => {
     const index = productosAgregados.findIndex(
       (item) => item.Id === newProducto.Id
@@ -43,40 +45,49 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     } else {
       setProductosAgregados([...productosAgregados, newProducto]);
     }
+    toast.success("Producto Agregado");
   };
 
   const handleClick = (event, producto) => {
     const newProducto = crearNuevoProducto(producto);
-    actualizarProductosAgregados(newProducto);
-    console.log(productosAgregados);
-    setCantidad({ ...cantidad, [producto.Id]: 0 });
-  };
-
-
-  const buscarProductos = async (term) => {
-    if (!term) {
-      return;
-    } else {
-      const data = await searchProduct(term);
-      setSearchResult(data);
+    if (cantidad[producto.Id] >= 1) {
+      actualizarProductosAgregados(newProducto);
+    }else {
+      toast.error(`la cantidad de ${newProducto.Nombre} debe ser mayor a cero`);
     }
-  };
+  setCantidad({ ...cantidad, [producto.Id]: 0 });
+};
 
-  const handleCantChange = (event, producto) => {
-    setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
-  };
 
-  return (
-    <div>
-      <BuscadorProductos setSearchTerm={setSearchTerm} />
-      <TablaProductos
-        searchResult={searchResult}
-        handleCantChange={handleCantChange}
-        handleClick={handleClick}
-        cantidad={cantidad}
-      />
-    </div>
-  );
+const buscarProductos = async (term) => {
+  if (!term) {
+    return;
+  } else {
+    const data = await searchProduct(term);
+    setSearchResult(data);
+  }
+};
+
+const handleCantChange = (event, producto) => {
+  setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
+};
+
+return (
+  <div>
+    <Toaster
+      position="top-right"
+      reverseOrder={false}
+    />
+    <Buscador setSearchTerm={setSearchTerm}
+      placeholder={"Buscar Productos"}/>
+    <TablaProductos
+      searchResult={searchResult}
+      handleCantChange={handleCantChange}
+      handleClick={handleClick}
+      cantidad={cantidad}
+    />
+  </div>
+);
 }
 
 export default ModalProducto;
