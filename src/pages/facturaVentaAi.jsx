@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import ModalProducto from '../components/fs.facturaventa/modalProducto2';
 import { Container, Grid } from '@mui/material';
 import { PrimaryButton, H4Typography, BoxFlex, BoxM1, FullWidthGridItem, BoxMain } from 'src/constants/componentsPersonalite';
-import TablaCrud from 'src/components/crud/tabla/tablaCrud';
+import DetalleProducto from 'src/components/fs.facturaventa/Detalle/detalleProducto';
 import Cabecera from 'src/components/fs.facturaventa/cabecera';
 
 
@@ -17,7 +17,11 @@ const FacturaVentaAi = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [total, setTotal] = useState(0);
 
-  const handleAgregarProducto = (producto) => {
+  const handleModal = () => {
+    setModalIsOpen(!modalIsOpen)
+  }
+
+  const handleAgregarProducto = (producto) => {  
     setProductos([...productos, producto]);
     setModalIsOpen(false);
   };
@@ -42,7 +46,7 @@ const FacturaVentaAi = () => {
             </H4Typography>
           </FullWidthGridItem>
           <FullWidthGridItem xs={4}>
-            <PrimaryButton onClick={() => setModalIsOpen(true)}>
+            <PrimaryButton onClick={() => handleModal()}>
               Agregar Producto
             </PrimaryButton>
           </FullWidthGridItem>
@@ -52,6 +56,7 @@ const FacturaVentaAi = () => {
               Detalle
             </H4Typography>
           </FullWidthGridItem>
+
           <FullWidthGridItem xs={4}>
             <H4Typography>
               Total: {total}
@@ -59,22 +64,21 @@ const FacturaVentaAi = () => {
           </FullWidthGridItem>
 
           <FullWidthGridItem>
-            <TablaCrud
-              data={productos}
-              columns={colums}
+            <DetalleProducto
+              searchResult={productos}
+              handleCantChange={handleCantChange}
               keyProp="Id"
-            ></TablaCrud>
+            ></DetalleProducto>
           </FullWidthGridItem>
 
           <FullWidthGridItem>
             <Modal isOpen={modalIsOpen}>
               <ProductosContext.Provider value={[productos, setProductos]}>
-                <PrimaryButton onClick={() => setModalIsOpen(false)}>
+                <PrimaryButton onClick={() => handleModal()}>
                   Cerrar
                 </PrimaryButton>
                 <ModalProducto
-                  onAgregarProducto={handleAgregarProducto}
-                  onRequestClose={() => setModalIsOpen(false)}
+                  onRequestClose={() => handleModal()}
                 />
               </ProductosContext.Provider>
             </Modal>

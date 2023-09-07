@@ -5,9 +5,8 @@ import TablaProductos from './tablaProducto';
 import { searchProduct } from 'src/utils/ApiUtilsTemp';
 import toast, { Toaster } from 'react-hot-toast';
 
-const ModalProducto = ({ handleAgregarProducto }) => {
+const ModalProducto = ({onRequestClose}) => {
   const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
-  const [cantidad, setCantidad] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
@@ -24,13 +23,76 @@ const ModalProducto = ({ handleAgregarProducto }) => {
       Categoria: producto.Categoria,
       Precio: producto.Precio,
       Marca: producto.Marca,
-      Cantidad: `${cantidad[producto.Id]} ${producto.Medida}`,
-      Subtotal: cantidad[producto.Id] * producto.Precio,
+      Cantidad: 0,
+      Subtotal: 0,
     };
     return nuevoProducto;
   };
-  
+
   const actualizarProductosAgregados = (newProducto) => {
+    setProductosAgregados([...productosAgregados, newProducto]);
+    toast.success("Producto Agregado");
+  };
+
+  const handleClick = (event, producto) => {
+    const newProducto = crearNuevoProducto(producto);
+    actualizarProductosAgregados(newProducto);
+    onRequestClose();
+  };
+
+
+  const buscarProductos = async (term) => {
+    if (!term) {
+      return;
+    } else {
+      const data = await searchProduct(term);
+      setSearchResult(data);
+    }
+  };
+
+
+  return (
+    <div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
+      <Buscador setSearchTerm={setSearchTerm}
+        placeholder={"Buscar Productos"} />
+      <TablaProductos
+        searchResult={searchResult}
+        handleClick={handleClick}
+      />
+    </div>
+  );
+}
+
+export default ModalProducto;
+/**
+ * 
+ * 
+ const [cantidad, setCantidad] = useState({});
+const handleCantChange = (event, producto) => {
+  setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
+};
+
+const handleClick = (event, producto) => {
+    const newProducto = crearNuevoProducto(producto);
+    if (cantidad[producto.Id] >= 1) {
+      actualizarProductosAgregados(newProducto);
+    }else {
+      toast.error(`la cantidad de ${newProducto.Nombre} debe ser mayor a cero`);
+    }
+  setCantidad({ ...cantidad, [producto.Id]: 0 });
+};
+ * <TablaProductos
+      searchResult={searchResult}
+      handleCantChange={handleCantChange}
+      handleClick={handleClick}
+      cantidad={cantidad}
+    />
+
+     const actualizarProductosAgregados = (newProducto) => {
     const index = productosAgregados.findIndex(
       (item) => item.Id === newProducto.Id
     );
@@ -47,47 +109,4 @@ const ModalProducto = ({ handleAgregarProducto }) => {
     }
     toast.success("Producto Agregado");
   };
-
-  const handleClick = (event, producto) => {
-    const newProducto = crearNuevoProducto(producto);
-    if (cantidad[producto.Id] >= 1) {
-      actualizarProductosAgregados(newProducto);
-    }else {
-      toast.error(`la cantidad de ${newProducto.Nombre} debe ser mayor a cero`);
-    }
-  setCantidad({ ...cantidad, [producto.Id]: 0 });
-};
-
-
-const buscarProductos = async (term) => {
-  if (!term) {
-    return;
-  } else {
-    const data = await searchProduct(term);
-    setSearchResult(data);
-  }
-};
-
-const handleCantChange = (event, producto) => {
-  setCantidad({ ...cantidad, [producto.Id]: event.target.value }); // actualizas el objeto con la cantidad del producto
-};
-
-return (
-  <div>
-    <Toaster
-      position="top-right"
-      reverseOrder={false}
-    />
-    <Buscador setSearchTerm={setSearchTerm}
-      placeholder={"Buscar Productos"}/>
-    <TablaProductos
-      searchResult={searchResult}
-      handleCantChange={handleCantChange}
-      handleClick={handleClick}
-      cantidad={cantidad}
-    />
-  </div>
-);
-}
-
-export default ModalProducto;
+ */

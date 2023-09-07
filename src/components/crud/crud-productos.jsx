@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-
-import TablaCrud from "./tabla/tablaCrud";
 import BarraBusqueda from "./tabla/barraBusqueda";
+import TablaDetalle from "./tabla/tablaDetalle";
 
 const API_URL = "http://localhost:8080/ferreteria/ProductoAPI";
 
@@ -13,8 +12,8 @@ function CrudProductsContainer() {
 
   const getProducts = async () => {
     const response = await Axios.get(`${API_URL}/all`);
-    const products = response.data;
-    const allProducts = products.content.map((product) => ({
+    const productos = response.data;
+    const allProducts = productos.content.map((product) => ({
       Id: product.productoId,
       Nombre: product.productoNombre,
       Iva: product.productoIva,
@@ -22,7 +21,15 @@ function CrudProductsContainer() {
       Descripcion: product.categoria.categoriaDescripcion,
       Precio: product.productoPrecio +" gs." // Add this line
     }));
-    setProducts(allProducts);
+    
+    
+    setProducts([
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+    ]);
   };
 
   useEffect(() => {
@@ -48,9 +55,17 @@ function CrudProductsContainer() {
     setSearchTerm(searchTerm);
   };
 
+  /**
+   * a TablaDetalle le pasas:
+   * data: los datos para tu tabla,
+   * columns, seria los nombre de los datos de tu cabecera ejemplo ['id','nombre',]
+   * las funciones onUpdate,onDelete,
+   * keyprop el nombre del id de los datos en este caso el mio era 'productoId
+   */
+
   return (
     <div>
-      <TablaCrud
+      <TablaDetalle
         data={products}
         columns={attributes}
         onDelete={handleDelete}
