@@ -1,34 +1,15 @@
 import * as React from 'react';
-import Head from 'next/head';
 import { Box, Container } from '@mui/material';
-import { DashboardLayout } from '../components/dashboard-layout';
-import CrudProveedores from 'src/components/crud/crud-proveedores';
 import { useEffect, useState } from 'react';
-import { AllProductos } from 'src/utils/ApiUtil';
+import CrudProducts from 'src/components/crud/crud-productos';
+
 
 const Prueba = () => {
 
-  const [list, setList] = useState([]);
-
-  useEffect(()=>{
-    findList();
-  }, []);
-
-  const findList = async () => {
-    let json = await AllProductos;
-    //debugger
-    setList(json);
-    //getMarcasYCategorias(json);
-    //setListaFiltrada(json);
-  }
 
   return (
     <>
-      <Head>
-        <title>
-          Interfaz de Prueba | Material Kit
-        </title>
-      </Head>
+     
       <Box
         component="main"
         sx={{
@@ -38,7 +19,7 @@ const Prueba = () => {
       >
         <Container maxWidth={false}>
           <Box sx={{ mt: 3 }}>
-            <CrudProveedores list={list}></CrudProveedores>
+           <CrudProducts></CrudProducts>
           </Box>
         </Container>
       </Box>
@@ -46,10 +27,11 @@ const Prueba = () => {
   );
 }
 
-Prueba.getLayout = (page) => (
-  <DashboardLayout>
-    {page}
-  </DashboardLayout>
-);
 
 export default Prueba;
+//<CrudProveedores list={list}></CrudProveedores>//
+/* <Head>
+        <title>
+          Interfaz de Prueba | Material Kit
+        </title>
+      </Head>*/

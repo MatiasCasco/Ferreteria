@@ -1,7 +1,7 @@
 const ip = '192.168.0.106'; //'192.168.56.1';//'192.168.43.69';
 export async function BuscarEmpresa(){
     try{
-        let url = 'http://'+ ip +':8084/FerreSoft/rest/EmpresaAPI/empresaByName/tigre s.a';
+        let url = 'http://'+ ip +':8080/FerreSoft/rest/EmpresaAPI/empresaByName/tigre s.a';
         let respuesta = await fetch(url, {
           "method": 'GET',
           "headers": {
