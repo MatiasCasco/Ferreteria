@@ -110,6 +110,10 @@ const ProcesoCompra1 = () => {
     console.log(listMarca);
     console.log(listCategoria);
   }
+  const handleSaveBorrador = (borradorPedido) => {
+    sessionStorage.setItem('borradorPedido', JSON.stringify(borradorPedido));
+  }
+
 
   return (<>
     <Head>
@@ -125,7 +129,7 @@ const ProcesoCompra1 = () => {
       }}
     >
       <Container>
-        <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
+        <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} borradorPedido={borradorPedido} handlePadre={handlePadre} handleSaveBorrador={handleSaveBorrador} />
         <Box sx={{ mt: 3 }}>
           <ProductoLista productos={listaFiltrada} borradorPedido={borradorPedido} agregarBorrador={agregarBorrador} quitarBorrador={quitarBorrador} />
         </Box>

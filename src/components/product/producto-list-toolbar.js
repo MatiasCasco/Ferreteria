@@ -7,15 +7,15 @@
     InputAdornment,
     SvgIcon,
     Typography,
-    Switch, 
+    Switch,
   } from '@mui/material';
   import { useState } from 'react';
   import { Download as DownloadIcon } from '../../icons/download';
   import { Search as SearchIcon } from '../../icons/search';
   import { Upload as UploadIcon } from '../../icons/upload';
- 
-  
-  export const ProductoListToolbar = ({setEditing, listMarca, listCategoria, handlePadre, ...props}) => {
+
+
+  export const ProductoListToolbar = ({setEditing, listMarca, listCategoria, borradorPedido, handlePadre, handleSaveBorrador,  ...props}) => {
     //
     const [valueProducto, setValueProducto] = useState(" ");
     const [valueMarca, setValueMarca] = useState(" ");
@@ -46,7 +46,7 @@
         setValueStock(0);
         handleHijo(valueProducto, " ", " ", 0, valueStockMin);
       }
-      
+
     }
 
     const handleChangeSwithStock = e => {
@@ -63,11 +63,11 @@
       Object.entries(e.target.value).length===0?(()=>setEditing(false)):(()=>setEditing(true));
     }
 
-    const handleHijo = (producto, marca, categoria, stock, min) => {    
+    const handleHijo = (producto, marca, categoria, stock, min) => {
       handlePadre(producto, marca, categoria, stock, min);
     }
 
-    
+
     return (<Box {...props}>
       <Box
         sx={{
@@ -87,21 +87,30 @@
         <Box sx={{ m: 1 }}>
           <Button
             startIcon={(<UploadIcon fontSize="small" />)}
-            sx={{ mr: 1 }}
+            sx={{ mr: 1 , ml: 1 }}
           >
             Import
           </Button>
           <Button
             startIcon={(<DownloadIcon fontSize="small" />)}
-            sx={{ mr: 1 }}
+            sx={{ mr: 1 , ml: 1 }}
           >
             Export
           </Button>
           <Button
             color="primary"
             variant="contained"
+            sx={{ mr: 1 , ml: 1 }}
           >
             Add products
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{ mr: 1 , ml: 1 }}
+            onClick={() => handleSaveBorrador(borradorPedido)}
+          >
+            Save borrador
           </Button>
         </Box>
       </Box>
@@ -109,7 +118,7 @@
         <Card>
           <CardContent>
             <Box sx={{ maxWidth: 500 }}>
-              
+
               <TextField
                   fullWidth
                 InputProps={{
@@ -131,7 +140,7 @@
                             onChange={handleChangeSwith}
                             name="checkedB"
                             color="primary"
-                          />                    
+                          />
                     </InputAdornment>
                   )
                 }}
@@ -139,10 +148,10 @@
                 variant="outlined"
                 onChange={handleChange}
               />
-              
+
 {/* las opciones de busquedad adicionales*/}
               <div>
-                
+
                 {showHideDemo1 && <TextField
                   select
                   label="Seleccionar"
@@ -180,15 +189,15 @@
                   ))}
                 </TextField>}
 
-                
-                
+
+
                 Lista de stock minimo
                 <Switch
                       //checked={state.checkedB}
                       onChange={handleChangeSwithStock}
                       name="checkedC"
                       color="primary"
-                />  
+                />
               </div>
             </Box>
           </CardContent>
@@ -197,4 +206,3 @@
     </Box>
     );
   }
-  

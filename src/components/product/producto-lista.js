@@ -15,7 +15,7 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button
+  Button, Checkbox, label
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 import { PopUp } from '../popup';
@@ -62,6 +62,10 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
       }
     }
   }
+
+  const handleChange = (id) => {
+    return borradorPedido.some((item) => item.idDetP === id);
+  };
 
   const desplegar = (id) => {
     toggle();
@@ -163,6 +167,13 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
                         justifyContent: 'flex-start',
                       }}
                     >
+                      <Checkbox
+                        checked={handleChange(producto.caracteristicasProductoId)}
+                        onChange={(event) => handleChange(event, id)}
+                        disabled={true}
+
+                      />
+                      <span>{handleChange(producto.caracteristicasProductoId) ? "Marcado" : "Desmarcado"}</span>
                       <Button onClick={()=>{
                         desplegar(producto.producto.productoId);
                       }}>
@@ -171,7 +182,7 @@ export const ProductoLista = ({ productos, borradorPedido, agregarBorrador, quit
                           color="textPrimary"
                           variant="body2"
                         >
-                          {"Vista" + producto.producto.productoId}
+                          {"Ver proveedores"}
                         </Typography>
                       </Button>
                     </Box>
