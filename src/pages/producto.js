@@ -114,7 +114,7 @@ const Producto = () => {
               {proveedor && <p>RUC: {ruc}</p>}
               <p>Condición de la Factura: {condicionFactura}</p>
             </div>
-          </div><git
+          </div>
 {/*          <Box sx={{ mt: 3 }}>
             <div>
               <TablaDetalle
