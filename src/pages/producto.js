@@ -1,11 +1,9 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { Box, Container, Grid, Pagination } from '@mui/material';
+import { Box, Container,FormControl, InputLabel, MenuItem, Select, TextField, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
-import CrudProducts from 'src/components/crud/crud-productos';
-import TablaDetalle from '../components/crud/tabla/tablaDetalle';
 import { useEffect, useState } from 'react';
-import Axios from 'axios';
+
 const Producto = () => {
 
   const [proveedor, setProveedor] = useState("");
@@ -33,36 +31,6 @@ const Producto = () => {
   }
 
 
-  /*const [products, setProducts] = useState([]);
-  const [attributes, setAttributes] = useState([]);
-
-  useEffect(() => {
-    setAttributes(["Nro", "Descripcion", "Marca", "Cantidad Esperada", "Cantidad Recibida" , "Acciones"]);
-    getProducts();
-  }, []);
-
-  const getProducts = async () => {
-    const response = await Axios.get(`${API_URL}/all`);
-    const productos = response.data;
-    const allProducts = productos.content.map((product) => ({
-      Id: product.productoId,
-      Nombre: product.productoNombre,
-      Iva: product.productoIva,
-      Medida: product.unidadMedidaBase.unidadMedida,
-      Descripcion: product.categoria.categoriaDescripcion,
-      Precio: product.productoPrecio +" gs." // Add this line
-    }));
-
-
-    setProducts([
-      ...allProducts,
-      ...allProducts,
-      ...allProducts,
-      ...allProducts,
-      ...allProducts,
-    ]);
-  };*/
-
   return (<>
       <Head>
         <title>
@@ -78,36 +46,50 @@ const Producto = () => {
       >
         <Container>
           <div>
-            <div>
-              <label>Proveedor:</label>
-              <select
+            <FormControl fullWidth>
+              <InputLabel style={{ color: 'black' }}>Proveedor</InputLabel>
+              <Box sx={{ mt: 2}}/>
+              <Select
                 value={proveedor}
                 onChange={handleProveedorChange}
+                style={{
+                  color: 'black',
+                  border: '1px solid black',
+                }}
               >
-                <option value="">Selecciona un proveedor</option>
+                <MenuItem value="">Selecciona un proveedor</MenuItem>
                 {proveedores.map((proveedor, index) => (
-                  <option key={index} value={proveedor.nombre}>
+                  <MenuItem key={index} value={proveedor.nombre}>
                     {proveedor.nombre}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </div>
+              </Select>
+            </FormControl>
+            <Box sx={{ mt: 3}}/>
             {proveedor && (
               <div>
-                <label>RUC:</label>
-                <span>{ruc}</span>
+                <InputLabel style={{ color: 'black' }}>Ruc</InputLabel>
+                <TextField
+                  value={ruc}
+                  disabled
+                  fullWidth
+                />
               </div>
             )}
-            <div>
-              <label>Condición de la Factura:</label>
-              <select
+            <Box sx={{ mt: 3}}/>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: 'black' }}>Condición</InputLabel>
+              <Select
                 value={condicionFactura}
                 onChange={handleCondicionFacturaChange}
               >
-                <option value="contado">Contado</option>
-                <option value="credito">Crédito</option>
-              </select>
-            </div>
+                <MenuItem value="">Seleccione condicion factura</MenuItem>
+                <MenuItem value="Contado">Contado</MenuItem>
+                <MenuItem value="credito">Crédito</MenuItem>
+              </Select>
+            </FormControl>
+            <Box sx={{ mt: 3}}/>
+            <Box sx={{ mt: 3}}/>
             <div>
               <h2>Datos Seleccionados:</h2>
               <p>Proveedor: {proveedor}</p>
