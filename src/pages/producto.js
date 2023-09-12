@@ -3,24 +3,29 @@ import Head from 'next/head';
 import { Box, Container,FormControl, InputLabel, MenuItem, Select, TextField, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useEffect, useState } from 'react';
+import { ListSelect, ViewRucSelect } from '../constants/CustomizableComponents';
 
 const Producto = () => {
 
   const [proveedor, setProveedor] = useState("");
   const [ruc, setRuc] = useState("");
-  const [condicionFactura, setCondicionFactura] = useState('contado');
+  const [condicionFactura, setCondicionFactura] = useState("Contado");
 
   const [proveedores, setProveedores] = useState([
-    {nombre: "Proveedor 1", ruc: "123456789-1"},
-    {nombre: "Proveedor 2", ruc: "123123123-2"},
-    {nombre: "Proveedor 3", ruc: "456456456-3"},
-    {nombre: "Proveedor 4", ruc: "789789789-4"},
-    {nombre: "Proveedor 5", ruc: "987654321-5"}
+    {descripcion: "Proveedor 1", ruc: "123456789-1"},
+    {descripcion: "Proveedor 2", ruc: "123123123-2"},
+    {descripcion: "Proveedor 3", ruc: "456456456-3"},
+    {descripcion: "Proveedor 4", ruc: "789789789-4"},
+    {descripcion: "Proveedor 5", ruc: "987654321-5"}
+  ]);
+  const [condiciones, setCondiciones] = useState([
+    {descripcion: "Contado"},
+    {descripcion: "Credito"}
   ]);
 
   const handleProveedorChange = (e) => {
     const selectedProveedor = e.target.value;
-    const proveedorInfo = proveedores.find((p) => p.nombre === selectedProveedor);
+    const proveedorInfo = proveedores.find((p) => p.descripcion === selectedProveedor);
 
     setProveedor(selectedProveedor);
     setRuc(proveedorInfo ? proveedorInfo.ruc : '');
@@ -46,38 +51,31 @@ const Producto = () => {
       >
         <Container>
           <div>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: 'black' }}>Proveedor</InputLabel>
-              <Box sx={{ mt: 2}}/>
-              <Select
-                value={proveedor}
-                onChange={handleProveedorChange}
-                style={{
-                  color: 'black',
-                  border: '1px solid black',
-                }}
-              >
-                <MenuItem value="">Selecciona un proveedor</MenuItem>
-                {proveedores.map((proveedor, index) => (
-                  <MenuItem key={index} value={proveedor.nombre}>
-                    {proveedor.nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <ListSelect
+              title={"Proveedor"}
+              list={proveedores}
+              value={proveedor}
+              onChange={handleProveedorChange}
+              inputLabelStyle={{ color: 'black' }}
+              selectStyle={{ color: 'black', border: '2px solid black' }}/>
             <Box sx={{ mt: 3}}/>
             {proveedor && (
-              <div>
-                <InputLabel style={{ color: 'black' }}>Ruc</InputLabel>
-                <TextField
-                  value={ruc}
-                  disabled
-                  fullWidth
-                />
-              </div>
+              <ViewRucSelect
+                title={"RUC"}
+                ruc={ruc}
+                inputLabelStyle={{ color: 'black' }}
+                selectStyle={{ color: 'black', border: '2px solid black' }}
+              />
             )}
             <Box sx={{ mt: 3}}/>
-            <FormControl fullWidth>
+            <ListSelect
+              title={"Condicion Factura"}
+              list={condiciones}
+              value={condicionFactura}
+              onChange={handleCondicionFacturaChange}
+              inputLabelStyle={{ color: 'black' }}
+              selectStyle={{ color: 'black', border: '2px solid black' }}/>
+{/*            <FormControl fullWidth>
               <InputLabel style={{ color: 'black' }}>Condición</InputLabel>
               <Select
                 value={condicionFactura}
@@ -87,7 +85,7 @@ const Producto = () => {
                 <MenuItem value="Contado">Contado</MenuItem>
                 <MenuItem value="credito">Crédito</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl>*/}
             <Box sx={{ mt: 3}}/>
             <Box sx={{ mt: 3}}/>
             <div>
