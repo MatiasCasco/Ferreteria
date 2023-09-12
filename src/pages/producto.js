@@ -1,146 +1,138 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container, Grid, Pagination } from '@mui/material';
-import { products } from '../__mocks__/products';
-import { ProductoListToolbar } from '../components/product/producto-list-toolbar';
-import { ProductoTarjeta } from '../components/product/producto-tarjeta';
 import { DashboardLayout } from '../components/dashboard-layout';
+import CrudProducts from 'src/components/crud/crud-productos';
+import TablaDetalle from '../components/crud/tabla/tablaDetalle';
 import { useEffect, useState } from 'react';
-import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
-
+import Axios from 'axios';
 const Producto = () => {
 
-  const [list, setList] = useState([]);
-  const [paginaActual, setPaginaActual] = useState(1);
-  const TOTAL_POR_PAGINA = 7;
-  const [listaFiltrada, setListaFiltrada] = useState([]);
-  const [listMarca, setListMarca] = useState([]);
-  const [listCategoria, setListCategoria] = useState([]);
+  const [proveedor, setProveedor] = useState("");
+  const [ruc, setRuc] = useState("");
+  const [condicionFactura, setCondicionFactura] = useState('contado');
 
-  useEffect(()=>{
-    findList();
+  const [proveedores, setProveedores] = useState([
+    {nombre: "Proveedor 1", ruc: "123456789-1"},
+    {nombre: "Proveedor 2", ruc: "123123123-2"},
+    {nombre: "Proveedor 3", ruc: "456456456-3"},
+    {nombre: "Proveedor 4", ruc: "789789789-4"},
+    {nombre: "Proveedor 5", ruc: "987654321-5"}
+  ]);
+
+  const handleProveedorChange = (e) => {
+    const selectedProveedor = e.target.value;
+    const proveedorInfo = proveedores.find((p) => p.nombre === selectedProveedor);
+
+    setProveedor(selectedProveedor);
+    setRuc(proveedorInfo ? proveedorInfo.ruc : '');
+  }
+
+  const handleCondicionFacturaChange = (e) => {
+    setCondicionFactura(e.target.value);
+  }
+
+
+  /*const [products, setProducts] = useState([]);
+  const [attributes, setAttributes] = useState([]);
+
+  useEffect(() => {
+    setAttributes(["Nro", "Descripcion", "Marca", "Cantidad Esperada", "Cantidad Recibida" , "Acciones"]);
+    getProducts();
   }, []);
 
-  const findList = async () => {
-    let json = await AllProductos();
-    //debugger
-    setList(json);
-    getMarcasYCategorias(json);
-    setListaFiltrada(json);
-  }
+  const getProducts = async () => {
+    const response = await Axios.get(`${API_URL}/all`);
+    const productos = response.data;
+    const allProducts = productos.content.map((product) => ({
+      Id: product.productoId,
+      Nombre: product.productoNombre,
+      Iva: product.productoIva,
+      Medida: product.unidadMedidaBase.unidadMedida,
+      Descripcion: product.categoria.categoriaDescripcion,
+      Precio: product.productoPrecio +" gs." // Add this line
+    }));
 
-  const filtrar = (producto, marca, categoria, stock, min) => {
-    let resultadoBusquedad = [];
-    let lista = [];
-    if (!min){
-      lista = list;
-    }else{
-      lista = list.filter((item) => {
-        if (item.productoStockActual <= item.productoStockMin) {
-          return item;
-        }
-      });
-    }
-    if (producto === " " && marca === " " && categoria === " " && stock === 0) {
-      resultadoBusquedad = lista;
-    } else {
-      setPaginaActual(1);
 
-      resultadoBusquedad = lista.filter((item) => {
-        if ((producto === " " ? " " :item.producto.nombre.toString().toLowerCase().includes(producto.toLowerCase())) && (marca === " " ? " " :item.marcaNombre.toString().toLowerCase().includes(marca.toLowerCase()))  && (categoria === " " ? " " :item.producto.categoriaNombre.toString().toLowerCase().includes(categoria.toLowerCase()))) {
-          return item;
-        }
-      })
-    }
-    setListaFiltrada(resultadoBusquedad);
-  }
-
-  const handlePadre = (producto, marca, categoria, stock, min) => {
-    console.log("handlePadre"); 
-    console.log(producto);
-    console.log(marca);
-    console.log(categoria);
-    console.log(stock);
-    console.log(min);
-    //console.log(producto.length);
-    //setListaFiltrada(resultado);
-    filtrar(producto, marca, categoria, stock, min);
-  }
-  
-  const getTotalPaginas = () =>{ 
-    let cantidadTotalDeProductos = listaFiltrada.length;
-    return Math.ceil(cantidadTotalDeProductos / TOTAL_POR_PAGINA,);
-  }
-
-  let productosPorPagina = listaFiltrada.slice(
-    (paginaActual - 1) * TOTAL_POR_PAGINA,
-    paginaActual * TOTAL_POR_PAGINA
-  );
-
-  const getMarcasYCategorias = (list) => {
-    let listAux1 = [" "], listAux2 = [" "];
-    list.map((item) => {
-      listAux1.push(item.marcaNombre);
-      listAux2.push(item.producto.categoriaNombre);
-    });
-    const dataMarca = new Set(listAux1);
-    const dataCategoria = new Set(listAux2);
-    setListMarca([...dataMarca]);
-    setListCategoria([...dataCategoria]);
-    console.log(listMarca);
-    console.log(listCategoria);
-    //debugger;
-  }
+    setProducts([
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+      ...allProducts,
+    ]);
+  };*/
 
   return (<>
-    <Head>
-      <title>
-        Productos | Material Kit
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth={true}>
-        <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
-        {productosPorPagina.map((product) => (
-          <Grid
-            item
-            key={product.id}
-          >
-            <Box sx={{ pt: 6 }}></Box>
-            <ProductoTarjeta product={product} />
-          </Grid>
-        ))}
-
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 3
-          }}
-        >
-          <Pagination
-            color="primary"
-            count={getTotalPaginas()}
-            page={paginaActual}
-            onChange={(event, value) => {              
-              setPaginaActual(value)
-            }}
-            size="small"
-          />
-        </Box>
-      </Container>
-    </Box>
-  </>
+      <Head>
+        <title>
+          Proceso Recepción 1 | Material Kit
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container>
+          <div>
+            <div>
+              <label>Proveedor:</label>
+              <select
+                value={proveedor}
+                onChange={handleProveedorChange}
+              >
+                <option value="">Selecciona un proveedor</option>
+                {proveedores.map((proveedor, index) => (
+                  <option key={index} value={proveedor.nombre}>
+                    {proveedor.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {proveedor && (
+              <div>
+                <label>RUC:</label>
+                <span>{ruc}</span>
+              </div>
+            )}
+            <div>
+              <label>Condición de la Factura:</label>
+              <select
+                value={condicionFactura}
+                onChange={handleCondicionFacturaChange}
+              >
+                <option value="contado">Contado</option>
+                <option value="credito">Crédito</option>
+              </select>
+            </div>
+            <div>
+              <h2>Datos Seleccionados:</h2>
+              <p>Proveedor: {proveedor}</p>
+              {proveedor && <p>RUC: {ruc}</p>}
+              <p>Condición de la Factura: {condicionFactura}</p>
+            </div>
+          </div>
+{/*          <Box sx={{ mt: 3 }}>
+            <div>
+              <TablaDetalle
+                data={products}
+                columns={attributes}
+                onDelete={handleDelete}
+                onUpdate={handleUpdate}
+                keyProp="productoId"
+              />
+            </div>
+          </Box>*/}
+        </Container>
+      </Box>
+    </>
   );
 }
 
-  
+
 
 //Products.getLayout = (page) => (
 Producto.getLayout = (page) => (
