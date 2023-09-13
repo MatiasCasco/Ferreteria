@@ -3,10 +3,12 @@ import Head from 'next/head';
 import { Box, Container,FormControl, InputLabel, MenuItem, Select, TextField, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useEffect, useState } from 'react';
-import { ListSelect, ViewRucSelect } from '../constants/CustomizableComponents';
+import { FechaSelect, ListSelect, ViewRucSelect } from '../constants/customizable-components';
+import * as msg from '../constants/messages';
 
 const Producto = () => {
-
+  const [fechaFactura, setFechaFactura] = useState(null);
+  const [fechaRecepcion, setFechaRecepcion] = useState(null);
   const [proveedor, setProveedor] = useState("");
   const [ruc, setRuc] = useState("");
   const [condicionFactura, setCondicionFactura] = useState("Contado");
@@ -35,6 +37,14 @@ const Producto = () => {
     setCondicionFactura(e.target.value);
   }
 
+  const handleFechaFacturaChange = (date) => {
+    setFechaFactura(date);
+  }
+
+  const handleFechaRecepcionChange = (date) => {
+    setFechaRecepcion(date);
+  }
+
 
   return (<>
       <Head>
@@ -50,6 +60,13 @@ const Producto = () => {
         }}
       >
         <Container>
+          <Container>
+            <div>
+              <FechaSelect selected={fechaFactura} onChange={handleFechaFacturaChange} message={msg.FECHA_FACTURA_COMPRA}/>
+            </div>
+          </Container>
+
+          <Box sx={{ mt: 3}}/>
           <div>
             <ListSelect
               title={"Proveedor"}
@@ -57,7 +74,8 @@ const Producto = () => {
               value={proveedor}
               onChange={handleProveedorChange}
               inputLabelStyle={{ color: 'black' }}
-              selectStyle={{ color: 'black', border: '2px solid black' }}/>
+              selectStyle={{ color: 'black', border: '2px solid black' }}
+            />
             <Box sx={{ mt: 3}}/>
             {proveedor && (
               <ViewRucSelect
@@ -75,17 +93,6 @@ const Producto = () => {
               onChange={handleCondicionFacturaChange}
               inputLabelStyle={{ color: 'black' }}
               selectStyle={{ color: 'black', border: '2px solid black' }}/>
-{/*            <FormControl fullWidth>
-              <InputLabel style={{ color: 'black' }}>Condición</InputLabel>
-              <Select
-                value={condicionFactura}
-                onChange={handleCondicionFacturaChange}
-              >
-                <MenuItem value="">Seleccione condicion factura</MenuItem>
-                <MenuItem value="Contado">Contado</MenuItem>
-                <MenuItem value="credito">Crédito</MenuItem>
-              </Select>
-            </FormControl>*/}
             <Box sx={{ mt: 3}}/>
             <Box sx={{ mt: 3}}/>
             <div>
@@ -93,19 +100,14 @@ const Producto = () => {
               <p>Proveedor: {proveedor}</p>
               {proveedor && <p>RUC: {ruc}</p>}
               <p>Condición de la Factura: {condicionFactura}</p>
+              {fechaFactura && (
+                <p>Fecha de la factura: {fechaFactura.toLocaleDateString()}</p>
+              )}
+              {fechaRecepcion && (
+                <p>Fecha de Recepción de Producto: {fechaRecepcion.toLocaleDateString()}</p>
+              )}
             </div>
           </div>
-{/*          <Box sx={{ mt: 3 }}>
-            <div>
-              <TablaDetalle
-                data={products}
-                columns={attributes}
-                onDelete={handleDelete}
-                onUpdate={handleUpdate}
-                keyProp="productoId"
-              />
-            </div>
-          </Box>*/}
         </Container>
       </Box>
     </>

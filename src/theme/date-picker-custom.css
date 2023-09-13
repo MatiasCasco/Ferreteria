@@ -1,0 +1,45 @@
+/* DatePickerCustom.css */
+
+/* Cambiar el tamaño del DatePicker */
+.react-datepicker {
+  font-size: 14px;
+}
+
+/* Cambiar el color del fondo */
+.react-datepicker__input-container {
+  background-color: #ffffff;
+}
+
+/* Cambiar el color del texto en el DatePicker */
+.react-datepicker__input-container input {
+  color: #333333;
+}
+
+/* Cambiar el color de la flecha */
+.react-datepicker__triangle {
+  border-bottom-color: #333333 !important;
+}
+
+/* Añadir bordes y sombra */
+.react-datepicker__input-container input {
+  border: 2px solid #333333;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cambiar el color del texto en el calendario emergente */
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: #333333 !important;
+}
+
+/* Personalizar otros estilos según tus necesidades */
+.date-picker-container {
+  margin-top: 10px; /* Ajusta la cantidad de margen según sea necesario */
+  position: relative; /* Asegura que el DatePicker no se superponga a otros elementos */
+}
+
+.react-datepicker {
+  z-index: 1000; /* Ajusta el valor según sea necesario para que esté por encima de otros elementos */
+}

@@ -1,6 +1,6 @@
 import React, { Component, forwardRef, useState } from "react";
 import ReactDOM from "react-dom";
-import MaterialTable from "material-table";
+import { DataGrid } from '@mui/x-data-grid';
 //import { forwardRef } from 'react';
 import Head from 'next/head';
 import { Box, Container, Card, Switch } from '@mui/material';
@@ -13,7 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import {
   AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight, Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
   Remove, SaveAlt, Search, ViewColumn
-} from '@material-ui/icons';
+} from '@mui/material';
 
 const CrudProveedor = () => {
   const [dense, setDense] = useState(false);
@@ -143,7 +143,7 @@ const CrudProveedor = () => {
       >
         <Container maxWidth={false}>
           <Card>
-          <MaterialTable
+          <DataGrid
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}

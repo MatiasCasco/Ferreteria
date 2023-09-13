@@ -1,4 +1,7 @@
 import React from "react";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import {
   Box,
   Container,
@@ -8,6 +11,7 @@ import {
   Select,
   TextField
 } from '@mui/material';
+
 
 export const ListSelect = ({ title, list, value, onChange, inputLabelStyle, selectStyle }) => (
   <FormControl fullWidth>
@@ -44,6 +48,19 @@ export const ViewRucSelect = ({ title, ruc, inputLabelStyle, selectStyle }) => {
             color: 'black',
             border: '1px solid black',
           }}
+        />
+      </div>
+    );
+}
+
+export const FechaSelect = ({ selected, onChange, message}) => {
+
+    return(
+      <div className="date-picker-container" style={{ position: 'relative', zIndex: '2' }}>
+        <DatePicker
+          selected={selected}
+          onChange={onChange}
+          placeholderText={message}
         />
       </div>
     );
