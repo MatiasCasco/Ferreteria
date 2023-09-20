@@ -24,6 +24,7 @@ export const ListSelect = ({ title, list, value, onChange, inputLabelStyle, sele
         color: 'black',
         border: '1px solid black',
       }}
+      sx={{height: '35px'}}
     >
       <MenuItem value="" disabled>Selecciona un {title}</MenuItem>
       {list.map((item, index) => (
@@ -53,10 +54,11 @@ export const ViewRucSelect = ({ title, ruc, inputLabelStyle, selectStyle }) => {
     );
 }
 
-export const FechaSelect = ({ selected, onChange, message}) => {
+export const FechaSelect = ({title ,selected, onChange, message, style}) => {
 
     return(
-      <div className="date-picker-container" style={{ position: 'relative', zIndex: '2' }}>
+      <div className="date-picker-container" style={style}>
+        <InputLabel style={{ color: 'black' }}>{title}</InputLabel>
         <DatePicker
           selected={selected}
           onChange={onChange}
