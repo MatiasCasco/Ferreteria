@@ -4,6 +4,7 @@ import Buscador from './buscador';
 import TablaProductos from './tablaProducto';
 import { searchProduct } from 'src/utils/ApiUtilsTemp';
 import toast, { Toaster } from 'react-hot-toast';
+import { PrimaryButton } from 'src/constants/componentsPersonalite';
 
 const ModalProducto = ({onRequestClose}) => {
   const [productosAgregados, setProductosAgregados] = useContext(ProductosContext);
@@ -23,7 +24,8 @@ const ModalProducto = ({onRequestClose}) => {
       Categoria: producto.Categoria,
       Precio: producto.Precio,
       Marca: producto.Marca,
-      Cantidad: 0,
+      Medida: producto.Medida,
+      Cantidad: 1,
       Subtotal: 0,
     };
     return nuevoProducto;
@@ -49,10 +51,10 @@ const ModalProducto = ({onRequestClose}) => {
       setSearchResult(data);
     }
   };
-
-
+ 
   return (
     <div>
+      
       <Toaster
         position="top-right"
         reverseOrder={false}

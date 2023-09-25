@@ -10,14 +10,14 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TableContainer, Paper
+  TableContainer
 } from "@mui/material";
 import {
   Box,
   Card,
   CardContent, Container
 } from '@mui/material';
-import { ImageNotFound } from "src/constants/componentsPersonalite";
+import { ImageNotFound, TableStickyContainer } from "src/constants/componentsPersonalite";
 
 const TablaDetalle = ({ data, columns, onDelete, onUpdate, keyProp }) => {
 
@@ -34,64 +34,55 @@ const TablaDetalle = ({ data, columns, onDelete, onUpdate, keyProp }) => {
   const showActionsColumn = onDelete || onUpdate;
 
   return (
+    <TableStickyContainer>
+      <TableHead>
+        <TableRow>
+          {columns.map((column) => (
+            <TableCell key={column}>{column}</TableCell>
+          ))}
+          {showActionsColumn && <TableCell>Acciones</TableCell>}
+        </TableRow>
+      </TableHead>
+      <TableBody >
+        {data.length !== 0 ? (
+          data.map((row) => (
+            <TableRow key={row[keyProp]}>
+              {columns.map((column) => (
+                <TableCell key={`${row[keyProp]}-${column}`}
+                >
+                  <span>{row[column]}</span>
+                </TableCell>
+              ))}
+              <TableCell>
+                {onDelete ? (
+                  <IconButton aria-label="delete"
+                    color="primary"
+                    onClick={() => onDelete(row[keyProp])}>
+                    <DeleteIcon />
+                  </IconButton>
 
-    <Box sx={{ mt: 3 }}>
-      <Card>
-        <CardContent  sx={{ width: '100%', overflow: 'hidden' }}> 
-            <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell key={column}>{column}</TableCell>
-                    ))}
-                    {showActionsColumn && <TableCell>Acciones</TableCell>}
-                  </TableRow>
-                </TableHead>
-                <TableBody >
-                  {data.length !== 0 ? (
-                    data.map((row) => (
-                      <TableRow key={row[keyProp]}>
-                        {columns.map((column) => (
-                          <TableCell key={`${row[keyProp]}-${column}`}
-                          >
-                            <span>{row[column]}</span>
-                          </TableCell>
-                        ))}
-                        <TableCell>
-                          {onDelete ? (
-                            <IconButton aria-label="delete"
-                            color="primary"
-                              onClick={() => onDelete(row[keyProp])}>
-                              <DeleteIcon />
-                            </IconButton>
-
-                          ) : null}
-                          {onUpdate ? (
-                            <IconButton aria-label="editar"
-                            color="primary"
-                              onClick={() => onUpdate(row)}
-                            >
-                              <UpdateIcon />
-                            </IconButton>
-                          ) : null}
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={columns.length}
-                        align="center">
-                        <ImageNotFound />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-        </CardContent>
-      </Card>
-    </Box>
+                ) : null}
+                {onUpdate ? (
+                  <IconButton aria-label="editar"
+                    color="primary"
+                    onClick={() => onUpdate(row)}
+                  >
+                    <UpdateIcon />
+                  </IconButton>
+                ) : null}
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={columns.length}
+              align="center">
+              <ImageNotFound />
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </TableStickyContainer>
   );
 };
 

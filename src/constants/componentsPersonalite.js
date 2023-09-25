@@ -1,11 +1,42 @@
+import React, { useState, useContext, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Tooltip } from '@mui/material';
 import { flexContainer } from 'src/constants/constans.styles';
 import { Container, ImageList, ImageListItem } from "@mui/material";
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, TextField, TableContainer, Table, SvgIcon } from '@mui/material';
 
+import Dialog from '@mui/material/Dialog';
+import { Grow } from '@mui/material';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { forwardRef } from 'react';
+export const TextFieldNumeric = ({ value, onChange,label, ...props }) => {
+    return (
+        <TextField
+            id="outlined-controlled"
+            variant="outlined"
+            type="number"
+            value={value}
+            label={label}
+            onChange={onChange}
+            sx={{ width: { sm: 80, md: 80 }, }}
+            {...props}
+        />
+    )
+}
 
-
+/*
+<TextField
+                    id="standard-basic"
+                    min="1"
+                    label={producto.Medida}
+                    variant="standard"
+                    type='number'
+                    onChange={(event) => handleCantChange(event, producto)}
+                    value={cantidad[producto.Id] || ''}
+                  />*/
 export const DatosEmpresas = (props) => {
     return (
         <>
@@ -33,6 +64,31 @@ export const DatosEmpresa = (props) => {
     );
 };
 
+export const TableStickyContainer = (props) => {
+    return (
+        <Card sx={{ width: '100%', overflow: 'hidden', mt: 1 }}>
+            <CardContent>
+                <TableContainer sx={{ maxHeight: 400 }}>
+                    <Table stickyHeader >
+                        {props.children}
+                    </Table>
+                </TableContainer>
+            </CardContent>
+
+        </Card>
+    );
+};
+
+
+export const FullWidthGridItem = (props) => (
+    <Grid
+        item
+        xs={12}
+        {...props}
+    >
+        {props.children}
+    </Grid>
+);
 
 export const GridItemandCard = (props) => {
     return (
@@ -48,6 +104,8 @@ export const GridItemandCard = (props) => {
         </Grid>
     );
 }
+
+
 
 export const GridContainerRow = (props) => {
     return (
@@ -82,13 +140,6 @@ export const ImageNotFound = () => {
 };
 
 export const Image = ({ width, height, src }) => {
-    /*useEffect(() => {
-      const img = document.querySelector("img");
-      if (img) {
-        width.value = img.clientWidth;
-        height.value = img.clientHeight;
-      }
-    }, [width, height]);*/
     return (
         <div>
             <img
@@ -136,7 +187,6 @@ export const ImageContainer = (props) => {
 
 
 
-
 export const PrimaryButton = (props) => (
     <Button
         color="primary"
@@ -169,7 +219,7 @@ export const BoxFlex = (props) => (
 export const BoxMain = (props) => (
     <Box
         component="main"
-        sx={{ flexGrow: 1, py: 4 }}
+        sx={{ flexGrow: 1, py: 0 }}
         {...props}
     >
         {props.children}
@@ -185,15 +235,7 @@ export const BoxM1 = (props) => (
     </Box>
 );
 
-export const FullWidthGridItem = (props) => (
-    <Grid
-        item
-        xs={12}
-        {...props}
-    >
-        {props.children}
-    </Grid>
-);
+
 export const MiddleWidthGridItem = (props) => (
     <Grid
         item
@@ -219,5 +261,44 @@ export const BoxLabel = (props) => (
         {...props}
     >
         {props.children}
+    </Box>
+);
+
+export const IconButtonClose = (props) => (
+    <IconButton
+        edge="end"
+        color="inherit"
+        aria-label="close"
+        {...props}
+    >
+        <CloseIcon />
+    </IconButton>
+);
+
+export const BoxCardFull = (props) => {
+    return (
+        <Box xs={12} sx={{ mt: 0, justifyContent: "center" }}>
+            <Card>
+                <CardContent>
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12}>
+                            {props.children}
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+};
+
+export const IconButtonAdd = (props) => (
+
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Tooltip title="Agregar producto" placement="top">
+            <IconButton size="large"  {...props}
+                sx={{ color: "#2e7d32" }}>
+                <AddCircleIcon />
+            </IconButton>
+        </Tooltip>
     </Box>
 );

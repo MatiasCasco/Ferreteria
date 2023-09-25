@@ -7,7 +7,6 @@ import {
   TableRow,
   Button
 } from "@mui/material";
-import TextField from '@mui/material/TextField';
 import { ImageNotFound } from "src/constants/componentsPersonalite";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
@@ -51,6 +50,7 @@ const TablaProductos = ({ searchResult, handleClick, cantidad }) => {
           </TableRow>
         )}
       </TableBody>
+      
     </Table >
   );
 };
