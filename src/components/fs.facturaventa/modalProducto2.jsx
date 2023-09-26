@@ -26,7 +26,7 @@ const ModalProducto = ({onRequestClose}) => {
       Marca: producto.Marca,
       Medida: producto.Medida,
       Cantidad: 1,
-      Subtotal: 0,
+      Subtotal: producto.Precio,
     };
     return nuevoProducto;
   };

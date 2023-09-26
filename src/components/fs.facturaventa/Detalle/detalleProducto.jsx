@@ -4,11 +4,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableFooter,
   Box
 } from "@mui/material";
 import { BoxCardFull, GridItemandCard, IconButtonAdd, ImageNotFound } from "src/constants/componentsPersonalite";
 import CheckIcon from '@mui/icons-material/Check';
-import { TextFieldNumeric, TableStickyContainer, PrimaryButton } from 'src/constants/componentsPersonalite';
+import { TextFieldNumeric, TableStickyContainer, StickyFooter } from 'src/constants/componentsPersonalite';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -16,17 +17,19 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 
 
-const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantidad, OpenModal }) => {
+const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, setTotal }) => {
 
-  const [cantidadActual, setCantidadActual] = useState(0);
+  const [cantidadActual, setCantidadActual] = useState(1);
   const [enEdicion, setEnEdicion] = useState(null);
+  const [eliminado, setEliminado] = useState(false);
 
   const handleEditar = (producto, index) => {
     setEnEdicion(index === enEdicion ? null : index);
+    console.log(cantidadActual)
     setCantidadActual(producto.Cantidad);
   };
 
-  
+
 
   // llama al método focus() cuando el componente se monta o cuando cambia
   useEffect(() => {
@@ -35,31 +38,42 @@ const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantida
       enEdicion
     }
   }, [enEdicion]);
-
   const inputRef = useRef();
+
   useEffect(() => {
-    setEnEdicion(listaProducto.length - 1);
+    if (eliminado) {
+      setEliminado(false);
+    } else {
+      setCantidadActual(1);
+      console.log(listaProducto);
+      setEnEdicion(listaProducto.length - 1);
+    }
   }, [listaProducto]);
 
-  const handleAceptar = (producto, index) => {
-    // Aquí va tu lógica para aceptar los cambios
+  const recalcularTotales = () => {
+    let totalSuma = listaProducto.reduce((acc, product) => acc + product.Subtotal, 0);
+    setTotal(totalSuma);
+  }
+
+  const handleAceptar = (index) => {
+    listaProducto[index].Cantidad = cantidadActual;
+    listaProducto[index].Subtotal = listaProducto[index].Precio * cantidadActual;
+    recalcularTotales();
     setEnEdicion(null);
   };
 
-  const handleEliminar = (producto) => {
-    // Aquí va tu lógica para eliminar el producto
-    console.log("eliminado " + producto);
+  const handleEliminar = (index) => {
+    eliminarProducto(index);
+    setEliminado(true);
   };
 
-  handleChangeCantidad = ()=>{
-//aqui agregar codigo para cambiar
-  }
+
 
   const renderButton = (index, producto) => {
     if (index === enEdicion) {
       return (
         <IconButton aria-label="confirm" size="large"
-          onClick={() => handleAceptar(producto, index)}>
+          onClick={() => handleAceptar(index)}>
           <CheckIcon />
         </IconButton>
       )
@@ -70,7 +84,7 @@ const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantida
           <ModeEditIcon />
         </IconButton>
         <IconButton aria-label="delete" size="large"
-          onClick={() => handleEliminar(producto)}
+          onClick={() => handleEliminar(index)}
         >
           <DeleteIcon />
         </IconButton>
@@ -85,7 +99,7 @@ const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantida
           inputRef={inputRef}
           label={producto.Medida}
           onChange={(event) => setCantidadActual(event.target.value)}
-          value={producto.Cantidad || 0}
+          value={cantidadActual || 0}
         />
       );
     } else {
@@ -130,7 +144,7 @@ const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantida
                 <TableCell align="center">
                   {renderCantidad(index, producto)}
                 </TableCell >
-                <TableCell align="center"> 154546</TableCell>
+                <TableCell align="center"> {producto.Subtotal}</TableCell>
                 <TableCell>
                   {renderButton(index, producto)}
                 </TableCell>
@@ -145,12 +159,20 @@ const DetalleProducto = ({ listaProducto, handleCantChange, handleClick, cantida
             </TableRow>
           )}
         </TableBody>
+     
       </TableStickyContainer>
 
       <BoxCardFull>
-        <IconButtonAdd
-          onClick={OpenModal}
-        />
+        <TableRow>
+          <TableCell colSpan={8} align="right">Total:</TableCell>
+          <TableCell align="center">{total}</TableCell>
+          <TableCell colSpan={2}>
+            <IconButton onClick={OpenModal}>
+              <AddBusinessIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+        
       </BoxCardFull>
 
     </>

@@ -29,19 +29,17 @@ const FacturaVentaAi = () => {
   const handleModal = () => {
     setModalIsOpen(!modalIsOpen);
   }
+  const eliminarProducto = (index) => {
+    const nuevosProductos = productos.filter((p, i) => i !== index);
+    setProductos(nuevosProductos);
+  }
 
-  const handleAgregarProducto = (producto) => {
-    setProductos([...productos, producto]);
-    setModalIsOpen(false);
-  };
+  
   useEffect(() => {
     Modal.setAppElement('body');
   }, []);
 
-  useEffect(() => {
-    let totalSuma = productos.reduce((acc, product) => acc + product.Subtotal, 0);
-    setTotal(totalSuma);
-  }, [productos]);
+ 
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -57,27 +55,14 @@ const FacturaVentaAi = () => {
         <Grid container>
           <FullWidthGridItem>
             <DetalleProducto
-              listaProducto={productos}
-              handleCantChange={() => console.log("change")}
-              handleClick={() => console.log("change")}
-              cantidad={1}
-              OpenModal={handleModal}
+              listaProducto = {productos}
+              eliminarProducto = {eliminarProducto}
+              OpenModal = {handleModal}
+              total = {total}
+              setTotal = {setTotal}
             />
           </FullWidthGridItem>
         </Grid>
-        <Grid container>
-          <FullWidthGridItem xs={8}>
-            <H4Typography>
-              Detalle
-            </H4Typography>
-          </FullWidthGridItem>
-          <FullWidthGridItem xs={4}>
-            <H4Typography>
-              Total: {total}
-            </H4Typography>
-          </FullWidthGridItem>
-        </Grid>
-
 
         <Dialog fullScreen open={modalIsOpen} onClose={handleClose} TransitionComponent={Grow} >
           <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -95,17 +80,3 @@ const FacturaVentaAi = () => {
 };
 
 export default FacturaVentaAi;
-/**
- * <Grid container>
-          <FullWidthGridItem xs={8}>
-            <H4Typography>
-              Productos
-            </H4Typography>
-          </FullWidthGridItem>
-          <FullWidthGridItem xs={4}>
-            <PrimaryButton onClick={() => handleModal()}>
-              Agregar Producto
-            </PrimaryButton>
-          </FullWidthGridItem>
-        </Grid> 
- */

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { Box, Typography, Grid, Tooltip } from '@mui/material';
 import { flexContainer } from 'src/constants/constans.styles';
 import { Container, ImageList, ImageListItem } from "@mui/material";
-import { Card, CardContent, TextField, TableContainer, Table, SvgIcon } from '@mui/material';
+import { Card, CardContent, TextField, TableContainer, Table, TableFooter, SvgIcon } from '@mui/material';
 
 import Dialog from '@mui/material/Dialog';
 import { Grow } from '@mui/material';
@@ -12,7 +12,42 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { forwardRef } from 'react';
-export const TextFieldNumeric = ({ value, onChange,label, ...props }) => {
+
+var phantom = {
+    display: 'block',
+    padding: '20px',
+    height: '60px',
+    width: '100%',
+}
+var style = {
+    ///backgroundColor: "#F8F8F8",
+    backgroundColor: "green",
+    borderTop: "1px solid #E7E7E7",
+    ///textAlign: "center",
+    //padding: "20px",
+    position: "fixed",
+    //left: "0",
+    //bottom: "0",
+    //height: "60px",
+    //width: "100%",
+}
+
+
+
+export const StickyFooter = (props) => {
+    return (
+        <TableFooter style={style} sx={12}>
+
+            {props.children}
+
+        </TableFooter>
+    );
+
+}
+
+
+
+export const TextFieldNumeric = ({ value, onChange, label, ...props }) => {
     return (
         <TextField
             id="outlined-controlled"
@@ -69,7 +104,7 @@ export const TableStickyContainer = (props) => {
         <Card sx={{ width: '100%', overflow: 'hidden', mt: 1 }}>
             <CardContent>
                 <TableContainer sx={{ maxHeight: 400 }}>
-                    <Table stickyHeader >
+                    <Table stickyHeader enableStickyFooter={true}>
                         {props.children}
                     </Table>
                 </TableContainer>
