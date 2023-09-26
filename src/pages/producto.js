@@ -1,146 +1,160 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { Box, Container, Grid, Pagination } from '@mui/material';
-import { products } from '../__mocks__/products';
-import { ProductoListToolbar } from '../components/product/producto-list-toolbar';
-import { ProductoTarjeta } from '../components/product/producto-tarjeta';
+import {
+  Box,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Grid, Card, CardContent
+} from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useEffect, useState } from 'react';
-import { AllProductos, BuscarEmpresa } from 'src/utils/ApiUtil';
+import { FechaSelect, ListSelect, ViewRucSelect } from '../constants/customizable-components';
+import * as msg from '../constants/messages';
+import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
+import { CustomerListResults } from '../components/customer/customer-list-results';
+import { customers } from '../__mocks__/customers';
 
 const Producto = () => {
+  const [fechaFactura, setFechaFactura] = useState(null);
+  const [fechaRecepcion, setFechaRecepcion] = useState(null);
+  const [proveedor, setProveedor] = useState("");
+  const [ruc, setRuc] = useState("");
+  const [condicionFactura, setCondicionFactura] = useState("Contado");
 
-  const [list, setList] = useState([]);
-  const [paginaActual, setPaginaActual] = useState(1);
-  const TOTAL_POR_PAGINA = 7;
-  const [listaFiltrada, setListaFiltrada] = useState([]);
-  const [listMarca, setListMarca] = useState([]);
-  const [listCategoria, setListCategoria] = useState([]);
+  const [proveedores, setProveedores] = useState([
+    {descripcion: "Proveedor 1", ruc: "123456789-1"},
+    {descripcion: "Proveedor 2", ruc: "123123123-2"},
+    {descripcion: "Proveedor 3", ruc: "456456456-3"},
+    {descripcion: "Proveedor 4", ruc: "789789789-4"},
+    {descripcion: "Proveedor 5", ruc: "987654321-5"}
+  ]);
+  const [condiciones, setCondiciones] = useState([
+    {descripcion: "Contado"},
+    {descripcion: "Credito"}
+  ]);
 
-  useEffect(()=>{
-    findList();
-  }, []);
+  const handleProveedorChange = (e) => {
+    const selectedProveedor = e.target.value;
+    const proveedorInfo = proveedores.find((p) => p.descripcion === selectedProveedor);
 
-  const findList = async () => {
-    let json = await AllProductos();
-    //debugger
-    setList(json);
-    getMarcasYCategorias(json);
-    setListaFiltrada(json);
+    setProveedor(selectedProveedor);
+    setRuc(proveedorInfo ? proveedorInfo.ruc : '');
   }
 
-  const filtrar = (producto, marca, categoria, stock, min) => {
-    let resultadoBusquedad = [];
-    let lista = [];
-    if (!min){
-      lista = list;
-    }else{
-      lista = list.filter((item) => {
-        if (item.productoStockActual <= item.productoStockMin) {
-          return item;
-        }
-      });
-    }
-    if (producto === " " && marca === " " && categoria === " " && stock === 0) {
-      resultadoBusquedad = lista;
-    } else {
-      setPaginaActual(1);
-
-      resultadoBusquedad = lista.filter((item) => {
-        if ((producto === " " ? " " :item.producto.nombre.toString().toLowerCase().includes(producto.toLowerCase())) && (marca === " " ? " " :item.marcaNombre.toString().toLowerCase().includes(marca.toLowerCase()))  && (categoria === " " ? " " :item.producto.categoriaNombre.toString().toLowerCase().includes(categoria.toLowerCase()))) {
-          return item;
-        }
-      })
-    }
-    setListaFiltrada(resultadoBusquedad);
+  const handleCondicionFacturaChange = (e) => {
+    setCondicionFactura(e.target.value);
   }
 
-  const handlePadre = (producto, marca, categoria, stock, min) => {
-    console.log("handlePadre"); 
-    console.log(producto);
-    console.log(marca);
-    console.log(categoria);
-    console.log(stock);
-    console.log(min);
-    //console.log(producto.length);
-    //setListaFiltrada(resultado);
-    filtrar(producto, marca, categoria, stock, min);
-  }
-  
-  const getTotalPaginas = () =>{ 
-    let cantidadTotalDeProductos = listaFiltrada.length;
-    return Math.ceil(cantidadTotalDeProductos / TOTAL_POR_PAGINA,);
+  const handleFechaFacturaChange = (date) => {
+    setFechaFactura(date);
   }
 
-  let productosPorPagina = listaFiltrada.slice(
-    (paginaActual - 1) * TOTAL_POR_PAGINA,
-    paginaActual * TOTAL_POR_PAGINA
-  );
-
-  const getMarcasYCategorias = (list) => {
-    let listAux1 = [" "], listAux2 = [" "];
-    list.map((item) => {
-      listAux1.push(item.marcaNombre);
-      listAux2.push(item.producto.categoriaNombre);
-    });
-    const dataMarca = new Set(listAux1);
-    const dataCategoria = new Set(listAux2);
-    setListMarca([...dataMarca]);
-    setListCategoria([...dataCategoria]);
-    console.log(listMarca);
-    console.log(listCategoria);
-    //debugger;
+  const handleFechaRecepcionChange = (date) => {
+    setFechaRecepcion(date);
   }
+
 
   return (<>
-    <Head>
-      <title>
-        Productos | Material Kit
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth={true}>
-        <ProductoListToolbar listMarca={listMarca} listCategoria={listCategoria} handlePadre={handlePadre} />
-        {productosPorPagina.map((product) => (
-          <Grid
-            item
-            key={product.id}
+      <Head>
+        <title>
+          Proceso Recepción 1 | Material Kit
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 2
+        }}
+      >
+        <Grid container direction="column">
+          <Grid item
           >
-            <Box sx={{ pt: 6 }}></Box>
-            <ProductoTarjeta product={product} />
-          </Grid>
-        ))}
+            <Grid
+              container
+              columns={20}
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="flex-start"
+              spacing={6}
+            >
+              <Grid item sx={12} md={10}  >
+                <Card sx={{height: '10%', overflow: 'visible'}}>
+                  <CardContent>
+                    <Box>
+                      <FechaSelect title={msg.FECHA_FACTURA_COMPRA} selected={fechaFactura} onChange={handleFechaFacturaChange} message={msg.FECHA_SELECT} style={{ position: 'relative', zIndex: '300' }}/>
+                      <FechaSelect title={msg.FECHA_RECEPCION_PRODUCTO} selected={fechaRecepcion} onChange={handleFechaRecepcionChange} message={msg.FECHA_SELECT} style={{ position: 'relative', zIndex: '200' }}/>
+                      <Box sx={{ mt: 2}}/>
+                      <ListSelect
+                        title={"Proveedor"}
+                        list={proveedores}
+                        value={proveedor}
+                        onChange={handleProveedorChange}
+                        inputLabelStyle={{ color: 'black' }}
+                        selectStyle={{ color: 'black', border: '2px solid black' }}
+                      />
+                     {/* <Box sx={{ mt: 1}}/>
+                      {proveedor && (
+                        <ViewRucSelect
+                          title={"RUC"}
+                          ruc={ruc}
+                          inputLabelStyle={{ color: 'black' }}
+                          selectStyle={{ color: 'black', border: '2px solid black' }}
+                        />
+                      )}*/}
+                      <Box sx={{ mt: 2}}/>
+                      <ListSelect
+                        title={"Condicion Factura"}
+                        list={condiciones}
+                        value={condicionFactura}
+                        onChange={handleCondicionFacturaChange}
+                        inputLabelStyle={{ color: 'black' }}
+                        selectStyle={{ color: 'black', border: '2px solid black' }}/>
+                    </Box>
+                  </CardContent>
+                </Card>
 
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 3
-          }}
-        >
-          <Pagination
-            color="primary"
-            count={getTotalPaginas()}
-            page={paginaActual}
-            onChange={(event, value) => {              
-              setPaginaActual(value)
-            }}
-            size="small"
-          />
-        </Box>
-      </Container>
-    </Box>
-  </>
+              </Grid>
+              <Grid item sx={8} md={8}>
+                <div>
+                  <h2>Datos Seleccionados:</h2>
+                  <p>Proveedor: {proveedor}</p>
+                  {proveedor && <p>RUC: {ruc}</p>}
+                  <p>Condición de la Factura: {condicionFactura}</p>
+                  {fechaFactura && (
+                    <p>Fecha de la factura: {fechaFactura.toLocaleDateString()}</p>
+                  )}
+                  {fechaRecepcion && (
+                    <p>Fecha de Recepción de Producto: {fechaRecepcion.toLocaleDateString()}</p>
+                  )}
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Container maxWidth={false}>
+              <CustomerListToolbar />
+              <Box sx={{ mt: 3 }}>
+                <CustomerListResults customers={customers} />
+              </Box>
+            </Container>
+          </Grid>
+
+        </Grid>
+
+      </Box>
+    </>
   );
 }
 
-  
+
 
 //Products.getLayout = (page) => (
 Producto.getLayout = (page) => (

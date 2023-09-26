@@ -33,10 +33,10 @@ export const DashboardLayout = (props) => {
         </Box>
       </DashboardLayoutRoot>
       <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar
-        onClose={() => setSidebarOpen(false)}
-        open={isSidebarOpen}
-      />
+        <DashboardSidebar
+          onClose={() => setSidebarOpen(false)}
+          open={isSidebarOpen}
+        />
     </>
   );
 };
