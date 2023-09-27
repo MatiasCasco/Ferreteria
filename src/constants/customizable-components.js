@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, forwardRef} from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,9 +9,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField
+  TextField,
+  IconButton
 } from '@mui/material';
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export const ListSelect = ({ title, list, value, onChange, inputLabelStyle, selectStyle }) => (
   <FormControl fullWidth>
@@ -54,15 +55,40 @@ export const ViewRucSelect = ({ title, ruc, inputLabelStyle, selectStyle }) => {
     );
 }
 
+const CustomInputDatePicker = forwardRef(({ value, onClick, label }, ref) => {
+  return (
+    <TextField
+      variant="outlined"
+      onClick={onClick}
+      value={value}
+      label={label}
+      inputRef={ref}
+      InputProps={{
+        endAdornment: (
+          <IconButton disabled>
+            <CalendarTodayIcon style={{color: 'black'}}/>
+          </IconButton>
+        ),
+        style: { height: '40px' },
+      }}
+      style={{ fontSize: '8px', lineHeight: '1.5' }}
+    />
+  );
+});
+
+
+
+
 export const FechaSelect = ({title ,selected, onChange, message, style}) => {
 
     return(
-      <div className="date-picker-container" style={style}>
+      <div className="date-picker-container" style={style} >
         <InputLabel style={{ color: 'black' }}>{title}</InputLabel>
+        <Box sx={{mt:1}}/>
         <DatePicker
           selected={selected}
           onChange={onChange}
-          placeholderText={message}
+          customInput={<CustomInputDatePicker label={message} />}
         />
       </div>
     );

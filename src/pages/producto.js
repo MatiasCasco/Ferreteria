@@ -91,7 +91,7 @@ const Producto = () => {
                     <Box>
                       <FechaSelect title={msg.FECHA_FACTURA_COMPRA} selected={fechaFactura} onChange={handleFechaFacturaChange} message={msg.FECHA_SELECT} style={{ position: 'relative', zIndex: '300' }}/>
                       <FechaSelect title={msg.FECHA_RECEPCION_PRODUCTO} selected={fechaRecepcion} onChange={handleFechaRecepcionChange} message={msg.FECHA_SELECT} style={{ position: 'relative', zIndex: '200' }}/>
-                      <Box sx={{ mt: 2}}/>
+                      <Box sx={{ mt: 1.5}}/>
                       <ListSelect
                         title={"Proveedor"}
                         list={proveedores}
@@ -100,15 +100,6 @@ const Producto = () => {
                         inputLabelStyle={{ color: 'black' }}
                         selectStyle={{ color: 'black', border: '2px solid black' }}
                       />
-                     {/* <Box sx={{ mt: 1}}/>
-                      {proveedor && (
-                        <ViewRucSelect
-                          title={"RUC"}
-                          ruc={ruc}
-                          inputLabelStyle={{ color: 'black' }}
-                          selectStyle={{ color: 'black', border: '2px solid black' }}
-                        />
-                      )}*/}
                       <Box sx={{ mt: 2}}/>
                       <ListSelect
                         title={"Condicion Factura"}
@@ -123,27 +114,32 @@ const Producto = () => {
 
               </Grid>
               <Grid item sx={8} md={8}>
-                <div>
-                  <h2>Datos Seleccionados:</h2>
-                  <p>Proveedor: {proveedor}</p>
-                  {proveedor && <p>RUC: {ruc}</p>}
-                  <p>Condición de la Factura: {condicionFactura}</p>
-                  {fechaFactura && (
-                    <p>Fecha de la factura: {fechaFactura.toLocaleDateString()}</p>
-                  )}
-                  {fechaRecepcion && (
-                    <p>Fecha de Recepción de Producto: {fechaRecepcion.toLocaleDateString()}</p>
-                  )}
-                </div>
+                <Card sx={{height: '10%', overflow: 'visible'}}>
+                  <CardContent>
+                    <Box>
+                      <h2>Datos Seleccionados:</h2>
+                      <p>Proveedor: { proveedor }</p>
+                      { proveedor && <p>RUC: { ruc }</p> }
+                      <p>Condición de la Factura: { condicionFactura }</p>
+                      { fechaFactura && (
+                        <p>Fecha de la factura: { fechaFactura.toLocaleDateString() }</p>
+                      ) }
+                      { fechaRecepcion && (
+                        <p>Fecha de Recepción de
+                          Producto: { fechaRecepcion.toLocaleDateString() }</p>
+                      ) }
+                    </Box>
+                  </CardContent>
+                </Card>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
             <Container maxWidth={false}>
               <CustomerListToolbar />
-              <Box sx={{ mt: 3 }}>
+              {/*<Box sx={{ mt: 3 }}>
                 <CustomerListResults customers={customers} />
-              </Box>
+              </Box>*/}
             </Container>
           </Grid>
 
