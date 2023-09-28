@@ -71,6 +71,18 @@ const FacturaVentaAi = () => {
             />
           </ProductosContext.Provider>
         </Dialog >
+        <MaterialModal
+          openModal={modalIsOpen} 
+          handleClose={handleClose} >
+          <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <IconButtonClose onClick={handleClose} />
+          </Toolbar >
+          <ProductosContext.Provider value={[productos, setProductos]}>
+            <ModalProducto
+              onRequestClose={() => handleModal()}
+            />
+          </ProductosContext.Provider>        
+        </MaterialModal>
 
       </Container>
     </BoxMain >
