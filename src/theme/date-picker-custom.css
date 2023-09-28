@@ -2,7 +2,7 @@
 
 /* Cambiar el tamaño del DatePicker */
 .react-datepicker {
-  font-size: 14px;
+  font-size: 10px;
 }
 
 /* Cambiar el color del fondo */
@@ -42,4 +42,11 @@
 
 .react-datepicker {
   z-index: 1000; /* Ajusta el valor según sea necesario para que esté por encima de otros elementos */
+}
+
+.react-datepicker__input-container::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
