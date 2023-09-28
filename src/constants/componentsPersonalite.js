@@ -4,6 +4,10 @@ import { Box, Typography, Grid, Tooltip } from '@mui/material';
 import { flexContainer } from 'src/constants/constans.styles';
 import { Container, ImageList, ImageListItem } from "@mui/material";
 import { Card, CardContent, TextField, TableContainer, Table, TableFooter, SvgIcon } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade'
+import Backdrop from '@mui/material/Backdrop';
+
 
 import Dialog from '@mui/material/Dialog';
 import { Grow } from '@mui/material';
@@ -12,6 +16,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { forwardRef } from 'react';
+
+
+
+
 
 var phantom = {
     display: 'block',
@@ -29,17 +37,15 @@ var style = {
     //left: "0",
     //bottom: "0",
     //height: "60px",
-    //width: "100%",
+    width: "100%",
 }
 
 
 
 export const StickyFooter = (props) => {
     return (
-        <TableFooter style={style} sx={12}>
-
+        <TableFooter style={style} >
             {props.children}
-
         </TableFooter>
     );
 
@@ -62,16 +68,6 @@ export const TextFieldNumeric = ({ value, onChange, label, ...props }) => {
     )
 }
 
-/*
-<TextField
-                    id="standard-basic"
-                    min="1"
-                    label={producto.Medida}
-                    variant="standard"
-                    type='number'
-                    onChange={(event) => handleCantChange(event, producto)}
-                    value={cantidad[producto.Id] || ''}
-                  />*/
 export const DatosEmpresas = (props) => {
     return (
         <>
@@ -101,7 +97,7 @@ export const DatosEmpresa = (props) => {
 
 export const TableStickyContainer = (props) => {
     return (
-        <Card sx={{ width: '100%', overflow: 'hidden', mt: 1 }}>
+        <Card sx={{ width: '100%', overflow: 'hidden', mt: 1 }} >
             <CardContent>
                 <TableContainer sx={{ maxHeight: 400 }}>
                     <Table stickyHeader enableStickyFooter={true}>
@@ -337,3 +333,41 @@ export const IconButtonAdd = (props) => (
         </Tooltip>
     </Box>
 );
+
+const styleModal = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: 1,
+    width: 1100,
+    height: 700,
+    bgcolor: 'background.paper',
+    border: '0px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
+export const MaterialModal = ({openModal,handleClose,children}) => (
+    <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+            backdrop: {
+                timeout: 500,
+            },
+        }}
+    >
+        <Fade in={openModal}>
+            <Box sx={styleModal}>
+                {children}
+
+            </Box>
+        </Fade>
+    </Modal>
+
+)

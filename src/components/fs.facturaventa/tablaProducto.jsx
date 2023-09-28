@@ -11,10 +11,16 @@ import { ImageNotFound } from "src/constants/componentsPersonalite";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const TablaProductos = ({ searchResult, handleClick, cantidad }) => {
-
+  const styleTable = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+};
+// display: "flex", alignItems: "center", justifyContent: "center"
 
   return (
-    <Table>
+    <Table >
       <TableHead>
         <TableRow>
           <TableCell>Nombre</TableCell>

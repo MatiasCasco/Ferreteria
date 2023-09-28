@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { BoxCardFull, GridItemandCard, IconButtonAdd, ImageNotFound } from "src/constants/componentsPersonalite";
 import CheckIcon from '@mui/icons-material/Check';
-import { TextFieldNumeric, TableStickyContainer, StickyFooter } from 'src/constants/componentsPersonalite';
+import { TextFieldNumeric, TableStickyContainer} from 'src/constants/componentsPersonalite';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';

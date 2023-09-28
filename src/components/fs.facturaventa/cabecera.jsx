@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { DatosEmpresa, GridItemandCard, PrimaryButton, GridContainerRow, MiddleWidthGridItem, FullWidthGridItem, BoxLabel } from 'src/constants/componentsPersonalite';
-import Modal from 'react-modal';
+import { DatosEmpresa, MaterialModal, GridItemandCard, PrimaryButton, GridContainerRow, MiddleWidthGridItem, FullWidthGridItem, BoxLabel } from 'src/constants/componentsPersonalite';
+
 import ModalCliente from './modalCliente';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import IconButton from '@mui/material/IconButton';
@@ -22,7 +22,7 @@ const Cabecera = ({ }) => {
     RucCi: "XX",
   });
 
-  const handleOpen = () => {
+  const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   }
 
@@ -51,7 +51,7 @@ const Cabecera = ({ }) => {
           </MiddleWidthGridItem>
           <MiddleWidthGridItem>
             <IconButton aria-label="Agregar Cliente "
-              onClick={handleOpen}>
+              onClick={handleOpenModal}>
               <PersonAddIcon />
             </IconButton>
           </MiddleWidthGridItem>
@@ -66,14 +66,16 @@ const Cabecera = ({ }) => {
         </GridContainerRow>
       </GridItemandCard>
 
-      <Modal isOpen={modalIsOpen}>
-        <ModalCliente handleOpen />
+      <MaterialModal
+        openModal={modalIsOpen} 
+        handleClose={handleOpenModal} >
+        <ModalCliente handleOpenModal />
         <PrimaryButton onClick={() => setModalIsOpen(false)}>
           Cerrar
         </PrimaryButton>
-      </Modal>
+      </MaterialModal>
     </Grid>
   );
 };
-
+//openModal,handleClose,children
 export default Cabecera;
