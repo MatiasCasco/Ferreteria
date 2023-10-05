@@ -2,17 +2,17 @@ import React, { useState, useContext, useEffect } from 'react';
 
 import ModalProducto from '../components/fs.facturaventa/modalProducto2';
 import { Container, Grid } from '@mui/material';
-import { PrimaryButton, H4Typography, FullWidthGridItem, BoxMain, IconButtonClose,MaterialModal } from 'src/constants/componentsPersonalite';
+import { FullWidthGridItem, BoxMain, IconButtonClose,MaterialModal } from 'src/constants/componentsPersonalite';
 import DetalleProducto from 'src/components/fs.facturaventa/Detalle/detalleProducto';
 import Cabecera from 'src/components/fs.facturaventa/cabecera';
+import { DashboardLayout } from '../components/dashboard-layout';
 
 import Slide from '@mui/material/Slide';
 
-
-import { Grow } from '@mui/material';
+//import { Grow } from '@mui/material';
 
 import Toolbar from '@mui/material/Toolbar';
-import Dialog from '@mui/material/Dialog';
+//import Dialog from '@mui/material/Dialog';
 
 
 export const ProductosContext = React.createContext([]);
@@ -78,6 +78,11 @@ const FacturaVentaAi = () => {
     </BoxMain >
   );
 };
+FacturaVentaAi.getLayout = (page) => (
+  <DashboardLayout>
+    {page}
+  </DashboardLayout>
+);
 
 export default FacturaVentaAi;
 /**
