@@ -9,7 +9,7 @@ import { buscarClienteRuc } from '../../utils/ApiUtilsTemp';
 import BuscadorCliente from './cliente/buscadorCliente';
 
 const Cabecera = ({ }) => {
-  const [modalIsOpen, setModalIsOpen] = useState();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {

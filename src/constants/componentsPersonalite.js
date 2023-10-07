@@ -100,12 +100,11 @@ export const TableStickyContainer = (props) => {
         <Card sx={{ width: '100%', overflow: 'hidden', mt: 1 }} >
             <CardContent>
                 <TableContainer sx={{ maxHeight: 400 }}>
-                    <Table stickyHeader enableStickyFooter={true}>
+                    <Table stickyHeader >
                         {props.children}
                     </Table>
                 </TableContainer>
             </CardContent>
-
         </Card>
     );
 };
