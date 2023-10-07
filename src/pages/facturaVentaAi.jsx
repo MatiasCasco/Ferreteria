@@ -15,6 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Dialog from '@mui/material/Dialog';
 
 
+
 export const ProductosContext = React.createContext([]);
 export const DialogContext = React.createContext([]);
 
@@ -32,10 +33,10 @@ const FacturaVentaAi = () => {
     setProductos(nuevosProductos);
   }
 
-  
 
 
- 
+
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -61,8 +62,9 @@ const FacturaVentaAi = () => {
         </Grid>
 
 
+
         <MaterialModal
-          openModal={modalIsOpen} 
+          openModal={modalIsOpen}
           handleClose={handleClose} >
           <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButtonClose onClick={handleClose} />
@@ -71,8 +73,9 @@ const FacturaVentaAi = () => {
             <ModalProducto
               onRequestClose={() => handleModal()}
             />
-          </ProductosContext.Provider>        
+          </ProductosContext.Provider>
         </MaterialModal>
+
 
       </Container>
     </BoxMain >
@@ -93,7 +96,7 @@ export default FacturaVentaAi;
         </Dialog >
 
          <MaterialModal
-          openModal={modalIsOpen} 
+          openModal={modalIsOpen}
           handleClose={handleClose} >
           <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButtonClose onClick={handleClose} />
@@ -102,7 +105,7 @@ export default FacturaVentaAi;
             <ModalProducto
               onRequestClose={() => handleModal()}
             />
-          </ProductosContext.Provider>        
+          </ProductosContext.Provider>
         </MaterialModal>
 
 

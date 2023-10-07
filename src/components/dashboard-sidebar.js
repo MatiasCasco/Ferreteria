@@ -33,9 +33,9 @@ const items = [
     title: 'Products'
   },
   {
-    href: '/producto',
+    href: '/recepcion',
     icon: (<ShoppingBagIcon fontSize="small" />),
-    title: 'Producto'
+    title: 'Recepcion'
   },
   {
     href: '/productos',
