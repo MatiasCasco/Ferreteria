@@ -3,7 +3,7 @@ import { TextField, InputAdornment } from '@mui/material';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@mui/icons-material/Search';
 
-const Buscador = ({ setSearchTerm, placeholder }) => {
+const Buscador = ({ lsetSearchTerm, placeholder }) => {
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };

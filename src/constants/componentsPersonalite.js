@@ -307,11 +307,14 @@ export const IconButtonClose = (props) => (
 
 export const BoxCardFull = (props) => {
     return (
-        <Box xs={12} sx={{ mt: 0, justifyContent: "center" }}>
+        <Box xs={12}
+         sx={{ mt: 0, justifyContent: "center" }}>
             <Card>
                 <CardContent>
-                    <Grid container justifyContent="center">
-                        <Grid item xs={12}>
+                    <Grid container
+                     justifyContent="center">
+                        <Grid item 
+                        xs={12}>
                             {props.children}
                         </Grid>
                     </Grid>
@@ -324,8 +327,10 @@ export const BoxCardFull = (props) => {
 export const IconButtonAdd = (props) => (
 
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Tooltip title="Agregar producto" placement="top">
-            <IconButton size="large"  {...props}
+        <Tooltip title="Agregar producto"
+         placement="top">
+            <IconButton size="large" 
+             {...props}
                 sx={{ color: "#2e7d32" }}>
                 <AddCircleIcon />
             </IconButton>
