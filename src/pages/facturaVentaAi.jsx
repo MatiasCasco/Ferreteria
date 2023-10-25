@@ -9,10 +9,8 @@ import { DashboardLayout } from '../components/dashboard-layout';
 
 import Slide from '@mui/material/Slide';
 
-//import { Grow } from '@mui/material';
-
 import Toolbar from '@mui/material/Toolbar';
-//import Dialog from '@mui/material/Dialog';
+
 
 
 
@@ -32,11 +30,6 @@ const FacturaVentaAi = () => {
     const nuevosProductos = productos.filter((p, i) => i !== index);
     setProductos(nuevosProductos);
   }
-
-
-
-
-
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -88,30 +81,4 @@ FacturaVentaAi.getLayout = (page) => (
 );
 
 export default FacturaVentaAi;
-/**
- *  <Dialog fullScreen open={modalIsOpen} onClose={handleClose} TransitionComponent={Grow} >
-          <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButtonClose onClick={handleClose} />
-          </Toolbar >
-          <ProductosContext.Provider value={[productos, setProductos]}>
-            <ModalProducto
-              onRequestClose={() => handleModal()}
-            />
-          </ProductosContext.Provider>
-        </Dialog >
 
-         <MaterialModal
-          openModal={modalIsOpen}
-          handleClose={handleClose} >
-          <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButtonClose onClick={handleClose} />
-          </Toolbar >
-          <ProductosContext.Provider value={[productos, setProductos]}>
-            <ModalProducto
-              onRequestClose={() => handleModal()}
-            />
-          </ProductosContext.Provider>
-        </MaterialModal>
-
-
- */

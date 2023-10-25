@@ -105,11 +105,11 @@ export const RecepcionEncabezado = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
+{/*        <Grid item>
           <Container maxWidth={false}>
             <CustomerListToolbar />
           </Container>
-        </Grid>
+        </Grid>*/}
       </Grid>
   </>
   );
