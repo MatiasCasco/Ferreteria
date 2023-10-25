@@ -15,11 +15,6 @@ const Buscador = ({ setSearchTerm, placeholder }) => {
         <TextField
           onChange={handleChange}
           placeholder = {placeholder}
-          inputProps={{
-            style: {
-
-            }
-          }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="end">

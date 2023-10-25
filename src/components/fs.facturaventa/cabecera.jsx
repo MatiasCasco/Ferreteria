@@ -7,6 +7,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import IconButton from '@mui/material/IconButton';
 import { buscarClienteRuc } from '../../utils/ApiUtilsTemp';
 import BuscadorCliente from './cliente/buscadorCliente';
+import Toolbar from '@mui/material/Toolbar';
+import { IconButtonClose } from 'src/constants/componentsPersonalite';
 
 const Cabecera = ({ }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -45,7 +47,7 @@ const Cabecera = ({ }) => {
       </GridItemandCard>
       < GridItemandCard>
         <GridContainerRow>
-          < MiddleWidthGridItem>
+          <MiddleWidthGridItem>
             <BuscadorCliente setSearchTerm={setSearchTerm}
               placeholder={"Buscar Cliente"} />
           </MiddleWidthGridItem>
@@ -67,14 +69,14 @@ const Cabecera = ({ }) => {
       </GridItemandCard>
 
       <MaterialModal
-        openModal={modalIsOpen} 
+        openModal={modalIsOpen}
         handleClose={handleOpenModal} >
+        <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <IconButtonClose onClick={handleOpenModal} />
+        </Toolbar>
         <ModalCliente handleOpenModal />
-        <PrimaryButton onClick={() => setModalIsOpen(false)}>
-          Cerrar
-        </PrimaryButton>
       </MaterialModal>
-    </Grid>
+    </Grid >
   );
 };
 //openModal,handleClose,children

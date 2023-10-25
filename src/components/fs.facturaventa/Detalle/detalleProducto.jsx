@@ -16,7 +16,6 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 
-
 const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, setTotal }) => {
 
   const [cantidadActual, setCantidadActual] = useState(1);
@@ -28,8 +27,6 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
     console.log(cantidadActual)
     setCantidadActual(producto.Cantidad);
   };
-
-
 
   // llama al método focus() cuando el componente se monta o cuando cambia
   useEffect(() => {
@@ -72,18 +69,21 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
   const renderButton = (index, producto) => {
     if (index === enEdicion) {
       return (
-        <IconButton aria-label="confirm" size="large"
+        <IconButton aria-label="confirm"
+         size="large"
           onClick={() => handleAceptar(index)}>
           <CheckIcon />
         </IconButton>
       )
     } else {
       return (<>
-        <IconButton aria-label="Edit" size="large"
+        <IconButton aria-label="Edit"
+         size="large"
           onClick={() => handleEditar(producto, index)}>
           <ModeEditIcon />
         </IconButton>
-        <IconButton aria-label="delete" size="large"
+        <IconButton aria-label="delete"
+         size="large"
           onClick={() => handleEliminar(index)}
         >
           <DeleteIcon />
@@ -100,6 +100,9 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
           label={producto.Medida}
           onChange={(event) => setCantidadActual(event.target.value)}
           value={cantidadActual || 0}
+          onKeyPress={(event) => { 
+           if (event.key === 'Enter') {  handleAceptar(index); }
+          }}
         />
       );
     } else {
@@ -125,7 +128,8 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
             <TableCell >Subtotal</TableCell>
             <TableCell >Accion</TableCell>
             <TableCell colSpan={8}>
-              <Box display="flex" justifyContent="flex-end">
+              <Box display="flex"
+               justifyContent="flex-end">
                 <IconButton onClick={OpenModal}>
                   <AddBusinessIcon />
                 </IconButton>
@@ -133,8 +137,7 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody
-        >
+        <TableBody>
           {listaProducto.length !== 0 ? (
             listaProducto.map((producto, index) => (
               <TableRow key={producto.Id}>
@@ -164,7 +167,8 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
 
       <BoxCardFull>
         <TableRow>
-          <TableCell colSpan={8} align="right">Total:</TableCell>
+          <TableCell colSpan={8}
+           align="right">Total:</TableCell>
           <TableCell align="center">{total}</TableCell>
           <TableCell colSpan={2}>
             <IconButton onClick={OpenModal}>
