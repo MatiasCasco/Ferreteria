@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Box, Card, CardContent, Container, Grid } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Grid } from '@mui/material';
 import { FechaSelect, ListSelect } from '../../constants/customizable-components';
 import * as msg from '../../constants/messages';
 import { CustomerListToolbar } from '../customer/customer-list-toolbar';
@@ -102,6 +102,14 @@ export const RecepcionEncabezado = (props) => {
                   </Box>
                 </CardContent>
               </Card>
+              <Box sx={{ mt: 2}}/>
+              <Button
+                color="primary"
+                variant="contained"
+                sx={{ mr: 1 , ml: 1 }}
+              >
+               Agregar Productos
+              </Button>
             </Grid>
           </Grid>
         </Grid>

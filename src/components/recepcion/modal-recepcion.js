@@ -48,7 +48,7 @@ const ModalRecepcion = ({onRequestClose}) => {
   };
 
   const handleClick = (event, producto) => {
-    debugger
+    // debugger
     const newProducto = crearNuevoProducto(producto);
     actualizarProductosAgregados(newProducto);
     onRequestClose();

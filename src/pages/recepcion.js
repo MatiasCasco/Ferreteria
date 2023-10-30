@@ -21,6 +21,9 @@ const Recepcion = () => {
   const [productos, setProductos] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [total, setTotal] = useState(0);
+  const [total5, setTotal5] = useState(0);
+  const [total10, setTotal10] = useState(0);
+  const [totalIva, setTotalIva] = useState(0);
 
  /* useEffect(() => {
     console.log("Valor de useStarte productos en recepcion");
@@ -67,6 +70,12 @@ const Recepcion = () => {
                   OpenModal = {handleModal}
                   total = {total}
                   setTotal = {setTotal}
+                  totalIva5 = {total5}
+                  setTotalIva5 = {setTotal5}
+                  totalIva10 = {total10}
+                  setTotalIva10 = {setTotal10}
+                  totalIva = {totalIva}
+                  setTotalIva = {setTotalIva}
                 />
               </FullWidthGridItem>
             </Grid>
