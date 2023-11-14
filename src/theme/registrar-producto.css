@@ -1,0 +1,29 @@
+.form-container {
+  height: 80%;
+  width: 100%;
+
+  /*margin: auto;
+  overflow: auto;*/
+  overflow: auto;
+  position: absolute;
+}
+.group-content {
+  overflow: auto;
+  width: 100%;
+  position: relative;
+}
+
+.form-field {
+  width: 60%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.form-field-width {
+  width: 100%;
+}
+
+.form-between {
+  display: flex;
+  justify-content: space-between;
+}

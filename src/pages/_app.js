@@ -9,6 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
 // import '../theme/date-picker-custom.css'; //a nivel global para aplicar file .css
+import '../theme/registrar-producto.css';
 
 const clientSideEmotionCache = createEmotionCache();
 

@@ -5,7 +5,7 @@ import { FechaSelect, ListSelect } from '../../constants/customizable-components
 import * as msg from '../../constants/messages';
 import { CustomerListToolbar } from '../customer/customer-list-toolbar';
 
-export const RecepcionEncabezado = (props) => {
+export const RecepcionEncabezado = ({OpenModal}) => {
   const [fechaFactura, setFechaFactura] = useState(null);
   const [fechaRecepcion, setFechaRecepcion] = useState(null);
   const [proveedor, setProveedor] = useState("");
@@ -107,6 +107,7 @@ export const RecepcionEncabezado = (props) => {
                 color="primary"
                 variant="contained"
                 sx={{ mr: 1 , ml: 1 }}
+                onClick={OpenModal}
               >
                Agregar Productos
               </Button>

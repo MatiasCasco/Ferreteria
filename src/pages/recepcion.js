@@ -12,6 +12,8 @@ import Slide from '@mui/material/Slide';
 import { useState, useEffect } from 'react';
 import DetalleRecepcion from '../components/recepcion/detalle-recepcion';
 import ModalRecepcion from '../components/recepcion/modal-recepcion';
+import CrudProductsContainer from '../components/crud/crud-productos';
+import ModalAddProduct from '../components/recepcion/modal-add-product';
 
 export const ProductsContext = React.createContext([]);
 export const DialogContext = React.createContext([]);
@@ -20,6 +22,7 @@ const Recepcion = () => {
 
   const [productos, setProductos] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [addProductIsOpen, setAddProductIsOpen] = useState(false);
   const [total, setTotal] = useState(0);
   const [total5, setTotal5] = useState(0);
   const [total10, setTotal10] = useState(0);
@@ -45,6 +48,14 @@ const Recepcion = () => {
     setModalIsOpen(false);
   };
 
+  const handleAddProduct = () => {
+    setAddProductIsOpen(!addProductIsOpen);
+  }
+
+  const handleAddProductClose = () => {
+    setAddProductIsOpen(false);
+  }
+
   return (<>
       <Head>
         <title>
@@ -58,7 +69,8 @@ const Recepcion = () => {
           py: 2
         }}
       >
-        <RecepcionEncabezado/>
+        {/*<CrudProductsContainer/>*/}
+        <RecepcionEncabezado OpenModal = {handleAddProduct}/>
         <BoxMain>
           <Container>
            {/* <Cabecera />*/}
@@ -91,6 +103,14 @@ const Recepcion = () => {
                 />
               </ProductsContext.Provider>
             </MaterialModal>
+              <MaterialModal openModal={addProductIsOpen} handleClose={handleAddProductClose}>
+                <Toolbar sx={{ display: "flex", justifyContent: "flex-end", margin: '0px'}}>
+                  <IconButtonClose onClick={handleAddProductClose} />
+                </Toolbar >
+                <div className={'form-container'}>
+                  <ModalAddProduct onRequestClose={() => handleAddProduct()}/>
+                </div>
+              </MaterialModal>
 
 
           </Container>
