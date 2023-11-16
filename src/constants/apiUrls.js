@@ -128,6 +128,8 @@ export const PRODUCTO_DEL = '/ProductoAPI/deleteProducto/{idProducto}';
 
 export const PRODUCTO_ALL = '/ProductoAPI/all';
 
+export const CATEGORIA_ALL = '/CategoriaAPI/all';
+
 export const PRODUCTO_ID = '/ProductoAPI/productoById/{idProducto}';
 
 export const PRODUCTO_BY_MARCA = '/ProductoAPI/productoByMarca/{idMarca}';
