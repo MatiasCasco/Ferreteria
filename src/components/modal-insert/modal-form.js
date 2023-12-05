@@ -4,15 +4,7 @@ import { IconButtonClose } from '../../constants/componentsPersonalite';
 import Toolbar from '@mui/material/Toolbar';
 
 const ModalForm = ({ open, handleClose, children, onSubmit }) => {
-  /*const handleSubmit =  async (event) => {
-    // event.preventDefault();
-    // Obtén los datos del formulario (por ejemplo, utilizando un FormData)
-    const formData = new FormData(event.target);
-    // Llama a la función onSubmit pasando los datos del formulario
-    // await onSubmit(formData);
-    // Cierra el modal
-    handleClose();
-  };*/
+
 
   return (
     <div>
@@ -21,9 +13,7 @@ const ModalForm = ({ open, handleClose, children, onSubmit }) => {
           <Toolbar sx={{ display: "flex", justifyContent: "flex-end", margin: '0px',  color: "white"}}>
             <IconButtonClose onClick={handleClose} />
           </Toolbar >
-          {/*<form onSubmit={handleSubmit}>*/}
             {children}
-          {/*</form>*/}
         </DialogContent>
       </Dialog>
     </div>

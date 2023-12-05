@@ -24,15 +24,25 @@ const RegistrarProducto = ({handleClick}) => {
   }, []);
 
   const addCategoria = async (data) => {
-    /*{
-      "categoriaId": 0,
-      "categoriaDescripcion": "string"
-    }*/
+    console.log("ADD CATEGORIA");
     console.log(data);
-    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CAJA_ADD);
-    console.log("La url es:...."+url);
-    const json = await ApiUtils.postMCS(url,data);
-    alert(json.content);
+    console.log('Antes de la llamada a la API');
+    //debugger;
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CATEGORIA_ADD);
+    //debugger;
+    let categoria = {
+      "categoriaDescripcion": data.categoria
+    }
+    //alert(categoria.categoriaDescripcion);
+    console.log(categoria);
+    try {
+      let json = await ApiUtils.postMCS(url,categoria);
+      console.log('Después de la llamada a la API', json);
+      return json;
+    } catch (error) {
+      console.error('Error en la llamada a la API', error);
+      alert('Error en la llamada a la API');
+    }
   }
 
   const addMarca = async (data) => {
@@ -95,6 +105,7 @@ const RegistrarProducto = ({handleClick}) => {
 
   const hanldeCloseCategoria = () => {
     setOpenCategoria(false);
+    console.log('Modal de Categoria cerrado');
   }
 
 
@@ -108,10 +119,14 @@ const RegistrarProducto = ({handleClick}) => {
     alert(json.marcaDescripcion);
   }
 
-  const handleSubmitCategoria = (values) => {
-    console.log(values);
+  const handleSubmitCategoria = async (formData) => {
+    console.log("handleSubmitCategoria");
+    console.log("Categoria");
     debugger;
-    hanldeCloseCategoria();
+    const json = await addCategoria(formData);
+    setOpenCategoria(false);
+    console.log('Después de la llamada a la API', json);
+    alert(json.categoriaDescripcion);
   }
 
   return (
@@ -167,7 +182,7 @@ const RegistrarProducto = ({handleClick}) => {
                 Añadir Categoria
               </Button>
               <ModalForm open={openCategoria} handleClose={hanldeCloseCategoria} title="Añadir Marca" onSubmit={handleSubmitCategoria}>
-                <RegistrarCategoria/>
+                <RegistrarCategoria onSubmit={handleSubmitCategoria}/>
               </ModalForm>
             </div>
             <div className={'form-field'}>
