@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { TextField, Select, MenuItem, Button, InputLabel, Box } from '@mui/material';
+import * as constStyle from '../../constants/constants_styles';
 
 const RegistrarCategoria = () => {
   return (
@@ -20,8 +21,15 @@ const RegistrarCategoria = () => {
         {({ isSubmitting, handleChange, values }) => (
           <div className={'group-content'}>
             <Form>
-              <div className={'form-field'}>
-                <TextField className={'form-field-width'} name="descripcion" label="Descripción de la categoria" onChange={handleChange} value={values.descripcion} />
+              <div className={'form-flied-width-space'}>
+                <TextField
+                  className={'form-field-width'}
+                  name="descripcion"
+                  label="Descripción de la categoria"
+                  onChange={handleChange}
+                  value={values.descripcion}
+                  InputProps={{ style: { color: constStyle.TEXT_FIELD_INPUT_COLOR } }}
+                />
               </div>
               <div>
                 <Button type="submit" disabled={isSubmitting} variant="contained" color="primary">

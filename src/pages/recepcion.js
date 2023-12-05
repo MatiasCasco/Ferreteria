@@ -4,15 +4,11 @@ import { Box, Container, Grid, Card, CardContent } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { RecepcionEncabezado } from '../components/recepcion/recepcion-encabezado';
 import { BoxMain, FullWidthGridItem, IconButtonClose, MaterialModal } from '../constants/componentsPersonalite';
-import Cabecera from '../components/fs.facturaventa/cabecera';
-import DetalleProducto from '../components/fs.facturaventa/Detalle/detalleProducto';
 import Toolbar from '@mui/material/Toolbar';
-import ModalProducto from '../components/fs.facturaventa/modalProducto2';
 import Slide from '@mui/material/Slide';
 import { useState, useEffect } from 'react';
 import DetalleRecepcion from '../components/recepcion/detalle-recepcion';
 import ModalRecepcion from '../components/recepcion/modal-recepcion';
-import CrudProductsContainer from '../components/crud/crud-productos';
 import ModalAddProduct from '../components/recepcion/modal-add-product';
 
 export const ProductsContext = React.createContext([]);
@@ -28,10 +24,6 @@ const Recepcion = () => {
   const [total10, setTotal10] = useState(0);
   const [totalIva, setTotalIva] = useState(0);
 
- /* useEffect(() => {
-    console.log("Valor de useStarte productos en recepcion");
-    console.log(productos);
-  }, [productos]);*/
 
   const handleModal = () => {
     setModalIsOpen(!modalIsOpen);

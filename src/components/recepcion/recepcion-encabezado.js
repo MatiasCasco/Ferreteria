@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Grid } from '@mui/material';
 import { FechaSelect, ListSelect } from '../../constants/customizable-components';
 import * as msg from '../../constants/messages';
-import { CustomerListToolbar } from '../customer/customer-list-toolbar';
 
 export const RecepcionEncabezado = ({OpenModal}) => {
   const [fechaFactura, setFechaFactura] = useState(null);
@@ -56,7 +55,7 @@ export const RecepcionEncabezado = ({OpenModal}) => {
             alignItems="flex-start"
             spacing={6}
           >
-            <Grid item sx={12} md={10}  >
+            <Grid item  md={10}  >
               <Card sx={{height: '10%', overflow: 'visible'}}>
                 <CardContent>
                   <Box>
@@ -84,7 +83,7 @@ export const RecepcionEncabezado = ({OpenModal}) => {
               </Card>
 
             </Grid>
-            <Grid item sx={8} md={8}>
+            <Grid item md={8}>
               <Card sx={{height: '10%', overflow: 'visible'}}>
                 <CardContent>
                   <Box>
@@ -114,11 +113,6 @@ export const RecepcionEncabezado = ({OpenModal}) => {
             </Grid>
           </Grid>
         </Grid>
-{/*        <Grid item>
-          <Container maxWidth={false}>
-            <CustomerListToolbar />
-          </Container>
-        </Grid>*/}
       </Grid>
   </>
   );

@@ -7,14 +7,13 @@ import {
   TableFooter,
   Box
 } from "@mui/material";
-import { BoxCardFull, GridItemandCard, IconButtonAdd, ImageNotFound } from "src/constants/componentsPersonalite";
+import { BoxCardFull, ImageNotFound } from "src/constants/componentsPersonalite";
 import CheckIcon from '@mui/icons-material/Check';
 import { TextFieldNumeric, TableStickyContainer} from 'src/constants/componentsPersonalite';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import account from '../../pages/account';
 
 const DetalleRecepcion = ({ listaProducto, eliminarProducto, OpenModal, total, setTotal, totalIva5, setTotalIva5, totalIva10, setTotalIva10, totalIva, setTotalIva }) => {
   const [cantEsperadaActual, setCantEsperadaActual] = useState(1);
@@ -24,8 +23,6 @@ const DetalleRecepcion = ({ listaProducto, eliminarProducto, OpenModal, total, s
 
   const handleEditar = (producto, index) => {
     setEnEdicion(index === enEdicion ? null : index);
-   /* console.log(cantEsperadaActual)
-    setCantEsperadaActual(producto.Cantidad);*/
   };
 
 

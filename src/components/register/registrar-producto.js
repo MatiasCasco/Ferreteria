@@ -6,9 +6,10 @@ import * as ApiUtils from '../../utils/api-utils';
 import * as ApiUrl from '../../constants/apiUrls';
 import ModalForm from '../modal-insert/modal-form';
 import RegistrarMarca from './registrar-marca';
+import RegistrarCategoria from './registrar-categoria';
 
 
-const RegistrarProducto = () => {
+const RegistrarProducto = ({handleClick}) => {
 
   // Aqui va los useState
   const [unidades, setUnidades] = useState([]);
@@ -21,6 +22,40 @@ const RegistrarProducto = () => {
     findListMarcas();
     findListCategorias();
   }, []);
+
+  const addCategoria = async (data) => {
+    /*{
+      "categoriaId": 0,
+      "categoriaDescripcion": "string"
+    }*/
+    console.log(data);
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CAJA_ADD);
+    console.log("La url es:...."+url);
+    const json = await ApiUtils.postMCS(url,data);
+    alert(json.content);
+  }
+
+  const addMarca = async (data) => {
+    console.log("ADD MARCA")
+    console.log(data)
+
+    console.log('Antes de la llamada a la API');
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.MARCA_ADD);
+    debugger;
+    let marca = {
+      "marcaDescripcion": data.marca
+    }
+    console.log(marca);
+    try {
+      let json = await ApiUtils.postMCS(url, marca);
+      console.log('Después de la llamada a la API', json);
+      // alert(json);
+      return json;
+    } catch (error) {
+      console.error('Error en la llamada a la API', error);
+      alert('Error en la llamada a la API');
+    }
+  }
 
   const findListUnidades = async () => {
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.UNIDAD_DE_MEDIDAS);
@@ -42,24 +77,42 @@ const RegistrarProducto = () => {
 
   // Define el estado para controlar si el modal está abierto o cerrado
   const [openMarca, setOpenMarca] = useState(false);
+  const [openCategoria, setOpenCategoria] = useState(false);
 
   // Define la función para abrir el modal
   const handleClickOpenMarca = () => {
     setOpenMarca(true);
-  };
+  }
+  const handleClickOpenCategoria = () => {
+    setOpenCategoria(true);
+  }
 
   // Define la función para cerrar el modal
   const handleCloseMarca = () => {
     setOpenMarca(false);
-  };
+    console.log('Modal de Marca cerrado');
+  }
 
-  // Define la función para manejar el envío del formulario
-  const handleSubmitMarca = (values) => {
-    // Aquí va el código que se ejecutará al enviar el formulario
-    // Por ejemplo, podrías enviar los valores del formulario a una API
+  const hanldeCloseCategoria = () => {
+    setOpenCategoria(false);
+  }
+
+
+  const handleSubmitMarca = async (formData) => {
+    console.log("handleSubmitMarca")
+    console.log("Marca");
+    debugger;
+    const json = await addMarca(formData);
+    setOpenMarca(false)
+    console.log('Después de la llamada a la API', json);
+    alert(json.marcaDescripcion);
+  }
+
+  const handleSubmitCategoria = (values) => {
     console.log(values);
-    handleCloseMarca();
-  };
+    debugger;
+    hanldeCloseCategoria();
+  }
 
   return (
     <div>
@@ -75,10 +128,17 @@ const RegistrarProducto = () => {
           marca: ''
         }}
         onSubmit={(values, { setSubmitting }) => {
+          // Lógica de envío a la API o cualquier acción necesaria
+          console.log(values);
+
+          // Cerrar el modal u otras acciones después de enviar el formulario
+          handleCloseMarca();
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
           }, 400);
+          // Restablecer el estado de Formik
+          setSubmitting(false);
+          handleClick();
         }}
       >
         {({ isSubmitting, handleChange, values }) => (
@@ -102,9 +162,13 @@ const RegistrarProducto = () => {
               <Button
                 startIcon={(<Icons.ControlPointSharp fontSize="small" />)}
                 sx={{ mr: 1 , ml: 1 }}
+                onClick={handleClickOpenCategoria}
               >
                 Añadir Categoria
               </Button>
+              <ModalForm open={openCategoria} handleClose={hanldeCloseCategoria} title="Añadir Marca" onSubmit={handleSubmitCategoria}>
+                <RegistrarCategoria/>
+              </ModalForm>
             </div>
             <div className={'form-field'}>
               <InputLabel id="unidad-medida-label">Unidad de medida</InputLabel>
@@ -138,8 +202,8 @@ const RegistrarProducto = () => {
               >
                 Añadir Marca
               </Button>
-              <ModalForm open={openMarca} handleClose={handleCloseMarca} title="Añadir Marca" onSubmit={handleSubmitMarca}>
-                <RegistrarMarca/>
+              <ModalForm open={openMarca} handleClose={handleCloseMarca} onSubmit={handleSubmitMarca}>
+                <RegistrarMarca onSubmit={handleSubmitMarca}/>
               </ModalForm>
             </div>
             <div>

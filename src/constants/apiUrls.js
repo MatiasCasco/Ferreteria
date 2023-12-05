@@ -128,8 +128,6 @@ export const PRODUCTO_DEL = '/ProductoAPI/deleteProducto/{idProducto}';
 
 export const PRODUCTO_ALL = '/ProductoAPI/all';
 
-export const CATEGORIA_ALL = '/CategoriaAPI/all';
-
 export const PRODUCTO_ID = '/ProductoAPI/productoById/{idProducto}';
 
 export const PRODUCTO_BY_MARCA = '/ProductoAPI/productoByMarca/{idMarca}';
@@ -143,3 +141,14 @@ export const UNIDAD_DE_MEDIDAS = '/UnidadMedidaAPI/metricas';
 export const UNIDAD_MEDIDA_CONVERSION = '/UnidadMedidaAPI/conversionById/{conversionId}';
 
 export const CONVERSIONES_BY_PRODUCTO = '/UnidadMedidaAPI/conversionesByProductoId/{productoId}';
+
+export const CATEGORIA_ADD = '/CategoriaAPI/addCategoria';
+export const CATEGORIA_ADDS = '/CategoriaAPI/addCategorias';
+
+export const CATEGORIA_UPD = '/CategoriaAPI/updateCategoria';
+
+export const CATEGORIA_DEL = '/CategoriaAPI/deleteCategoria/{idCategoria}';
+
+export const CATEGORIA_ALL = '/CategoriaAPI/all';
+
+export const CATEGORIA_BY_ID = '/CategoriaAPI/categoriaById/{idCategoria}';

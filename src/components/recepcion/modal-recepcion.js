@@ -15,11 +15,6 @@ const ModalRecepcion = ({onRequestClose}) => {
     buscarProductos(searchTerm);
   }, [searchTerm]);
 
- /* useEffect(() => {
-    debugger
-    console.log("Valor de productos agregados")
-    console.log(productosAgregados);
-  })*/
 
   const crearNuevoProducto = (producto) => {
     let nuevoProducto = {
