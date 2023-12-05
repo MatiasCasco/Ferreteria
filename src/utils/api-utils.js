@@ -23,9 +23,10 @@ export function buildURL(baseURL, endpoint, queryParams){
   return url;
 }
 
-export async function getMCS(url) {
+export async function getMCS(url, page=1, pageSize=5) {
   try {
-    let answer = await fetch(url, {
+    const paginatedUrl = `${url}?page=${page}&size=${pageSize}`;
+    let answer = await fetch(paginatedUrl, {
       "method": 'GET',
       "headers": {
         "Accept": 'application/json',

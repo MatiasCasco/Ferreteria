@@ -15,13 +15,27 @@ const RegistrarProducto = ({handleClick}) => {
   const [unidades, setUnidades] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
   // Aqui va los useEffect
   useEffect(() => {
     findListUnidades();
-    findListMarcas();
+    // findListMarcas();
     findListCategorias();
   }, []);
+
+  // Funciones para avanzar y retroceder
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+// Llamar a findListMarcas con la página actual
+  useEffect(() => {
+    findListMarcas(currentPage);
+  }, [currentPage]);
 
   const addCategoria = async (data) => {
     /*{
@@ -63,9 +77,9 @@ const RegistrarProducto = ({handleClick}) => {
     setUnidades(json.content);
   }
 
-  const findListMarcas = async () => {
+  const findListMarcas = async (page=1, pageSize=5) => {
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.MARCA_ALL);
-    const json = await ApiUtils.getMCS(url);
+    const json = await ApiUtils.getMCS(url, page, pageSize);
     setMarcas(json.content);
   }
 
@@ -195,6 +209,8 @@ const RegistrarProducto = ({handleClick}) => {
                   </MenuItem>
                 ))}
               </Select>
+              <Button onClick={prevPage}>Anterior</Button>
+              <Button onClick={nextPage}>Siguiente</Button>
               <Button
                 startIcon={(<Icons.ControlPointSharp fontSize="small" />)}
                 sx={{ mr: 1 , ml: 1 }}
