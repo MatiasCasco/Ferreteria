@@ -17,7 +17,7 @@ const RegistrarProducto = ({handleClick}) => {
   const [categorias, setCategorias] = useState([]);
 
   // Aqui va los useEffect
-  useEffect(() => {
+  useEffect( () => {
     findListUnidades();
     findListMarcas();
     findListCategorias();
@@ -74,15 +74,16 @@ const RegistrarProducto = ({handleClick}) => {
   }
 
   const findListMarcas = async () => {
+    debugger;
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.MARCA_ALL);
     const json = await ApiUtils.getMCS(url);
-    setMarcas(json.content);
+    setMarcas(json);
   }
 
   const findListCategorias = async () => {
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CATEGORIA_ALL);
     const json = await ApiUtils.getMCS(url);
-    setCategorias(json.content);
+    setCategorias(json);
   }
 
   // Define el estado para controlar si el modal está abierto o cerrado
@@ -135,7 +136,7 @@ const RegistrarProducto = ({handleClick}) => {
       <Formik
         initialValues={{
           descripcion: '',
-          iva: '',
+          iva: 10,
           categoria: '',
           unidad: '',
           stock_max: 10,

@@ -32,8 +32,11 @@ export async function getMCS(url) {
         "Content-Type": 'application/json'
       }
     });
+    console.log('Respuesta de la solicitud:', answer);
+    //debugger;
     let json = await answer.json();
-    //debugger
+    console.log(json);
+    //debugger;
     return json;
   }
   catch(ex){
