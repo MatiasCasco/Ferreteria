@@ -51,7 +51,7 @@ const RegistrarProducto = ({handleClick}) => {
 
     console.log('Antes de la llamada a la API');
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.MARCA_ADD);
-    debugger;
+    // debugger;
     let marca = {
       "marcaDescripcion": data.marca
     }
@@ -67,6 +67,75 @@ const RegistrarProducto = ({handleClick}) => {
     }
   }
 
+  const addProducto = async (data) => {
+    console.log("ADD PRODUCTO")
+    console.log(data)
+
+    console.log('Antes de la llamada a la API');
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.PRODUCTO_ADD);
+    // debugger
+    try {
+      let json = await ApiUtils.postMCS(url, data);
+      console.log('Después de la llamada a la API', json);
+      // alert(json);
+      return json;
+    } catch (error) {
+      console.error('Error en la llamada a la API', error);
+      alert('Error en la llamada a la API');
+    }
+  }
+
+  const addCaracteristicaProducto = async (data) => {
+    console.log("ADD CARACTERISTICA PRODUCTO")
+    console.log(data)
+
+    console.log('Antes de la llamada a la API');
+    let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.CARACTERISTICA_PRODUCTO_ADD);
+    // debugger
+    try {
+      let json = await ApiUtils.postMCS(url, data);
+      console.log('Después de la llamada a la API', json);
+      // alert(json);
+      return json;
+    } catch (error) {
+      console.error('Error en la llamada a la API', error);
+      alert('Error en la llamada a la API');
+    }
+  }
+
+
+  const obtainProduct = (inputProduct) => {
+    console.log(inputProduct)
+    console.log(inputProduct.descripcion)
+    debugger
+    let productOb = {
+      "productoNombre": inputProduct.descripcion,
+      "productoIva": inputProduct.iva,
+      "unidadMedidaBase": {
+        "unidadMedidaBaseId": inputProduct.unidad
+      },
+      "productoBoolean": true,
+      "productoPrecio": 0,
+      "categoria": {
+        "categoriaId": inputProduct.categoria
+      }
+    }
+    return productOb;
+  }
+
+  const obtainCaracteristicaProducto = (productId, inputProduct) => {
+    let caracteristicaProductoOb = {
+      "productoId": productId,
+      "marcaId": inputProduct.marca,
+      "productoCosto": 0,
+      "productoPrecio": 0,
+      "productoStockMax": inputProduct.stock_max,
+      "productoStockActual": 0,
+      "productoStockMin": inputProduct.stock_min
+    }
+   return caracteristicaProductoOb;
+  }
+
   const findListUnidades = async () => {
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.UNIDAD_DE_MEDIDAS);
     const json = await ApiUtils.getMCS(url);
@@ -74,7 +143,7 @@ const RegistrarProducto = ({handleClick}) => {
   }
 
   const findListMarcas = async () => {
-    debugger;
+    // debugger;
     let url = ApiUtils.buildURL(ApiUrl.BASE_URL, ApiUrl.MARCA_ALL);
     const json = await ApiUtils.getMCS(url);
     setMarcas(json);
@@ -113,20 +182,22 @@ const RegistrarProducto = ({handleClick}) => {
   const handleSubmitMarca = async (formData) => {
     console.log("handleSubmitMarca")
     console.log("Marca");
-    debugger;
+    // debugger;
     const json = await addMarca(formData);
     setOpenMarca(false)
     console.log('Después de la llamada a la API', json);
+    findListMarcas();
     alert(json.marcaDescripcion);
   }
 
   const handleSubmitCategoria = async (formData) => {
     console.log("handleSubmitCategoria");
     console.log("Categoria");
-    debugger;
+    // debugger;
     const json = await addCategoria(formData);
     setOpenCategoria(false);
     console.log('Después de la llamada a la API', json);
+    findListCategorias();
     alert(json.categoriaDescripcion);
   }
 
@@ -143,12 +214,23 @@ const RegistrarProducto = ({handleClick}) => {
           stock_min: 6,
           marca: ''
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting }) => {
           // Lógica de envío a la API o cualquier acción necesaria
+          console.log('Valores obtenidos del formulario')
           console.log(values);
 
           // Cerrar el modal u otras acciones después de enviar el formulario
           handleCloseMarca();
+          let inputProduct = values;
+          console.log("Input es:.....", inputProduct);
+          console.log(inputProduct.descripcion)
+          const obtainProductoOb = obtainProduct(inputProduct);
+          console.log("Obtener el producto", obtainProductoOb);
+          const jsonProduct = await addProducto(obtainProductoOb);
+          console.log("Retorno del producto:.....", jsonProduct);
+          const obtainCaracteristicaProductoOb = obtainCaracteristicaProducto(jsonProduct.productoId, inputProduct);
+          const jsonCaracteristicaProducto = await addCaracteristicaProducto(obtainCaracteristicaProductoOb);
+          console.log("Retorno de caracteristica producto:.....", jsonCaracteristicaProducto);
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
           }, 400);
@@ -188,7 +270,7 @@ const RegistrarProducto = ({handleClick}) => {
             </div>
             <div className={'form-field'}>
               <InputLabel id="unidad-medida-label">Unidad de medida</InputLabel>
-              <Select className={'form-field-width'} name="metrica" label="Metrica" onChange={handleChange} value={values.metrica}>
+              <Select className={'form-field-width'} name="unidad" label="Metrica" onChange={handleChange} value={values.unidad}>
                 {unidades.map((unidad, index) => (
                   <MenuItem key={index} value={unidad.unidadMedidaBaseId}>
                     {unidad.unidadMedida}
