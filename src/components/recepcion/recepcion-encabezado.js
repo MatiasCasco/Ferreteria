@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Grid } from '@mui/material';
 import { FechaSelect, ListSelect } from '../../constants/customizable-components';
 import * as msg from '../../constants/messages';
+import { startOfToday } from 'date-fns';
 
 export const RecepcionEncabezado = ({OpenModal}) => {
-  const [fechaFactura, setFechaFactura] = useState(null);
-  const [fechaRecepcion, setFechaRecepcion] = useState(null);
+  const today = startOfToday();
+  const [fechaFactura, setFechaFactura] = useState(today);
+  const [fechaRecepcion, setFechaRecepcion] = useState(today);
   const [proveedor, setProveedor] = useState("");
   const [ruc, setRuc] = useState("");
   const [condicionFactura, setCondicionFactura] = useState("Contado");
@@ -35,12 +37,27 @@ export const RecepcionEncabezado = ({OpenModal}) => {
     setCondicionFactura(e.target.value);
   }
 
+// Modifica la función handleFechaFacturaChange para actualizar ambas fechas
   const handleFechaFacturaChange = (date) => {
+    // Actualiza la fecha de la factura
     setFechaFactura(date);
+
+    // Si la fecha de recepción es anterior a la fecha de la factura, ajústala
+    if (fechaRecepcion < date) {
+      setFechaRecepcion(date);
+    }
   }
 
+// Agrega lógica en la función handleFechaRecepcionChange para verificar la fecha
   const handleFechaRecepcionChange = (date) => {
-    setFechaRecepcion(date);
+    // Verifica que la fecha de recepción no sea anterior a la fecha de la factura
+    if (date >= fechaFactura) {
+      setFechaRecepcion(date);
+    } else {
+      // Puedes mostrar un mensaje de error o realizar alguna acción
+      console.error('La fecha de recepción no puede ser anterior a la fecha de la factura.');
+      alert("No se puede asignar a recepción un fecha menor a la fecha de emisión")
+    }
   }
 
   return (<>

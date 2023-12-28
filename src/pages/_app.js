@@ -10,6 +10,7 @@ import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
 // import '../theme/date-picker-custom.css'; //a nivel global para aplicar file .css
 import '../theme/registrar-producto.css';
+import '../theme/modal-custom.css';
 
 const clientSideEmotionCache = createEmotionCache();
 

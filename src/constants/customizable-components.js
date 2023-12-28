@@ -1,7 +1,7 @@
 import React, {useState, forwardRef} from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { format, startOfToday } from 'date-fns';
 import {
   Box,
   Container,
@@ -89,6 +89,7 @@ export const FechaSelect = ({title ,selected, onChange, message, style}) => {
           selected={selected}
           onChange={onChange}
           customInput={<CustomInputDatePicker label={message} />}
+          dateFormat="dd/MM/yyyy"
         />
       </div>
     );

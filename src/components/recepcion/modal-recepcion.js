@@ -61,7 +61,7 @@ const ModalRecepcion = ({onRequestClose}) => {
   };
 
   return (
-    <div>
+    <div className={"barra"}>
      {/*Agregar boton para registrar nuevos productos que no existen en base de datos*/}
       <Buscador setSearchTerm={setSearchTerm}
                 placeholder={"Buscar Productos"} />
