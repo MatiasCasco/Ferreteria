@@ -152,3 +152,27 @@ export const CATEGORIA_DEL = '/CategoriaAPI/deleteCategoria/{idCategoria}';
 export const CATEGORIA_ALL = '/CategoriaAPI/all';
 
 export const CATEGORIA_BY_ID = '/CategoriaAPI/categoriaById/{idCategoria}';
+
+export const RECEPCION_ALL = '/RecepcionAPI/all';
+
+export const RECEPCION_ADD = 'RecepcionAPI/addRecepcion';
+
+export const RECEPCION_ADDs = '/RecepcionAPI/addRecepciones';
+
+export const RECEPCION_UPD = '/RecepcionAPI/updateRecepcion';
+
+export const RECEPCION_BY_ID = '/RecepcionAPI/recepcionById/{idRecepcion}';
+
+export const RECEPCION_DEL = '/RecepcionAPI/deleteRecepcion/{idRecepcion}';
+
+export const FACTURA_COMPRA_ADD = '/FacturaCompra/addFacturaCompra';
+
+export const FACTURA_COMPRA_UPD = '/FacturaCompra/updateFacturaCompra';
+
+export const FACTURA_COMPRA_ID = '/FacturaCompra/FacturaById/{idFactura}';
+
+export const FACTURAS_COMPRA_BY_EMPRESA = '/FacturaCompra/FacturasPendientesByEmpresa/{idEmpresa}';
+
+export const FACTURAS_COMPRA_BY_EMPLEADO = '/FacturaCompra/FacturasByEmpleado/{idEmpleado}';
+
+export const FACTURAS_COMPRA_ALL = '/FacturaCompra/all';

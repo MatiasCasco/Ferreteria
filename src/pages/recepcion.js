@@ -62,7 +62,7 @@ const Recepcion = () => {
         }}
       >
         {/*<CrudProductsContainer/>*/}
-        <RecepcionEncabezado OpenModal = {handleAddProduct}/>
+        <RecepcionEncabezado OpenModal = {handleAddProduct} listaProducto = {productos}/>
         <BoxMain>
           <Container>
            {/* <Cabecera />*/}

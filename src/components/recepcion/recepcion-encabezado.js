@@ -5,7 +5,7 @@ import { FechaSelect, ListSelect } from '../../constants/customizable-components
 import * as msg from '../../constants/messages';
 import { startOfToday } from 'date-fns';
 
-export const RecepcionEncabezado = ({OpenModal}) => {
+export const RecepcionEncabezado = ({OpenModal, listaProducto}) => {
   const today = startOfToday();
   const [fechaFactura, setFechaFactura] = useState(today);
   const [fechaRecepcion, setFechaRecepcion] = useState(today);
@@ -59,6 +59,18 @@ export const RecepcionEncabezado = ({OpenModal}) => {
       alert("No se puede asignar a recepción un fecha menor a la fecha de emisión")
     }
   }
+
+  const handleInvoicePersistence = (e) => {
+    console.log(listaProducto);
+    debugger;
+    alert(listaProducto);
+    return null;
+  }
+
+  const handleReceptionPersistence = (e) => {
+    return null;
+  }
+
 
   return (<>
       <Grid container direction="column">
@@ -126,6 +138,15 @@ export const RecepcionEncabezado = ({OpenModal}) => {
                 onClick={OpenModal}
               >
                Agregar Productos
+              </Button>
+              <Box sx={{ mt: 2}}/>
+              <Button
+                color="primary"
+                variant="contained"
+                sx={{ mr: 1 , ml: 1 }}
+                onClick={handleInvoicePersistence}
+              >
+                Persistir Recepcion
               </Button>
             </Grid>
           </Grid>
