@@ -163,7 +163,7 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
             </TableRow>
           )}
         </TableBody>
-     
+
       </TableStickyContainer>
 
       <BoxCardFull>
@@ -177,7 +177,7 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
             </IconButton>
           </TableCell>
         </TableRow>
-        
+
       </BoxCardFull>
 
     </>
