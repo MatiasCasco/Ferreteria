@@ -40,9 +40,9 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
   useEffect(() => {
     if (eliminado) {
       setEliminado(false);
+      recalcularTotales();
     } else {
       setCantidadActual(1);
-      console.log(listaProducto);
       setEnEdicion(listaProducto.length - 1);
     }
   }, [listaProducto]);
@@ -62,6 +62,7 @@ const DetalleProducto = ({ listaProducto, eliminarProducto, OpenModal, total, se
   const handleEliminar = (index) => {
     eliminarProducto(index);
     setEliminado(true);
+   
   };
 
 
